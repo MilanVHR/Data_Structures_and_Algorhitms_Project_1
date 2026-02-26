@@ -1,6 +1,3 @@
-// The Service layer contains all business logic. It decides *how* tasks behave,
-// while the Repository layer decides *where* tasks are stored.
-//
 // The View (UI) interacts ONLY with this interface, never directly with the repository
 // or the data structures. This keeps the architecture clean and modular.
 

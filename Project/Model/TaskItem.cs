@@ -1,6 +1,5 @@
 // This file defines the TaskItem model, which represents a single to-do task
-// in the application. It is part of the Model layer in the Clean Architecture
-// structure. The Model layer contains only data structures and no business logic.
+// in the application.
 //
 // A TaskItem stores:
 // - A unique ID

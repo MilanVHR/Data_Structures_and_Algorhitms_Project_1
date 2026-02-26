@@ -1,6 +1,3 @@
-// The Repository layer is responsible for data persistence. It decides
-// *where* data is stored (JSON file, database, API, etc.).
-//
 // The Service layer depends on this interface, not on the concrete implementation.
 // This allows you to replace the JSON repository with another storage method
 // without changing the rest of the application.
