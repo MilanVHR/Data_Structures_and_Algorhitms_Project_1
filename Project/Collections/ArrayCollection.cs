@@ -1,12 +1,17 @@
+// This file contains the implementation of a dynamic array-based collection.
+// It behaves similarly to List<T>
+
 using System;
 
 namespace Project.Collections
 {
+    // Iterator for ArrayCollection.
+    // It simply walks through the internal array from index 0 to Count.
     public class ArrayIterator<T> : IMyIterator<T>
     {
-        private readonly T[] _items;
-        private readonly int _count;
-        private int _index;
+        private readonly T[] _items;   // Reference to the internal array
+        private readonly int _count;   // Number of valid elements
+        private int _index;            // Current position
 
         public ArrayIterator(T[] items, int count)
         {
@@ -19,29 +24,47 @@ namespace Project.Collections
 
         public T Next()
         {
-            if (!HasNext()) throw new InvalidOperationException();
+            if (!HasNext())
+                throw new InvalidOperationException("No more elements in iterator.");
+
             return _items[_index++];
         }
 
         public void Reset() => _index = 0;
     }
 
+    // A manually implemented dynamic array.
+    // Automatically grows when capacity is reached.
     public class ArrayCollection<T> : IMyCollection<T>
     {
-        private T[] _items;
-        private int _count;
+        private T[] _items;   // Internal storage array
+        private int _count;   // Number of elements currently stored
 
         public ArrayCollection(int capacity = 8)
         {
+            if (capacity <= 0)
+                capacity = 8;
+
             _items = new T[capacity];
+            _count = 0;
         }
 
         public int Count => _count;
 
+        // Ensures the internal array has enough space.
+        // If full, it doubles the capacity.
         private void EnsureCapacity()
         {
-            if (_count < _items.Length) return;
-            Array.Resize(ref _items, _items.Length * 2);
+            if (_count < _items.Length)
+                return;
+
+            int newSize = _items.Length * 2;
+            T[] newArr = new T[newSize];
+
+            for (int i = 0; i < _count; i++)
+                newArr[i] = _items[i];
+
+            _items = newArr;
         }
 
         public void Add(T item)
@@ -52,18 +75,22 @@ namespace Project.Collections
 
         public void Remove(T item)
         {
-            int idx = -1;
+            // Find index of the item
+            int index = -1;
             for (int i = 0; i < _count; i++)
             {
                 if (Equals(_items[i], item))
                 {
-                    idx = i;
+                    index = i;
                     break;
                 }
             }
-            if (idx == -1) return;
 
-            for (int i = idx; i < _count - 1; i++)
+            if (index == -1)
+                return; // Item not found
+
+            // Shift elements left to fill the gap
+            for (int i = index; i < _count - 1; i++)
                 _items[i] = _items[i + 1];
 
             _count--;
@@ -76,18 +103,25 @@ namespace Project.Collections
                 if (comparer(_items[i], key))
                     return _items[i];
             }
+
             return default;
         }
 
-        public IMyIterator<T> GetIterator() => new ArrayIterator<T>(_items, _count);
+        public IMyIterator<T> GetIterator()
+        {
+            return new ArrayIterator<T>(_items, _count);
+        }
 
+        // Converts the internal array to a trimmed array (no empty slots).
         public T[] ToArray()
         {
-            var arr = new T[_count];
-            Array.Copy(_items, arr, _count);
+            T[] arr = new T[_count];
+            for (int i = 0; i < _count; i++)
+                arr[i] = _items[i];
             return arr;
         }
 
+        // Creates a new ArrayCollection from an existing array.
         public static ArrayCollection<T> FromArray(T[] arr)
         {
             var col = new ArrayCollection<T>(arr.Length);
