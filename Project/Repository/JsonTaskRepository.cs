@@ -1,3 +1,13 @@
+// Responsibilities:
+// - Convert TaskItem objects to JSON
+// - Convert JSON back into TaskItem objects
+// - Ensure the application always works even if the file does not exist
+//
+// This class does NOT:
+// - Contain business logic (that belongs in TaskService)
+// - Modify tasks (only stores them)
+// - Validate data (also belongs in TaskService)
+
 using System.IO;
 using System.Text.Json;
 using Project.Collections;
@@ -7,6 +17,7 @@ namespace Project.Repository
 {
     public class JsonTaskRepository : ITaskRepository
     {
+        // Path to the JSON file where tasks are stored.
         private readonly string _filePath;
 
         public JsonTaskRepository(string filePath)
@@ -16,22 +27,43 @@ namespace Project.Repository
 
         public IMyCollection<TaskItem> LoadTasks()
         {
+            // If the file does not exist, return an empty collection.
             if (!File.Exists(_filePath))
                 return new ArrayCollection<TaskItem>();
 
+            // Read the JSON file as text.
             string json = File.ReadAllText(_filePath);
-            var arr = JsonSerializer.Deserialize<TaskItem[]>(json);
-            return arr == null ? new ArrayCollection<TaskItem>() : ArrayCollection<TaskItem>.FromArray(arr);
+
+            // Convert JSON into an array of TaskItem objects.
+            var tasks = JsonSerializer.Deserialize<TaskItem[]>(json);
+
+            // If deserialization fails, return an empty collection.
+            if (tasks == null)
+                return new ArrayCollection<TaskItem>();
+
+            // Convert the array into your custom ArrayCollection.
+            return ArrayCollection<TaskItem>.FromArray(tasks);
         }
 
         public void SaveTasks(IMyCollection<TaskItem> tasks)
         {
+            // Convert the custom collection into a simple array.
+            // This is needed because JSON serialization works best with arrays/lists.
             var temp = new ArrayCollection<TaskItem>();
             var it = tasks.GetIterator();
+
             while (it.HasNext())
                 temp.Add(it.Next());
 
-            string json = JsonSerializer.Serialize(temp.ToArray(), new JsonSerializerOptions { WriteIndented = true });
+            TaskItem[] data = temp.ToArray();
+
+            // Serialize the array into JSON with indentation for readability.
+            string json = JsonSerializer.Serialize(
+                data,
+                new JsonSerializerOptions { WriteIndented = true }
+            );
+
+            // Write the JSON to disk.
             File.WriteAllText(_filePath, json);
         }
     }

@@ -1,3 +1,14 @@
+// Responsibilities:
+// - Add, remove, and toggle tasks
+// - Generate unique IDs
+// - Communicate with the repository to load/save tasks
+// - Use the custom ArrayCollection to store tasks in memory
+//
+// This class does NOT:
+// - Handle user input (View layer)
+// - Handle JSON or file operations (Repository layer)
+// - Know anything about Spectre.Console or UI
+
 using Project.Collections;
 using Project.Model;
 using Project.Repository;
@@ -6,26 +17,37 @@ namespace Project.Services
 {
     public class TaskService : ITaskService
     {
-        private readonly ITaskRepository _repository;
-        private readonly IMyCollection<TaskItem> _tasks;
+        private readonly ITaskRepository _repository;     // Handles loading/saving tasks
+        private readonly IMyCollection<TaskItem> _tasks;  // In-memory storage of tasks
 
         public TaskService(ITaskRepository repository)
         {
             _repository = repository;
+
+            // Load tasks from the repository (JSON file).
+            // The repository returns an ArrayCollection<TaskItem>.
             _tasks = _repository.LoadTasks();
         }
 
-        public IMyCollection<TaskItem> GetAllTasks() => _tasks;
+        public IMyCollection<TaskItem> GetAllTasks()
+        {
+            return _tasks;
+        }
 
+        // Generates the next available ID by scanning all tasks.
+        // Example: if IDs are 1, 2, 5 → next ID = 6.
         private int GetNextId()
         {
             int max = 0;
+
             var it = _tasks.GetIterator();
             while (it.HasNext())
             {
                 var t = it.Next();
-                if (t.Id > max) max = t.Id;
+                if (t.Id > max)
+                    max = t.Id;
             }
+
             return max + 1;
         }
 
@@ -37,13 +59,18 @@ namespace Project.Services
                 Description = description,
                 Completed = false
             };
+
             _tasks.Add(task);
+
+            // Save updated list to JSON.
             _repository.SaveTasks(_tasks);
         }
 
         public void RemoveTask(int id)
         {
+            // Find the task by ID using the custom FindBy method.
             var task = _tasks.FindBy(id, (t, key) => t.Id == key);
+
             if (task != null)
             {
                 _tasks.Remove(task);
@@ -54,9 +81,12 @@ namespace Project.Services
         public void ToggleTaskCompletion(int id)
         {
             var task = _tasks.FindBy(id, (t, key) => t.Id == key);
+
             if (task != null)
             {
+                // Flip the boolean value.
                 task.Completed = !task.Completed;
+
                 _repository.SaveTasks(_tasks);
             }
         }

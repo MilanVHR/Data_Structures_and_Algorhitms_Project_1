@@ -1,3 +1,12 @@
+// Responsibilities:
+// - Create the repository (data storage)
+// - Create the service (business logic)
+// - Create the view (user interface)
+// - Start the application by calling view.Run()
+//
+// This file wires all layers together, but contains no logic itself.
+// It is the only place where the layers are allowed to know about each other.
+
 using Project.Repository;
 using Project.Services;
 using Project.View;
@@ -8,10 +17,20 @@ namespace Project
     {
         public static void Main(string[] args)
         {
-            var repo = new JsonTaskRepository("tasks.json");
-            var service = new TaskService(repo);
-            var view = new ConsoleTaskView(service);
+            // Path to the JSON file where tasks will be saved.
+            // The repository handles reading/writing this file.
+            string filePath = "Data/tasks.json";
 
+            // Create the repository (data persistence layer).
+            ITaskRepository repository = new JsonTaskRepository(filePath);
+
+            // Create the service (business logic layer).
+            ITaskService service = new TaskService(repository);
+
+            // Create the view (user interface layer).
+            ITaskView view = new ConsoleTaskView(service);
+
+            // Start the application.
             view.Run();
         }
     }
