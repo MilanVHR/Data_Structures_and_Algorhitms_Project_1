@@ -1,4 +1,4 @@
-using System;
+using Spectre.Console;
 using Project.Services;
 using Project.Model;
 using Project.Collections;
@@ -17,19 +17,31 @@ namespace Project.View
         private void DisplayTasks()
         {
             Console.Clear();
-            Console.WriteLine("==== To-Do List ====\n");
+
+            AnsiConsole.Write(
+                new FigletText("Todo List")
+                    .Centered()
+                    .Color(Color.Cyan1));
+
+            var table = new Table()
+                .Border(TableBorder.Rounded)
+                .BorderColor(Color.Grey)
+                .AddColumn("[yellow]ID[/]")
+                .AddColumn("[green]Description[/]")
+                .AddColumn("[blue]Completed[/]");
 
             var it = _service.GetAllTasks().GetIterator();
             while (it.HasNext())
-                Console.WriteLine(it.Next());
+            {
+                var t = it.Next();
+                table.AddRow(
+                    t.Id.ToString(),
+                    t.Description,
+                    t.Completed ? "[green]Yes[/]" : "[red]No[/]");
+            }
 
-            Console.WriteLine("\n====================\n");
-        }
-
-        private string Prompt(string msg)
-        {
-            Console.Write(msg);
-            return Console.ReadLine() ?? "";
+            AnsiConsole.Write(table);
+            AnsiConsole.WriteLine();
         }
 
         public void Run()
@@ -37,39 +49,67 @@ namespace Project.View
             while (true)
             {
                 DisplayTasks();
-                Console.WriteLine("1. Add Task");
-                Console.WriteLine("2. Remove Task");
-                Console.WriteLine("3. Toggle Task Completion");
-                Console.WriteLine("4. Exit");
 
-                string option = Prompt("Choose: ");
+                var option = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title("[yellow]Kies een optie[/]")
+                        .HighlightStyle(new Style(Color.Cyan1))
+                        .AddChoices(new[]
+                        {
+                            "Taak toevoegen",
+                            "Taak verwijderen",
+                            "Taak togglen (voltooid / niet voltooid)",
+                            "Afsluiten"
+                        }));
 
                 switch (option)
                 {
-                    case "1":
-                        string desc = Prompt("Description: ");
-                        _service.AddTask(desc);
+                    case "Taak toevoegen":
+                        AddTask();
                         break;
 
-                    case "2":
-                        if (int.TryParse(Prompt("Task ID: "), out int rid))
-                            _service.RemoveTask(rid);
+                    case "Taak verwijderen":
+                        RemoveTask();
                         break;
 
-                    case "3":
-                        if (int.TryParse(Prompt("Task ID: "), out int tid))
-                            _service.ToggleTaskCompletion(tid);
+                    case "Taak togglen (voltooid / niet voltooid)":
+                        ToggleTask();
                         break;
 
-                    case "4":
+                    case "Afsluiten":
                         return;
-
-                    default:
-                        Console.WriteLine("Invalid option.");
-                        Console.ReadKey();
-                        break;
                 }
             }
+        }
+
+        private void AddTask()
+        {
+            string desc = AnsiConsole.Ask<string>("[green]Beschrijving van de taak:[/]");
+            _service.AddTask(desc);
+
+            AnsiConsole.MarkupLine("[bold green]Taak toegevoegd![/]");
+            AnsiConsole.MarkupLine("[grey]Druk op een toets om verder te gaan...[/]");
+            Console.ReadKey();
+        }
+
+        private void RemoveTask()
+        {
+            int id = AnsiConsole.Ask<int>("[red]ID van de taak om te verwijderen:[/]");
+            _service.RemoveTask(id);
+
+            AnsiConsole.MarkupLine("[bold yellow]Taak verwijderd (indien gevonden).[/]");
+            AnsiConsole.MarkupLine("[grey]Druk op een toets om verder te gaan...[/]");
+            Console.ReadKey();
+        }
+
+        private void ToggleTask()
+        {
+            int id = AnsiConsole.Ask<int>("[blue]ID van de taak om te togglen:[/]");
+            _service.ToggleTaskCompletion(id);
+
+            AnsiConsole.MarkupLine("[bold aqua]Taakstatus aangepast![/]");
+            AnsiConsole.MarkupLine("[grey]Druk op een toets om verder te gaan...[/]");
+            Console.ReadKey();
         }
     }
 }

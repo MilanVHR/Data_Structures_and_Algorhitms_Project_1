@@ -6,4 +6,7 @@
     <Nullable>enable</Nullable>
     <RootNamespace>Project</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console" Version="0.54.0" />
+  </ItemGroup>
 </Project>
