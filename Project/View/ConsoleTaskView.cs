@@ -111,6 +111,9 @@ namespace Project.View
                 string desc = AnsiConsole.Ask<string>("[green]Beschrijving van de taak:[/]");
                 _service.AddTask(desc);
 
+                DisplayTasks();
+                AnsiConsole.MarkupLine("[bold cyan]=== Taak toevoegen ===[/]");
+
                 AnsiConsole.MarkupLine("[bold green]Taak toegevoegd![/]");
 
                 var choice = AnsiConsole.Prompt(
@@ -134,6 +137,9 @@ namespace Project.View
                 int id = AnsiConsole.Ask<int>("[red]ID van de taak om te verwijderen:[/]");
                 _service.RemoveTask(id);
 
+                DisplayTasks();
+                AnsiConsole.MarkupLine("[bold cyan]=== Taak verwijderen ===[/]");
+
                 AnsiConsole.MarkupLine("[bold yellow]Taak verwijderd (indien gevonden).[/]");
 
                 var choice = AnsiConsole.Prompt(
@@ -156,6 +162,9 @@ namespace Project.View
                 AnsiConsole.MarkupLine("[bold cyan]=== Taak togglen ===[/]");
                 int id = AnsiConsole.Ask<int>("[blue]ID van de taak om te togglen:[/]");
                 _service.ToggleTaskCompletion(id);
+
+                DisplayTasks();
+                AnsiConsole.MarkupLine("[bold cyan]=== Taak togglen ===[/]");
 
                 AnsiConsole.MarkupLine("[bold aqua]Taakstatus aangepast![/]");
 
@@ -181,6 +190,9 @@ namespace Project.View
                 string newDesc = AnsiConsole.Ask<string>("[green]Nieuwe beschrijving:[/]");
 
                 _service.UpdateTaskDescription(id, newDesc);
+
+                DisplayTasks();
+                AnsiConsole.MarkupLine("[bold cyan]=== Taak aanpassen ===[/]");
 
                 AnsiConsole.MarkupLine("[bold green]Taak aangepast.[/]");
 
