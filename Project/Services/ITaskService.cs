@@ -19,5 +19,8 @@ namespace Project.Services
 
         // Toggles the completion state of a task (true -> false, false -> true).
         void ToggleTaskCompletion(int id);
+
+        // Updates the description of a task by its ID.
+        void UpdateTaskDescription(int id, string newDescription);
     }
 }

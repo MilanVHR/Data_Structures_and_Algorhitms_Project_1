@@ -18,6 +18,15 @@ namespace Project.Collections
         // Example: FindBy(id, (task, key) => task.Id == key)
         T? FindBy<K>(K key, Func<T, K, int> comparer);
 
+        // Filter returns a new collection that match the predicate.
+        IMyCollection<T> Filter(Func<T, bool> predicate);
+
+        // Sorts the collection in-place
+        void Sort(Comparison<T> comparison);
+
+        // Reduce/aggregate
+        R Reduce<R>(R initial, Func<R, T, R> accumulator);
+
         // Number of elements currently stored.
         int Count { get; }
 

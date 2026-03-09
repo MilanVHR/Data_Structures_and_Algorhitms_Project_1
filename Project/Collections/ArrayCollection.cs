@@ -131,5 +131,42 @@ namespace Project.Collections
                 col.Add(item);
             return col;
         }
+
+        // Returns a new ArrayCollection containing predicated elements.
+        public IMyCollection<T> Filter(Func<T, bool> predicate)
+        {
+            var result = new ArrayCollection<T>();
+            for (int i = 0; i < _count; i++)
+                if (predicate(_items[i]))
+                    result.Add(_items[i]);
+            return result;
+        }
+
+        // Sorts the collection in-place.
+        public void Sort(Comparison<T> comparison)
+        {
+            for (int i = 0; i < _count; i++)
+            {
+                T key = _items[i]; // Element to insert in sorted part
+                int j = i - 1; // Start at last element of the sorted part
+
+                // Shift elements to the right until correct position for key is found
+                while (j >= 0 && comparison(_items[j], key) > 0)
+                {
+                    _items[j + 1] = _items[j];
+                    j--;
+                }
+
+                _items[j + 1] = key; // Insert element at correct position
+            }
+        }
+
+        public R Reduce<R>(R initial, Func<R, T, R> accumulator)
+        {
+            R acc = initial;
+            for (int i = 0; i < _count; i++)
+                acc = accumulator(acc, _items[i]);
+            return acc;
+        }
     }
 }

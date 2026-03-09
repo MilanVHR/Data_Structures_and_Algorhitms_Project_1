@@ -90,5 +90,16 @@ namespace Project.Services
                 _repository.SaveTasks(_tasks);
             }
         }
+
+        public void UpdateTaskDescription(int id, string newDescription)
+        {
+            var task = _tasks.FindBy(id, (t, key) => t.Id == key);
+
+            if (task != null)
+            {
+                task.Description = newDescription;
+                _repository.SaveTasks(_tasks);
+            }
+        }
     }
 }
