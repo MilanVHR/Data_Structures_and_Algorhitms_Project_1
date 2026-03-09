@@ -69,7 +69,7 @@ namespace Project.Services
         public void RemoveTask(int id)
         {
             // Find the task by ID using the custom FindBy method.
-            var task = _tasks.FindBy(id, (t, key) => t.Id == key);
+            var task = _tasks.FindBy(id, (t, key) => t.Id.CompareTo(key));
 
             if (task != null)
             {
@@ -80,7 +80,7 @@ namespace Project.Services
 
         public void ToggleTaskCompletion(int id)
         {
-            var task = _tasks.FindBy(id, (t, key) => t.Id == key);
+            var task = _tasks.FindBy(id, (t, key) => t.Id.CompareTo(key));
 
             if (task != null)
             {
@@ -93,7 +93,7 @@ namespace Project.Services
 
         public void UpdateTaskDescription(int id, string newDescription)
         {
-            var task = _tasks.FindBy(id, (t, key) => t.Id == key);
+            var task = _tasks.FindBy(id, (t, key) => t.Id.CompareTo(key));
 
             if (task != null)
             {

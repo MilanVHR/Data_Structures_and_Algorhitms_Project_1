@@ -3,5 +3,20 @@
     "Id": 1,
     "Description": "hallo",
     "Completed": false
+  },
+  {
+    "Id": 3,
+    "Description": "Anouk de progressie laten zien",
+    "Completed": true
+  },
+  {
+    "Id": 4,
+    "Description": "Data Structures les 4",
+    "Completed": false
+  },
+  {
+    "Id": 5,
+    "Description": "Bespreken project",
+    "Completed": true
   }
 ]
