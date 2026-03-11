@@ -4,36 +4,31 @@
 // - Ask the user for input
 // - Call the TaskService to perform actions
 
-// It is purely presentation logic.
-
 using Spectre.Console;
 using Project.Services;
-using Project.Model;
-using Project.Collections;
 
 namespace Project.View
 {
     public class ConsoleTaskView : ITaskView
     {
-        private readonly ITaskService _service; // Reference to the business logic layer
+        private readonly ITaskService _service;
 
         public ConsoleTaskView(ITaskService service)
         {
             _service = service;
         }
 
-        // Displays all tasks in a nice Spectre.Console table.
-        private void DisplayTasks()
+        // Renders the task table at the top of the console.
+        // Optionally shows the current section title and highlights one selected task.
+        private void DisplayTasks(string? sectionTitle = null, int? selectedTaskId = null)
         {
             Console.Clear();
 
-            // Big ASCII title
             AnsiConsole.Write(
                 new FigletText("To-Do List")
                     .Centered()
                     .Color(Color.Cyan1));
 
-            // Create a table with rounded borders
             var table = new Table()
                 .Border(TableBorder.Rounded)
                 .BorderColor(Color.Grey)
@@ -41,29 +36,42 @@ namespace Project.View
                 .AddColumn("[green]Description[/]")
                 .AddColumn("[blue]Completed[/]");
 
-            // Fill the table with tasks
             var it = _service.GetAllTasks().GetIterator();
             while (it.HasNext())
             {
-                var t = it.Next();
-                table.AddRow(
-                    t.Id.ToString(),
-                    t.Description,
-                    t.Completed ? "[green]Yes[/]" : "[red]No[/]");
+                var task = it.Next();
+                bool isSelected = selectedTaskId.HasValue && task.Id == selectedTaskId.Value;
+
+                if (isSelected)
+                {
+                    table.AddRow(
+                        $"[black on yellow]{task.Id}[/]",
+                        $"[black on yellow]{task.Description}[/]",
+                        task.Completed ? "[black on yellow]Yes[/]" : "[black on yellow]No[/]");
+                }
+                else
+                {
+                    table.AddRow(
+                        task.Id.ToString(),
+                        task.Description,
+                        task.Completed ? "[green]Yes[/]" : "[red]No[/]");
+                }
             }
 
             AnsiConsole.Write(table);
             AnsiConsole.WriteLine();
+
+            if (!string.IsNullOrWhiteSpace(sectionTitle))
+                AnsiConsole.MarkupLine($"[bold cyan]=== {sectionTitle} ===[/]");
         }
 
-        // Main UI loop
         public void Run()
         {
             while (true)
             {
                 DisplayTasks();
 
-                // Menu using Spectre.Console selection prompt
+                // Main action menu.
                 var option = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                         .Title("[yellow]Kies een optie[/]")
@@ -82,38 +90,31 @@ namespace Project.View
                     case "Taak toevoegen":
                         AddTask();
                         break;
-
                     case "Taak verwijderen":
                         RemoveTask();
                         break;
-
                     case "Taak togglen (voltooid / niet voltooid)":
                         ToggleTask();
                         break;
-
                     case "Taak aanpassen":
                         EditTask();
                         break;
-                        
                     case "Afsluiten":
                         return;
                 }
             }
         }
 
-        // Adds a new task by asking the user for a description.
+        // Add flow: show list, ask for description, create task, show confirmation.
         private void AddTask()
         {
             while (true)
             {
-                DisplayTasks();
-                AnsiConsole.MarkupLine("[bold cyan]=== Taak toevoegen ===[/]");
+                DisplayTasks("Taak toevoegen");
                 string desc = AnsiConsole.Ask<string>("[green]Beschrijving van de taak:[/]");
                 _service.AddTask(desc);
 
-                DisplayTasks();
-                AnsiConsole.MarkupLine("[bold cyan]=== Taak toevoegen ===[/]");
-
+                DisplayTasks("Taak toevoegen");
                 AnsiConsole.MarkupLine("[bold green]Taak toegevoegd![/]");
 
                 var choice = AnsiConsole.Prompt(
@@ -127,20 +128,48 @@ namespace Project.View
             }
         }
 
-        // Removes a task by ID.
+        // Remove flow: ask for ID, highlight selected task, ask confirmation,
+        // then remove and show explicit found/not-found feedback.
         private void RemoveTask()
         {
             while (true)
             {
-                DisplayTasks();
-                AnsiConsole.MarkupLine("[bold cyan]=== Taak verwijderen ===[/]");
+                DisplayTasks("Taak verwijderen");
                 int id = AnsiConsole.Ask<int>("[red]ID van de taak om te verwijderen:[/]");
-                _service.RemoveTask(id);
 
-                DisplayTasks();
-                AnsiConsole.MarkupLine("[bold cyan]=== Taak verwijderen ===[/]");
+                var selectedTask = _service.GetTaskById(id);
+                if (selectedTask == null)
+                {
+                    DisplayTasks("Taak verwijderen");
+                    AnsiConsole.MarkupLine($"[bold red]Taak met ID {id} bestaat niet.[/]");
+                }
+                else
+                {
+                    DisplayTasks("Taak verwijderen", id);
+                    AnsiConsole.MarkupLine("[bold yellow]Geselecteerde taak is gemarkeerd.[/]");
 
-                AnsiConsole.MarkupLine("[bold yellow]Taak verwijderd (indien gevonden).[/]");
+                    // Explicit confirmation before deleting the selected task.
+                    var confirm = AnsiConsole.Prompt(
+                        new SelectionPrompt<string>()
+                            .Title("[yellow]Wil je deze taak verwijderen?[/]")
+                            .HighlightStyle(new Style(Color.Cyan1))
+                            .AddChoices("Ja", "Nee"));
+
+                    if (confirm == "Ja")
+                    {
+                        bool removed = _service.RemoveTask(id);
+                        DisplayTasks("Taak verwijderen");
+                        AnsiConsole.MarkupLine(
+                            removed
+                                ? "[bold green]Taak succesvol verwijderd.[/]"
+                                : $"[bold red]Taak met ID {id} bestaat niet.[/]");
+                    }
+                    else
+                    {
+                        DisplayTasks("Taak verwijderen", id);
+                        AnsiConsole.MarkupLine("[bold yellow]Verwijderen geannuleerd.[/]");
+                    }
+                }
 
                 var choice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
@@ -153,20 +182,48 @@ namespace Project.View
             }
         }
 
-        // Toggles the completion state of a task.
+        // Toggle flow: ask for ID, highlight selected task, ask confirmation,
+        // then toggle completed state and show explicit found/not-found feedback.
         private void ToggleTask()
         {
             while (true)
             {
-                DisplayTasks();
-                AnsiConsole.MarkupLine("[bold cyan]=== Taak togglen ===[/]");
+                DisplayTasks("Taak togglen");
                 int id = AnsiConsole.Ask<int>("[blue]ID van de taak om te togglen:[/]");
-                _service.ToggleTaskCompletion(id);
 
-                DisplayTasks();
-                AnsiConsole.MarkupLine("[bold cyan]=== Taak togglen ===[/]");
+                var selectedTask = _service.GetTaskById(id);
+                if (selectedTask == null)
+                {
+                    DisplayTasks("Taak togglen");
+                    AnsiConsole.MarkupLine($"[bold red]Taak met ID {id} bestaat niet.[/]");
+                }
+                else
+                {
+                    DisplayTasks("Taak togglen", id);
+                    AnsiConsole.MarkupLine("[bold yellow]Geselecteerde taak is gemarkeerd.[/]");
 
-                AnsiConsole.MarkupLine("[bold aqua]Taakstatus aangepast![/]");
+                    // Explicit confirmation before changing status.
+                    var confirm = AnsiConsole.Prompt(
+                        new SelectionPrompt<string>()
+                            .Title("[yellow]Wil je deze taakstatus wijzigen?[/]")
+                            .HighlightStyle(new Style(Color.Cyan1))
+                            .AddChoices("Ja", "Nee"));
+
+                    if (confirm == "Ja")
+                    {
+                        bool toggled = _service.ToggleTaskCompletion(id);
+                        DisplayTasks("Taak togglen");
+                        AnsiConsole.MarkupLine(
+                            toggled
+                                ? "[bold green]Taakstatus aangepast![/]"
+                                : $"[bold red]Taak met ID {id} bestaat niet.[/]");
+                    }
+                    else
+                    {
+                        DisplayTasks("Taak togglen", id);
+                        AnsiConsole.MarkupLine("[bold yellow]Wijzigen geannuleerd.[/]");
+                    }
+                }
 
                 var choice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
@@ -179,22 +236,50 @@ namespace Project.View
             }
         }
 
-        // Edits a task by ID.
+        // Edit flow: ask for ID, highlight selected task, ask new description,
+        // confirm update, then save and show explicit found/not-found feedback.
         private void EditTask()
         {
             while (true)
             {
-                DisplayTasks();
-                AnsiConsole.MarkupLine("[bold cyan]=== Taak aanpassen ===[/]");
+                DisplayTasks("Taak aanpassen");
                 int id = AnsiConsole.Ask<int>("[yellow]ID van de taak om aan te passen:[/]");
-                string newDesc = AnsiConsole.Ask<string>("[green]Nieuwe beschrijving:[/]");
 
-                _service.UpdateTaskDescription(id, newDesc);
+                var selectedTask = _service.GetTaskById(id);
+                if (selectedTask == null)
+                {
+                    DisplayTasks("Taak aanpassen");
+                    AnsiConsole.MarkupLine($"[bold red]Taak met ID {id} bestaat niet.[/]");
+                }
+                else
+                {
+                    DisplayTasks("Taak aanpassen", id);
+                    AnsiConsole.MarkupLine("[bold yellow]Geselecteerde taak is gemarkeerd.[/]");
 
-                DisplayTasks();
-                AnsiConsole.MarkupLine("[bold cyan]=== Taak aanpassen ===[/]");
+                    string newDesc = AnsiConsole.Ask<string>("[green]Nieuwe beschrijving:[/]");
 
-                AnsiConsole.MarkupLine("[bold green]Taak aangepast.[/]");
+                    // Explicit confirmation before saving changes.
+                    var confirm = AnsiConsole.Prompt(
+                        new SelectionPrompt<string>()
+                            .Title("[yellow]Wil je deze wijziging opslaan?[/]")
+                            .HighlightStyle(new Style(Color.Cyan1))
+                            .AddChoices("Ja", "Nee"));
+
+                    if (confirm == "Ja")
+                    {
+                        bool updated = _service.UpdateTaskDescription(id, newDesc);
+                        DisplayTasks("Taak aanpassen");
+                        AnsiConsole.MarkupLine(
+                            updated
+                                ? "[bold green]Taak aangepast.[/]"
+                                : $"[bold red]Taak met ID {id} bestaat niet.[/]");
+                    }
+                    else
+                    {
+                        DisplayTasks("Taak aanpassen", id);
+                        AnsiConsole.MarkupLine("[bold yellow]Aanpassen geannuleerd.[/]");
+                    }
+                }
 
                 var choice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
