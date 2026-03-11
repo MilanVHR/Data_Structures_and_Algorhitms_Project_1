@@ -16,7 +16,7 @@ namespace Project.Collections
 
         // Finds an item by a key using a custom comparer function.
         // Example: FindBy(id, (task, key) => task.Id == key)
-        T? FindBy<K>(K key, Func<T, K, bool> comparer);
+        T? FindBy<K>(K key, Func<T, K, int> comparer);
 
         // Filter returns a new collection that match the predicate.
         IMyCollection<T> Filter(Func<T, bool> predicate);

@@ -69,8 +69,6 @@ namespace Project.View
         {
             while (true)
             {
-                DisplayTasks();
-
                 // Main action menu.
                 var option = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()

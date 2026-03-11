@@ -2,11 +2,6 @@
 // - Convert TaskItem objects to JSON
 // - Convert JSON back into TaskItem objects
 // - Ensure the application always works even if the file does not exist
-//
-// This class does NOT:
-// - Contain business logic (that belongs in TaskService)
-// - Modify tasks (only stores them)
-// - Validate data (also belongs in TaskService)
 
 using System.IO;
 using System.Text.Json;

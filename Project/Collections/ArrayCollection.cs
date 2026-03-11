@@ -6,7 +6,7 @@ using System;
 namespace Project.Collections
 {
     // Iterator for ArrayCollection.
-    // It simply walks through the internal array from index 0 to Count.
+    // It walks through the internal array from index 0 to Count.
     public class ArrayIterator<T> : IMyIterator<T>
     {
         private readonly T[] _items;   // Reference to the internal array
@@ -96,17 +96,19 @@ namespace Project.Collections
             _count--;
         }
 
-        public T? FindBy<K>(K key, Func<T, K, bool> comparer)
+        // Finds an element by a custom key using a provided comparer function.
+        public T? FindBy<K>(K key, Func<T, K, int> comparer)
         {
             for (int i = 0; i < _count; i++)
             {
-                if (comparer(_items[i], key))
+                if (comparer(_items[i], key) == 0)
                     return _items[i];
             }
 
             return default;
         }
 
+        // Returns an iterator to traverse the collection.
         public IMyIterator<T> GetIterator()
         {
             return new ArrayIterator<T>(_items, _count);

@@ -36,7 +36,7 @@ namespace Project.Services
 
         public TaskItem? GetTaskById(int id)
         {
-            return _tasks.FindBy(id, (t, key) => t.Id == key);
+            return _tasks.FindBy(id, (t, key) => t.Id.CompareTo(key));
         }
 
         // Generates the next available ID by scanning all tasks.
