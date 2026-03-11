@@ -15,8 +15,13 @@
     "Completed": false
   },
   {
-    "Id": 6,
-    "Description": "Taak verdeling verbeteren",
+    "Id": 7,
+    "Description": "Herkam en mijn logic klopt niiiceeee",
+    "Completed": true
+  },
+  {
+    "Id": 8,
+    "Description": "Test",
     "Completed": false
   }
 ]
