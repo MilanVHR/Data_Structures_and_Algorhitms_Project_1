@@ -37,8 +37,10 @@ namespace Project.View
                 .AddColumn("[blue]Completed[/]");
 
             var it = _service.GetAllTasks().GetIterator();
+            bool hasTasks = false;
             while (it.HasNext())
             {
+                hasTasks = true;
                 var task = it.Next();
                 bool isSelected = selectedTaskId.HasValue && task.Id == selectedTaskId.Value;
 
@@ -58,6 +60,11 @@ namespace Project.View
                 }
             }
 
+            if (!hasTasks)
+            {
+                table.AddRow("-", "[grey]Nog geen taken[/]", "-");
+            }
+
             AnsiConsole.Write(table);
             AnsiConsole.WriteLine();
 
@@ -69,6 +76,8 @@ namespace Project.View
         {
             while (true)
             {
+                DisplayTasks();
+
                 // Main action menu.
                 var option = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
