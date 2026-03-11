@@ -34,6 +34,11 @@ namespace Project.Services
             return _tasks;
         }
 
+        public TaskItem? GetTaskById(int id)
+        {
+            return _tasks.FindBy(id, (t, key) => t.Id.CompareTo(key));
+        }
+
         // Generates the next available ID by scanning all tasks.
         // Example: if IDs are 1, 2, 5 → next ID = 6.
         private int GetNextId()
@@ -66,21 +71,24 @@ namespace Project.Services
             _repository.SaveTasks(_tasks);
         }
 
-        public void RemoveTask(int id)
+        public bool RemoveTask(int id)
         {
             // Find the task by ID using the custom FindBy method.
-            var task = _tasks.FindBy(id, (t, key) => t.Id.CompareTo(key));
+            var task = GetTaskById(id);
 
             if (task != null)
             {
                 _tasks.Remove(task);
                 _repository.SaveTasks(_tasks);
+                return true;
             }
+
+            return false;
         }
 
-        public void ToggleTaskCompletion(int id)
+        public bool ToggleTaskCompletion(int id)
         {
-            var task = _tasks.FindBy(id, (t, key) => t.Id.CompareTo(key));
+            var task = GetTaskById(id);
 
             if (task != null)
             {
@@ -88,18 +96,24 @@ namespace Project.Services
                 task.Completed = !task.Completed;
 
                 _repository.SaveTasks(_tasks);
+                return true;
             }
+
+            return false;
         }
 
-        public void UpdateTaskDescription(int id, string newDescription)
+        public bool UpdateTaskDescription(int id, string newDescription)
         {
-            var task = _tasks.FindBy(id, (t, key) => t.Id.CompareTo(key));
+            var task = GetTaskById(id);
 
             if (task != null)
             {
                 task.Description = newDescription;
                 _repository.SaveTasks(_tasks);
+                return true;
             }
+
+            return false;
         }
     }
 }
