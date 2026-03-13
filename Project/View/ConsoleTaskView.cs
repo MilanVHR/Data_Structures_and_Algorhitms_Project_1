@@ -8,6 +8,8 @@ namespace Project.View
     public class ConsoleTaskView : ITaskView
     {
         private readonly ITaskService _service;
+        private TaskSortField _activeSortField = TaskSortField.Id;
+        private bool _activeSortAscending = true;
 
         public ConsoleTaskView(ITaskService service)
         {
@@ -40,6 +42,10 @@ namespace Project.View
                         RepeatActionUntilMenu(EditTask, "Nog een taak aanpassen");
                         break;
 
+                    case "Taken sorteren":
+                        RepeatActionUntilMenu(SortTasks, "Sortering opnieuw instellen");
+                        break;
+
                     case "Afsluiten":
                         return;
                 }
@@ -60,9 +66,10 @@ namespace Project.View
                 .BorderColor(Color.Grey)
                 .AddColumn("[yellow]ID[/]")
                 .AddColumn("[green]Description[/]")
-                .AddColumn("[blue]Completed[/]");
+                .AddColumn("[blue]Completed[/]")
+                .AddColumn("[magenta]Created (UTC)[/]");
 
-            var it = _service.GetAllTasks().GetIterator();
+            var it = _service.GetSortedTasks(_activeSortField, _activeSortAscending).GetIterator();
             bool hasTasks = false;
 
             while (it.HasNext())
@@ -78,23 +85,27 @@ namespace Project.View
                         $"[black on yellow]{task.Description}[/]",
                         task.Completed
                             ? "[black on yellow]Yes[/]"
-                            : "[black on yellow]No[/]");
+                            : "[black on yellow]No[/]",
+                        $"[black on yellow]{FormatCreatedAt(task.CreatedAt)}[/]");
                 }
                 else
                 {
                     table.AddRow(
                         task.Id.ToString(),
                         task.Description,
-                        task.Completed ? "[green]Yes[/]" : "[red]No[/]");
+                        task.Completed ? "[green]Yes[/]" : "[red]No[/]",
+                        FormatCreatedAt(task.CreatedAt));
                 }
             }
 
             if (!hasTasks)
             {
-                table.AddRow("-", "[grey]Nog geen taken[/]", "-");
+                table.AddRow("-", "[grey]Nog geen taken[/]", "-", "-");
             }
 
             AnsiConsole.Write(table);
+            AnsiConsole.WriteLine();
+            AnsiConsole.MarkupLine($"[grey]Sortering: {GetSortLabel()}[/]");
             AnsiConsole.WriteLine();
 
             if (!string.IsNullOrWhiteSpace(sectionTitle))
@@ -114,7 +125,38 @@ namespace Project.View
                         "Taak verwijderen",
                         "Taak togglen (voltooid / niet voltooid)",
                         "Taak aanpassen",
+                        "Taken sorteren",
                         "Afsluiten"));
+        }
+
+        private void SortTasks()
+        {
+            DisplayTasks("Taken sorteren");
+
+            string fieldChoice = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("[yellow]Sorteer op:[/]")
+                    .HighlightStyle(new Style(Color.Cyan1))
+                    .AddChoices("ID", "Beschrijving", "Status", "Creatiedatum"));
+
+            _activeSortField = fieldChoice switch
+            {
+                "Beschrijving" => TaskSortField.Description,
+                "Status" => TaskSortField.Status,
+                "Creatiedatum" => TaskSortField.CreatedAt,
+                _ => TaskSortField.Id
+            };
+
+            string directionChoice = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("[yellow]Volgorde:[/]")
+                    .HighlightStyle(new Style(Color.Cyan1))
+                    .AddChoices("Oplopend", "Aflopend"));
+
+            _activeSortAscending = directionChoice == "Oplopend";
+
+            DisplayTasks("Taken sorteren");
+            AnsiConsole.MarkupLine($"[bold green]Sortering toegepast: {GetSortLabel()}[/]");
         }
 
         private void RepeatActionUntilMenu(Action action, string repeatText)
@@ -148,6 +190,27 @@ namespace Project.View
                     .AddChoices("Ja", "Nee"));
 
             return choice == "Ja";
+        }
+
+        private string FormatCreatedAt(DateTime createdAt)
+        {
+            return createdAt == default
+                ? "-"
+                : createdAt.ToString("dd-MM-yyyy");
+        }
+
+        private string GetSortLabel()
+        {
+            string field = _activeSortField switch
+            {
+                TaskSortField.Description => "Beschrijving",
+                TaskSortField.Status => "Status",
+                TaskSortField.CreatedAt => "Creatiedatum",
+                _ => "ID"
+            };
+
+            string direction = _activeSortAscending ? "oplopend" : "aflopend";
+            return $"{field} ({direction})";
         }
 
         private void AddTask()
