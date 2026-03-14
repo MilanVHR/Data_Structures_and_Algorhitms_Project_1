@@ -14,6 +14,13 @@ namespace Project.Services
         CreatedAt
     }
 
+    public enum TaskFilterField
+    {
+        All,
+        Completed,
+        Pending
+    }
+
     public interface ITaskService
     {
         // Returns all tasks currently stored in the system.
@@ -21,6 +28,9 @@ namespace Project.Services
 
         // Returns a sorted copy of all tasks based on the selected field and direction.
         IMyCollection<TaskItem> GetSortedTasks(TaskSortField sortField, bool ascending);
+
+        // Returns a filtered copy of all tasks based on the selected filter.
+        IMyCollection<TaskItem> GetFilteredTasks(TaskFilterField filterField);
 
         // Returns a task by ID, or null if not found.
         TaskItem? GetTaskById(int id);

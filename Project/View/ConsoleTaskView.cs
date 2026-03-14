@@ -11,6 +11,8 @@ namespace Project.View
         private TaskSortField _activeSortField = TaskSortField.Id;
         private bool _activeSortAscending = true;
 
+        private TaskFilterField _activeFilterField = TaskFilterField.All;
+
         public ConsoleTaskView(ITaskService service)
         {
             _service = service;
@@ -46,6 +48,10 @@ namespace Project.View
                         RepeatActionUntilMenu(SortTasks, "Sortering opnieuw instellen");
                         break;
 
+                    case "Taken filteren":
+                        RepeatActionUntilMenu(FilterTasks, "Filter opnieuw instellen");
+                        break;
+
                     case "Afsluiten":
                         return;
                 }
@@ -69,7 +75,18 @@ namespace Project.View
                 .AddColumn("[blue]Completed[/]")
                 .AddColumn("[magenta]Created (UTC)[/]");
 
-            var it = _service.GetSortedTasks(_activeSortField, _activeSortAscending).GetIterator();
+            IMyCollection<TaskItem> tasks;
+
+            if (_activeFilterField == TaskFilterField.All)
+            {
+                tasks = _service.GetSortedTasks(_activeSortField, _activeSortAscending);
+            }
+            else
+            {
+                tasks = _service.GetFilteredTasks(_activeFilterField);
+            }
+
+            var it = tasks.GetIterator();
             bool hasTasks = false;
 
             while (it.HasNext())
@@ -106,6 +123,7 @@ namespace Project.View
             AnsiConsole.Write(table);
             AnsiConsole.WriteLine();
             AnsiConsole.MarkupLine($"[grey]Sortering: {GetSortLabel()}[/]");
+            AnsiConsole.MarkupLine($"[grey]Filter: {GetFilterLabel()}[/]");
             AnsiConsole.WriteLine();
 
             if (!string.IsNullOrWhiteSpace(sectionTitle))
@@ -126,6 +144,7 @@ namespace Project.View
                         "Taak togglen (voltooid / niet voltooid)",
                         "Taak aanpassen",
                         "Taken sorteren",
+                        "Taken filteren",
                         "Afsluiten"));
         }
 
@@ -157,6 +176,27 @@ namespace Project.View
 
             DisplayTasks("Taken sorteren");
             AnsiConsole.MarkupLine($"[bold green]Sortering toegepast: {GetSortLabel()}[/]");
+        }
+
+        private void FilterTasks()
+        {
+            DisplayTasks("Taken filteren");
+        
+            string filterChoice = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("[yellow]Filter op status:[/]")
+                    .HighlightStyle(new Style(Color.Cyan1))
+                    .AddChoices("Alle taken", "Voltooid", "Open"));
+        
+            _activeFilterField = filterChoice switch
+            {
+                "Voltooid" => TaskFilterField.Completed,
+                "Open" => TaskFilterField.Pending,
+                _ => TaskFilterField.All
+            };
+        
+            DisplayTasks("Taken filteren");
+            AnsiConsole.MarkupLine($"[bold green]Filter toegepast: {GetFilterLabel()}[/]");
         }
 
         private void RepeatActionUntilMenu(Action action, string repeatText)
@@ -211,6 +251,16 @@ namespace Project.View
 
             string direction = _activeSortAscending ? "oplopend" : "aflopend";
             return $"{field} ({direction})";
+        }
+
+        private string GetFilterLabel()
+        {
+            return _activeFilterField switch
+            {
+                TaskFilterField.Completed => "Voltooide taken",
+                TaskFilterField.Pending => "Open taken",
+                _ => "Alle taken"
+            };
         }
 
         private void AddTask()
