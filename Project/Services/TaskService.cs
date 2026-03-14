@@ -27,11 +27,25 @@ namespace Project.Services
             // Load tasks from the repository (JSON file).
             // The repository returns an ArrayCollection<TaskItem>.
             _tasks = _repository.LoadTasks();
+
+            EnsureCreatedAtValues();
         }
 
         public IMyCollection<TaskItem> GetAllTasks()
         {
             return _tasks;
+        }
+
+        public IMyCollection<TaskItem> GetSortedTasks(TaskSortField sortField, bool ascending)
+        {
+            var sorted = new ArrayCollection<TaskItem>(_tasks.Count > 0 ? _tasks.Count : 8);
+
+            var it = _tasks.GetIterator();
+            while (it.HasNext())
+                sorted.Add(it.Next());
+
+            sorted.Sort((a, b) => CompareByField(a, b, sortField, ascending));
+            return sorted;
         }
 
         public TaskItem? GetTaskById(int id)
@@ -62,7 +76,8 @@ namespace Project.Services
             {
                 Id = GetNextId(),
                 Description = description,
-                Completed = false
+                Completed = false,
+                CreatedAt = DateTime.UtcNow
             };
 
             _tasks.Add(task);
@@ -114,6 +129,52 @@ namespace Project.Services
             }
 
             return false;
+        }
+
+        private int CompareByField(TaskItem left, TaskItem right, TaskSortField sortField, bool ascending)
+        {
+            int result;
+
+            switch (sortField)
+            {
+                case TaskSortField.Description:
+                    result = string.Compare(left.Description, right.Description, StringComparison.OrdinalIgnoreCase);
+                    break;
+
+                case TaskSortField.Status:
+                    result = left.Completed.CompareTo(right.Completed);
+                    break;
+
+                case TaskSortField.CreatedAt:
+                    result = left.CreatedAt.CompareTo(right.CreatedAt);
+                    break;
+
+                default:
+                    result = left.Id.CompareTo(right.Id);
+                    break;
+            }
+
+            return ascending ? result : -result;
+        }
+
+        private void EnsureCreatedAtValues()
+        {
+            bool hasChanges = false;
+            var it = _tasks.GetIterator();
+
+            while (it.HasNext())
+            {
+                var task = it.Next();
+
+                if (task.CreatedAt == default)
+                {
+                    task.CreatedAt = DateTime.UtcNow;
+                    hasChanges = true;
+                }
+            }
+
+            if (hasChanges)
+                _repository.SaveTasks(_tasks);
         }
     }
 }

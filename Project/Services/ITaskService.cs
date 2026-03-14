@@ -6,10 +6,21 @@ using Project.Model;
 
 namespace Project.Services
 {
+    public enum TaskSortField
+    {
+        Id,
+        Description,
+        Status,
+        CreatedAt
+    }
+
     public interface ITaskService
     {
         // Returns all tasks currently stored in the system.
         IMyCollection<TaskItem> GetAllTasks();
+
+        // Returns a sorted copy of all tasks based on the selected field and direction.
+        IMyCollection<TaskItem> GetSortedTasks(TaskSortField sortField, bool ascending);
 
         // Returns a task by ID, or null if not found.
         TaskItem? GetTaskById(int id);

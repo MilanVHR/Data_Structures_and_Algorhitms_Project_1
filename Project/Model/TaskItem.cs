@@ -26,6 +26,9 @@ namespace Project.Model
         // True = done, False = still open.
         public bool Completed { get; set; }
 
+        // UTC creation timestamp used for sorting and history views.
+        public DateTime CreatedAt { get; set; }
+
         // Converts the task into a readable string for display in the console UI.
         public override string ToString()
         {
