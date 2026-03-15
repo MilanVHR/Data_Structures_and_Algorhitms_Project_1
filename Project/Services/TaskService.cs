@@ -48,6 +48,16 @@ namespace Project.Services
             return sorted;
         }
 
+        public IMyCollection<TaskItem> GetFilteredTasks(TaskFilterField filterField)
+        {
+            return filterField switch
+            {
+                TaskFilterField.Completed => _tasks.Filter(t => t.Completed),
+                TaskFilterField.Pending => _tasks.Filter(t => !t.Completed),
+                _ => _tasks.Filter(t => true) // All
+            };
+        }
+
         public TaskItem? GetTaskById(int id)
         {
             return _tasks.FindBy(id, (t, key) => t.Id.CompareTo(key));
