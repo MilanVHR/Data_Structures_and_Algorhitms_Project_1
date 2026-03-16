@@ -3,12 +3,6 @@
 // - Generate unique IDs
 // - Communicate with the repository to load/save tasks
 // - Use the custom ArrayCollection to store tasks in memory
-//
-// This class does NOT:
-// - Handle user input (View layer)
-// - Handle JSON or file operations (Repository layer)
-// - Know anything about Spectre.Console or UI
-
 using Project.Collections;
 using Project.Model;
 using Project.Repository;

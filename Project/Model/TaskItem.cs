@@ -5,11 +5,6 @@
 // - A unique ID
 // - A description of the task
 // - Whether the task is completed
-//
-// This model is used by:
-// - The Repository layer (for saving/loading tasks)
-// - The Service layer (for business logic)
-// - The View layer (for displaying tasks to the user)
 
 namespace Project.Model
 {
