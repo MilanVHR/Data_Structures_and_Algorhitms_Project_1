@@ -76,15 +76,7 @@ namespace Project.View
                 .AddColumn("[magenta]Created (UTC)[/]");
 
             IMyCollection<TaskItem> tasks;
-
-            if (_activeFilterField == TaskFilterField.All)
-            {
-                tasks = _service.GetSortedTasks(_activeSortField, _activeSortAscending);
-            }
-            else
-            {
-                tasks = _service.GetFilteredTasks(_activeFilterField);
-            }
+            tasks = _service.GetSortedAndFilteredTasks(_activeSortField, _activeSortAscending, _activeFilterField);
 
             var it = tasks.GetIterator();
             bool hasTasks = false;
