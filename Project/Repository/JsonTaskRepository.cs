@@ -10,10 +10,20 @@ using Project.Model;
 
 namespace Project.Repository
 {
+    // Small model used to persist the ID counter.
+    file class RepositoryMeta
+    {
+        public int NextId { get; set; }
+    }
+
     public class JsonTaskRepository : ITaskRepository
     {
         // Path to the JSON file where tasks are stored.
         private readonly string _filePath;
+
+        // Path to the metadata file that persists the ID counter.
+        private string MetaFilePath =>
+            Path.Combine(Path.GetDirectoryName(_filePath) ?? ".", "storedata.json");
 
         public JsonTaskRepository(string filePath)
         {
@@ -60,6 +70,30 @@ namespace Project.Repository
 
             // Write the JSON to disk.
             File.WriteAllText(_filePath, json);
+        }
+
+        public int LoadNextId()
+        {
+            if (!File.Exists(MetaFilePath))
+                return 1;
+
+            string json = File.ReadAllText(MetaFilePath);
+            var meta = JsonSerializer.Deserialize<RepositoryMeta>(json);
+            return meta?.NextId ?? 1;
+        }
+
+        public void SaveNextId(int nextId)
+        {
+            string? dir = Path.GetDirectoryName(MetaFilePath);
+            if (!string.IsNullOrEmpty(dir))
+                Directory.CreateDirectory(dir);
+
+            string json = JsonSerializer.Serialize(
+                new RepositoryMeta { NextId = nextId },
+                new JsonSerializerOptions { WriteIndented = true }
+            );
+
+            File.WriteAllText(MetaFilePath, json);
         }
     }
 }

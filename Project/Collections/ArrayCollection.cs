@@ -52,13 +52,13 @@ namespace Project.Collections
         public int Count => _count;
 
         // Ensures the internal array has enough space.
-        // If full, it doubles the capacity.
+        // If full, it doubles the capacity and adds one.
         private void EnsureCapacity()
         {
             if (_count < _items.Length)
                 return;
 
-            int newSize = _items.Length * 2;
+            int newSize = _items.Length * 2 + 1; // +1 to handle case when initial capacity is 0
             T[] newArr = new T[newSize];
 
             for (int i = 0; i < _count; i++)

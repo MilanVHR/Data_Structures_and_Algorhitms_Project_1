@@ -68,6 +68,7 @@ namespace Project.Services
 
         private void InitializeNextId()
         {
+            // Scan existing tasks for the highest ID.
             int max = 0;
 
             var it = _tasks.GetIterator();
@@ -78,7 +79,10 @@ namespace Project.Services
                     max = t.Id;
             }
 
-            _nextId = max + 1;
+            // Take the greater of the persisted counter and the scanned max.
+            // This handles both fresh starts and legacy data with no meta file.
+            int persisted = _repository.LoadNextId();
+            _nextId = Math.Max(persisted, max + 1);
         }
 
         public void AddTask(string description)
@@ -93,8 +97,9 @@ namespace Project.Services
 
             _tasks.Add(task);
 
-            // Save updated list to JSON.
+            // Save updated list and persist the new ID counter value.
             _repository.SaveTasks(_tasks);
+            _repository.SaveNextId(_nextId);
         }
 
         public bool RemoveTask(int id)
