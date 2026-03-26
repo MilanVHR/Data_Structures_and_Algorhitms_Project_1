@@ -12,15 +12,17 @@ namespace Project.Services
     public class TaskService : ITaskService
     {
         private readonly ITaskRepository _repository;     // Handles loading/saving tasks
+        private readonly IMyCollectionFactory<TaskItem> _collectionFactory;
         private readonly IMyCollection<TaskItem> _tasks;  // In-memory storage of tasks
         private int _nextId;
 
-        public TaskService(ITaskRepository repository)
+        public TaskService(ITaskRepository repository, IMyCollectionFactory<TaskItem> collectionFactory)
         {
             _repository = repository;
+            _collectionFactory = collectionFactory;
 
             // Load tasks from the repository (JSON file).
-            // The repository returns an ArrayCollection<TaskItem>.
+            // The repository returns the configured collection implementation.
             _tasks = _repository.LoadTasks();
 
             InitializeNextId();
@@ -34,7 +36,7 @@ namespace Project.Services
 
         public IMyCollection<TaskItem> GetSortedTasks(TaskSortField sortField, bool ascending)
         {
-            var sorted = new ArrayCollection<TaskItem>(_tasks.Count > 0 ? _tasks.Count : 8);
+            IMyCollection<TaskItem> sorted = _collectionFactory.Create(_tasks.Count > 0 ? _tasks.Count : 8);
 
             var it = _tasks.GetIterator();
             while (it.HasNext())
