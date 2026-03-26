@@ -13,6 +13,7 @@ namespace Project.Services
     {
         private readonly ITaskRepository _repository;     // Handles loading/saving tasks
         private readonly IMyCollection<TaskItem> _tasks;  // In-memory storage of tasks
+        private int _nextId;
 
         public TaskService(ITaskRepository repository)
         {
@@ -22,6 +23,7 @@ namespace Project.Services
             // The repository returns an ArrayCollection<TaskItem>.
             _tasks = _repository.LoadTasks();
 
+            InitializeNextId();
             EnsureCreatedAtValues();
         }
 
@@ -57,9 +59,14 @@ namespace Project.Services
             return _tasks.Find(t => t.Id == id);
         }
 
-        // Generates the next available ID by scanning all tasks.
-        // Example: if IDs are 1, 2, 5 → next ID = 6.
+        // Generates the next unique ID using a monotonic counter.
+        // IDs are never reused within the lifetime of the service.
         private int GetNextId()
+        {
+            return _nextId++;
+        }
+
+        private void InitializeNextId()
         {
             int max = 0;
 
@@ -71,7 +78,7 @@ namespace Project.Services
                     max = t.Id;
             }
 
-            return max + 1;
+            _nextId = max + 1;
         }
 
         public void AddTask(string description)

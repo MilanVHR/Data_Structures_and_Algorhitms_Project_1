@@ -70,7 +70,7 @@ namespace Project.Collections
         public void Add(T item)
         {
             if (item is null)
-                throw new ArgumentNullException(nameof(item), "''Null items are not allowed in this collection.");
+                throw new ArgumentNullException(nameof(item), "Null items are not allowed in this collection.");
 
             EnsureCapacity();
             _items[_count++] = item;
