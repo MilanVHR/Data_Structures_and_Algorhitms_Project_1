@@ -2,6 +2,9 @@ using Spectre.Console;
 using Project.Services;
 using Project.Model;
 using Project.Collections;
+using System.Globalization;
+using System.Threading;
+using System;
 
 namespace Project.View
 {
@@ -17,43 +20,73 @@ namespace Project.View
         {
             _service = service;
         }
+        // Language selection prompt
+        private static readonly SelectionPrompt<string> LanguagePrompt = new SelectionPrompt<string>()
+        .Title("[bold]Choose your language[/]")
+        .AddChoices("English", "Nederlands")
+        .HighlightStyle(new Style(foreground: Color.Green));
+
+        private static void ApplyLanguage(string lang)
+        {
+            var culture = lang switch
+            {
+                "Nederlands" => "nl-NL",
+                _ => "en-US"
+            };
+
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
+        }
 
         public void Run()
         {
-            while (true)
+            Console.Clear();
+            var languageChoice = AnsiConsole.Prompt(LanguagePrompt);
+            ApplyLanguage(languageChoice);
+
+            bool running = true;
+            while (running)
             {
-                DisplayTasks();
-
-                var option = PromptMainMenu();
-
-                switch (option)
+                while (true)
                 {
-                    case "Taak toevoegen":
-                        RepeatActionUntilMenu(AddTask, "Nog een taak toevoegen");
-                        break;
+                    DisplayTasks();
 
-                    case "Taak verwijderen":
-                        RepeatActionUntilMenu(RemoveTask, "Nog een taak verwijderen");
-                        break;
+                    var option = PromptMainMenu();
 
-                    case "Taak togglen (voltooid / niet voltooid)":
-                        RepeatActionUntilMenu(ToggleTask, "Nog een taak togglen");
-                        break;
+                    switch (option)
+                    {
+                        case var c when c == Texts.Get("Add_Task"):
+                            RepeatActionUntilMenu(AddTask, Texts.Get("Add_Another_Task"));
+                            break;
 
-                    case "Taak aanpassen":
-                        RepeatActionUntilMenu(EditTask, "Nog een taak aanpassen");
-                        break;
+                        case var c when c == Texts.Get("Delete_Task"):
+                            RepeatActionUntilMenu(RemoveTask, Texts.Get("Delete_Another_Task"));
+                            break;
 
-                    case "Taken sorteren":
-                        RepeatActionUntilMenu(SortTasks, "Sortering opnieuw instellen");
-                        break;
+                        case var c when c == Texts.Get("Toggle_Task"):
+                            RepeatActionUntilMenu(ToggleTask, Texts.Get("Toggle_Another_Task"));
+                            break;
 
-                    case "Taken filteren":
-                        RepeatActionUntilMenu(FilterTasks, "Filter opnieuw instellen");
-                        break;
+                        case var c when c == Texts.Get("Update_Task"):
+                            RepeatActionUntilMenu(EditTask, Texts.Get("Update_Another_Task"));
+                            break;
 
-                    case "Afsluiten":
-                        return;
+                        case var c when c == Texts.Get("Sort_Task"):
+                            RepeatActionUntilMenu(SortTasks, Texts.Get("Another_Sort"));
+                            break;
+
+                        case var c when c == Texts.Get("Filter_Task"):
+                            RepeatActionUntilMenu(FilterTasks, Texts.Get("Another_Filter"));
+                            break;
+
+                        case var c when c == Texts.Get("Change_Language"):
+                            var lang = AnsiConsole.Prompt(LanguagePrompt);
+                            ApplyLanguage(lang);
+                            Texts.Get("Change_Language");
+                            break;
+
+                        case var c when c == Texts.Get("Quit"):
+                            return;
+                    }
                 }
             }
         }
@@ -139,13 +172,14 @@ namespace Project.View
                     .Title("[yellow]Kies een optie[/]")
                     .HighlightStyle(new Style(Color.Cyan1))
                     .AddChoices(
-                        "Taak toevoegen",
-                        "Taak verwijderen",
-                        "Taak togglen (voltooid / niet voltooid)",
-                        "Taak aanpassen",
-                        "Taken sorteren",
-                        "Taken filteren",
-                        "Afsluiten"));
+                        Texts.Get("Add_Task"),
+                        Texts.Get("Delete_Task"),
+                        Texts.Get("Toggle_Task"),
+                        Texts.Get("Update_Task"),
+                        Texts.Get("Sort_Task"),
+                        Texts.Get("Filter_Task"),
+                        Texts.Get("Change_Language"),
+                        Texts.Get("Quit")));
         }
 
         private void SortTasks()
@@ -181,20 +215,20 @@ namespace Project.View
         private void FilterTasks()
         {
             DisplayTasks("Taken filteren");
-        
+
             string filterChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("[yellow]Filter op status:[/]")
                     .HighlightStyle(new Style(Color.Cyan1))
                     .AddChoices("Alle taken", "Voltooid", "Open"));
-        
+
             _activeFilterField = filterChoice switch
             {
                 "Voltooid" => TaskFilterField.Completed,
                 "Open" => TaskFilterField.Pending,
                 _ => TaskFilterField.All
             };
-        
+
             DisplayTasks("Taken filteren");
             AnsiConsole.MarkupLine($"[bold green]Filter toegepast: {GetFilterLabel()}[/]");
         }
