@@ -54,7 +54,7 @@ namespace Project.Services
 
         public TaskItem? GetTaskById(int id)
         {
-            return _tasks.FindBy(id, (t, key) => t.Id.CompareTo(key));
+            return _tasks.Find(t => t.Id == id);
         }
 
         // Generates the next available ID by scanning all tasks.
@@ -92,7 +92,7 @@ namespace Project.Services
 
         public bool RemoveTask(int id)
         {
-            // Find the task by ID using the custom FindBy method.
+            // Find the task by ID using the collection predicate-based Find method.
             var task = GetTaskById(id);
 
             if (task != null)

@@ -73,7 +73,7 @@ namespace Project.Collections
             _items[_count++] = item;
         }
 
-        public void Remove(T item)
+        public bool Remove(T item)
         {
             // Find index of the item
             int index = -1;
@@ -87,21 +87,22 @@ namespace Project.Collections
             }
 
             if (index == -1)
-                return; // Item not found
+                return false; // Item not found
 
             // Shift elements left to fill the gap
             for (int i = index; i < _count - 1; i++)
                 _items[i] = _items[i + 1];
 
             _count--;
+            return true;
         }
 
-        // Finds an element by a custom key using a provided comparer function.
-        public T? FindBy<K>(K key, Func<T, K, int> comparer)
+        // Finds the first element that satisfies the predicate.
+        public T? Find(Func<T, bool> predicate)
         {
             for (int i = 0; i < _count; i++)
             {
-                if (comparer(_items[i], key) == 0)
+                if (predicate(_items[i]))
                     return _items[i];
             }
 
