@@ -23,7 +23,7 @@ namespace Project.Repository
 
         // Path to the metadata file that persists the ID counter.
         private string MetaFilePath =>
-            Path.Combine(Path.GetDirectoryName(_filePath) ?? ".", "storedata.json");
+            Path.Combine(Path.GetDirectoryName(_filePath) ?? ".", "meta.json");
 
         public JsonTaskRepository(string filePath)
         {
