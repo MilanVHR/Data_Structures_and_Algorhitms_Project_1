@@ -177,4 +177,32 @@
     <value>Taal Veranderen</value>
     <comment/>
   </data>
+  <data name="ID" xml:space="preserve">
+    <value>ID</value>
+    <comment/>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Beschrijving</value>
+    <comment/>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Voltooid</value>
+    <comment/>
+  </data>
+  <data name="Created_Time" xml:space="preserve">
+    <value>Creatie Datum (UTC)</value>
+    <comment/>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sortering :</value>
+    <comment/>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filtering :</value>
+    <comment/>
+  </data>
+  <data name="Sort_On" xml:space="preserve">
+    <value>Sorteer op :</value>
+    <comment/>
+  </data>
 </root>

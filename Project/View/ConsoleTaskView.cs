@@ -103,10 +103,10 @@ namespace Project.View
             var table = new Table()
                 .Border(TableBorder.Rounded)
                 .BorderColor(Color.Grey)
-                .AddColumn("[yellow]ID[/]")
-                .AddColumn("[green]Description[/]")
-                .AddColumn("[blue]Completed[/]")
-                .AddColumn("[magenta]Created (UTC)[/]");
+                .AddColumn($"[cyan]{Texts.Get("ID")}[/]")
+                .AddColumn($"[green]{Texts.Get("Description")}[/]")
+                .AddColumn($"[blue]{Texts.Get("Completed")}[/]")
+                .AddColumn($"[magenta]{Texts.Get("Created_Time")}[/]");
 
             IMyCollection<TaskItem> tasks;
 
@@ -155,8 +155,8 @@ namespace Project.View
 
             AnsiConsole.Write(table);
             AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine($"[grey]Sortering: {GetSortLabel()}[/]");
-            AnsiConsole.MarkupLine($"[grey]Filter: {GetFilterLabel()}[/]");
+            AnsiConsole.MarkupLine($"[grey]{Texts.Get("Sort")}: {GetSortLabel()}[/]");
+            AnsiConsole.MarkupLine($"[grey]{Texts.Get("Filter")}: {GetFilterLabel()}[/]");
             AnsiConsole.WriteLine();
 
             if (!string.IsNullOrWhiteSpace(sectionTitle))
@@ -184,13 +184,13 @@ namespace Project.View
 
         private void SortTasks()
         {
-            DisplayTasks("Taken sorteren");
+            DisplayTasks(Texts.Get("Sort_Task"));
 
             string fieldChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                    .Title("[yellow]Sorteer op:[/]")
+                    .Title($"[yellow]{Texts.Get("Sort_On")}[/]")
                     .HighlightStyle(new Style(Color.Cyan1))
-                    .AddChoices("ID", "Beschrijving", "Status", "Creatiedatum"));
+                    .AddChoices($"{Texts.Get("ID")}", $"{Texts.Get("Description")}", $"{Texts.Get("Completed")}", $"{Texts.Get("Created_Time")}"));
 
             _activeSortField = fieldChoice switch
             {
