@@ -12,16 +12,20 @@ namespace Project.Services
     public class TaskService : ITaskService
     {
         private readonly ITaskRepository _repository;     // Handles loading/saving tasks
+        private readonly IMyCollectionFactory<TaskItem> _collectionFactory;
         private readonly IMyCollection<TaskItem> _tasks;  // In-memory storage of tasks
+        private int _nextId;
 
-        public TaskService(ITaskRepository repository)
+        public TaskService(ITaskRepository repository, IMyCollectionFactory<TaskItem> collectionFactory)
         {
             _repository = repository;
+            _collectionFactory = collectionFactory;
 
             // Load tasks from the repository (JSON file).
-            // The repository returns an ArrayCollection<TaskItem>.
+            // The repository returns the configured collection implementation.
             _tasks = _repository.LoadTasks();
 
+            InitializeNextId();
             EnsureCreatedAtValues();
         }
 
@@ -32,7 +36,7 @@ namespace Project.Services
 
         public IMyCollection<TaskItem> GetSortedTasks(TaskSortField sortField, bool ascending)
         {
-            var sorted = new ArrayCollection<TaskItem>(_tasks.Count > 0 ? _tasks.Count : 8);
+            IMyCollection<TaskItem> sorted = _collectionFactory.Create(_tasks.Count > 0 ? _tasks.Count : 8);
 
             var it = _tasks.GetIterator();
             while (it.HasNext())
@@ -54,13 +58,19 @@ namespace Project.Services
 
         public TaskItem? GetTaskById(int id)
         {
-            return _tasks.FindBy(id, (t, key) => t.Id.CompareTo(key));
+            return _tasks.Find(t => t.Id == id);
         }
 
-        // Generates the next available ID by scanning all tasks.
-        // Example: if IDs are 1, 2, 5 → next ID = 6.
+        // Generates the next unique ID using a monotonic counter.
+        // IDs are never reused within the lifetime of the service.
         private int GetNextId()
         {
+            return _nextId++;
+        }
+
+        private void InitializeNextId()
+        {
+            // Scan existing tasks for the highest ID.
             int max = 0;
 
             var it = _tasks.GetIterator();
@@ -71,7 +81,10 @@ namespace Project.Services
                     max = t.Id;
             }
 
-            return max + 1;
+            // Take the greater of the persisted counter and the scanned max.
+            // This handles both fresh starts and legacy data with no meta file.
+            int persisted = _repository.LoadNextId();
+            _nextId = Math.Max(persisted, max + 1);
         }
 
         public void AddTask(string description)
@@ -86,13 +99,14 @@ namespace Project.Services
 
             _tasks.Add(task);
 
-            // Save updated list to JSON.
+            // Save updated list and persist the new ID counter value.
             _repository.SaveTasks(_tasks);
+            _repository.SaveNextId(_nextId);
         }
 
         public bool RemoveTask(int id)
         {
-            // Find the task by ID using the custom FindBy method.
+            // Find the task by ID using the collection predicate-based Find method.
             var task = GetTaskById(id);
 
             if (task != null)

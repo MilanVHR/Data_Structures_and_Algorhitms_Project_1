@@ -12,11 +12,11 @@ namespace Project.Collections
         void Add(T item);
 
         // Removes an item from the collection (if found).
-        void Remove(T item);
+        // Returns true when an item is removed.
+        bool Remove(T item);
 
-        // Finds an item by a key using a custom comparer function.
-        // Example: FindBy(id, (task, key) => task.Id == key)
-        T? FindBy<K>(K key, Func<T, K, int> comparer);
+        // Finds the first item that matches the predicate.
+        T? Find(Func<T, bool> predicate);
 
         // Filter returns a new collection that match the predicate.
         IMyCollection<T> Filter(Func<T, bool> predicate);

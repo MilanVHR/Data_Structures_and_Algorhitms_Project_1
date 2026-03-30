@@ -16,5 +16,11 @@ namespace Project.Repository
         // Saves all tasks to the storage medium.
         // The service layer calls this after every change.
         void SaveTasks(IMyCollection<TaskItem> tasks);
+
+        // Loads the persisted next-ID counter so IDs never repeat across sessions.
+        int LoadNextId();
+
+        // Persists the current next-ID counter value.
+        void SaveNextId(int nextId);
     }
 }
