@@ -100,15 +100,7 @@ namespace Project.View
                     .Color(Color.Cyan1));
 
             IMyCollection<TaskItem> tasks;
-
-            if (_activeFilterField == TaskFilterField.All)
-            {
-                tasks = _service.GetSortedTasks(_activeSortField, _activeSortAscending);
-            }
-            else
-            {
-                tasks = _service.GetSortedAndFilteredTasks(_activeSortField, _activeSortAscending, _activeFilterField);
-            }
+            tasks = _service.GetSortedAndFilteredTasks(_activeSortField, _activeSortAscending, _activeFilterField);
 
             var toDoTasks = new ArrayCollection<TaskItem>();
             var doingTasks = new ArrayCollection<TaskItem>();

@@ -58,21 +58,23 @@ namespace Project.Services
                 _ => _tasks.Filter(t => true) // All
             };
         }
-
-        // Combines filtering and sorting in one step to avoid multiple iterations.
+        
+        // Combines sorting and filtering in one method to avoid multiple iterations.
+        // First filters the tasks, then sorts the filtered list.
         public IMyCollection<TaskItem> GetSortedAndFilteredTasks(TaskSortField sortField, bool ascending, TaskFilterField filterField)
         {
             var filtered = GetFilteredTasks(filterField);
-            IMyCollection<TaskItem> sorted = _collectionFactory.Create(filtered.Count > 0 ? filtered.Count : 8);
+            var sorted = new ArrayCollection<TaskItem>(filtered.Count > 0 ? filtered.Count : 8);
 
             var it = filtered.GetIterator();
             while (it.HasNext())
-                sorted.Add(it.Next());
+                sorted.Add(it.Next()); // Copy filtered tasks to a new collection for sorting.
 
             sorted.Sort((a, b) => CompareByField(a, b, sortField, ascending));
             return sorted;
         }
 
+        // This method abstracts away the search logic and keeps it consistent across the service.
         public TaskItem? GetTaskById(int id)
         {
             return _tasks.Find(t => t.Id == id);
@@ -167,6 +169,7 @@ namespace Project.Services
             return false;
         }
 
+        // Helper method to compare two tasks based on the selected sort field and direction.
         private int CompareByField(TaskItem left, TaskItem right, TaskSortField sortField, bool ascending)
         {
             int result;

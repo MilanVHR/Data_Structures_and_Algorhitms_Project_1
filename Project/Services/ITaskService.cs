@@ -34,9 +34,9 @@ namespace Project.Services
         // Returns a filtered copy of all tasks based on the selected filter.
         IMyCollection<TaskItem> GetFilteredTasks(TaskFilterField filterField);
 
-        // Returns a sorted and filtered copy of all tasks based on the selected field, direction, and filter.
+        // Combines sorting and filtering in one method to avoid multiple iterations.
         IMyCollection<TaskItem> GetSortedAndFilteredTasks(TaskSortField sortField, bool ascending, TaskFilterField filterField);
-
+        
         // Returns a task by ID, or null if not found.
         TaskItem? GetTaskById(int id);
 
