@@ -353,4 +353,72 @@
     <value>Nederlands</value>
     <comment/>
   </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+    <comment/>
+  </data>
+  <data name="Move_Task" xml:space="preserve">
+    <value>Move Task</value>
+    <comment/>
+  </data>
+  <data name="Move_Another_Task" xml:space="preserve">
+    <value>Move Another Task</value>
+    <comment/>
+  </data>
+  <data name="Task_Id_To_Move_Prompt" xml:space="preserve">
+    <value>ID of the task to move:</value>
+    <comment/>
+  </data>
+  <data name="Move_Task_To_Status" xml:space="preserve">
+    <value>Move task to:</value>
+    <comment/>
+  </data>
+  <data name="Confirm_Move_Task" xml:space="preserve">
+    <value>Do you want to move this task?</value>
+    <comment/>
+  </data>
+  <data name="Move_Cancelled" xml:space="preserve">
+    <value>Move cancelled.</value>
+    <comment/>
+  </data>
+  <data name="Task_Moved_Success" xml:space="preserve">
+    <value>Task moved successfully.</value>
+    <comment/>
+  </data>
+  <data name="Task_Already_In_Status" xml:space="preserve">
+    <value>Task is already in that status.</value>
+    <comment/>
+  </data>
+  <data name="To_Do" xml:space="preserve">
+    <value>To-Do</value>
+    <comment/>
+  </data>
+  <data name="Doing" xml:space="preserve">
+    <value>Doing</value>
+    <comment/>
+  </data>
+  <data name="To_Review" xml:space="preserve">
+    <value>To Review</value>
+    <comment/>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
+    <comment/>
+  </data>
+  <data name="To_Do_Tasks" xml:space="preserve">
+    <value>To-Do tasks</value>
+    <comment/>
+  </data>
+  <data name="Doing_Tasks" xml:space="preserve">
+    <value>Doing tasks</value>
+    <comment/>
+  </data>
+  <data name="To_Review_Tasks" xml:space="preserve">
+    <value>To Review tasks</value>
+    <comment/>
+  </data>
+  <data name="Done_Tasks" xml:space="preserve">
+    <value>Done tasks</value>
+    <comment/>
+  </data>
 </root>

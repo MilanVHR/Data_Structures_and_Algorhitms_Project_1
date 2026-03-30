@@ -349,4 +349,72 @@
     <value>Nederlands</value>
     <comment/>
   </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+    <comment/>
+  </data>
+  <data name="Move_Task" xml:space="preserve">
+    <value>Taak verplaatsen</value>
+    <comment/>
+  </data>
+  <data name="Move_Another_Task" xml:space="preserve">
+    <value>Nog een taak verplaatsen</value>
+    <comment/>
+  </data>
+  <data name="Task_Id_To_Move_Prompt" xml:space="preserve">
+    <value>ID van de taak om te verplaatsen:</value>
+    <comment/>
+  </data>
+  <data name="Move_Task_To_Status" xml:space="preserve">
+    <value>Verplaats taak naar:</value>
+    <comment/>
+  </data>
+  <data name="Confirm_Move_Task" xml:space="preserve">
+    <value>Wil je deze taak verplaatsen?</value>
+    <comment/>
+  </data>
+  <data name="Move_Cancelled" xml:space="preserve">
+    <value>Verplaatsen geannuleerd.</value>
+    <comment/>
+  </data>
+  <data name="Task_Moved_Success" xml:space="preserve">
+    <value>Taak succesvol verplaatst.</value>
+    <comment/>
+  </data>
+  <data name="Task_Already_In_Status" xml:space="preserve">
+    <value>Taak staat al in deze status.</value>
+    <comment/>
+  </data>
+  <data name="To_Do" xml:space="preserve">
+    <value>Te Doen</value>
+    <comment/>
+  </data>
+  <data name="Doing" xml:space="preserve">
+    <value>Bezig</value>
+    <comment/>
+  </data>
+  <data name="To_Review" xml:space="preserve">
+    <value>Te Controleren</value>
+    <comment/>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Klaar</value>
+    <comment/>
+  </data>
+  <data name="To_Do_Tasks" xml:space="preserve">
+    <value>Te doen taken</value>
+    <comment/>
+  </data>
+  <data name="Doing_Tasks" xml:space="preserve">
+    <value>Bezig taken</value>
+    <comment/>
+  </data>
+  <data name="To_Review_Tasks" xml:space="preserve">
+    <value>Te controleren taken</value>
+    <comment/>
+  </data>
+  <data name="Done_Tasks" xml:space="preserve">
+    <value>Klaar taken</value>
+    <comment/>
+  </data>
 </root>
