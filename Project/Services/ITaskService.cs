@@ -17,8 +17,10 @@ namespace Project.Services
     public enum TaskFilterField
     {
         All,
-        Completed,
-        Pending
+        ToDo,
+        Doing,
+        ToReview,
+        Done
     }
 
     public interface ITaskService
@@ -42,9 +44,9 @@ namespace Project.Services
         // Returns true when removed, false when not found.
         bool RemoveTask(int id);
 
-        // Toggles the completion state of a task (true -> false, false -> true).
-        // Returns true when toggled, false when not found.
-        bool ToggleTaskCompletion(int id);
+        // Moves a task to the selected Kanban status.
+        // Returns true when moved, false when not found.
+        bool MoveTaskToStatus(int id, TaskStage status);
 
         // Updates the description of a task by its ID.
         // Returns true when updated, false when not found.
