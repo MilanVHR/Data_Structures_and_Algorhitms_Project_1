@@ -25,6 +25,7 @@ namespace Project.Services
             // The repository returns the configured collection implementation.
             _tasks = _repository.LoadTasks();
 
+            EnsureStatusValues();
             InitializeNextId();
             EnsureCreatedAtValues();
         }
@@ -50,8 +51,10 @@ namespace Project.Services
         {
             return filterField switch
             {
-                TaskFilterField.Completed => _tasks.Filter(t => t.Completed),
-                TaskFilterField.Pending => _tasks.Filter(t => !t.Completed),
+                TaskFilterField.ToDo => _tasks.Filter(t => t.Status == TaskStage.ToDo),
+                TaskFilterField.Doing => _tasks.Filter(t => t.Status == TaskStage.Doing),
+                TaskFilterField.ToReview => _tasks.Filter(t => t.Status == TaskStage.ToReview),
+                TaskFilterField.Done => _tasks.Filter(t => t.Status == TaskStage.Done),
                 _ => _tasks.Filter(t => true) // All
             };
         }
@@ -93,7 +96,8 @@ namespace Project.Services
             {
                 Id = GetNextId(),
                 Description = description,
-                Completed = false,
+                Status = TaskStage.ToDo,
+                Completed = null,
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -119,14 +123,14 @@ namespace Project.Services
             return false;
         }
 
-        public bool ToggleTaskCompletion(int id)
+        public bool MoveTaskToStatus(int id, TaskStage status)
         {
             var task = GetTaskById(id);
 
             if (task != null)
             {
-                // Flip the boolean value.
-                task.Completed = !task.Completed;
+                task.Status = status;
+                task.Completed = null;
 
                 _repository.SaveTasks(_tasks);
                 return true;
@@ -160,7 +164,7 @@ namespace Project.Services
                     break;
 
                 case TaskSortField.Status:
-                    result = left.Completed.CompareTo(right.Completed);
+                    result = left.Status.CompareTo(right.Status);
                     break;
 
                 case TaskSortField.CreatedAt:
@@ -174,7 +178,38 @@ namespace Project.Services
 
             return ascending ? result : -result;
         }
+        // This method ensures that all tasks have their Status field correctly set based on the legacy Completed flag.
+        // If Completed is true, Status is set to Done. Then Completed is cleared (set to null) for all tasks. 
+        // If any changes were made, the updated tasks are saved back to the repository.
+        private void EnsureStatusValues()
+        {
+            bool hasChanges = false;
+            var it = _tasks.GetIterator();
 
+            while (it.HasNext())
+            {
+                var task = it.Next();
+
+                if (task.Completed == true && task.Status != TaskStage.Done)
+                {
+                    task.Status = TaskStage.Done;
+                    hasChanges = true;
+                }
+
+                if (task.Completed.HasValue)
+                {
+                    task.Completed = null;
+                    hasChanges = true;
+                }
+            }
+
+            if (hasChanges)
+                _repository.SaveTasks(_tasks);
+        }
+
+// This method ensures that all tasks have a valid CreatedAt timestamp.
+// If any task has CreatedAt set to the default value (DateTime.MinValue), 
+// it is updated to the current UTC time.
         private void EnsureCreatedAtValues()
         {
             bool hasChanges = false;

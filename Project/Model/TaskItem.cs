@@ -4,10 +4,20 @@
 // A TaskItem stores:
 // - A unique ID
 // - A description of the task
-// - Whether the task is completed
+// - A Kanban status
 
 namespace Project.Model
 {
+    using System.Text.Json.Serialization;
+
+    public enum TaskStage
+    {
+        ToDo,
+        Doing,
+        ToReview,
+        Done
+    }
+
     public class TaskItem
     {
         // Unique identifier for the task.
@@ -17,9 +27,11 @@ namespace Project.Model
         // A short text describing what the task is about.
         public string Description { get; set; } = "";
 
-        // Indicates whether the task is completed.
-        // True = done, False = still open.
-        public bool Completed { get; set; }
+        // Current task status in the Kanban flow.
+        public TaskStage Status { get; set; } = TaskStage.ToDo;
+
+        // Legacy completion flag used only for migration from older JSON data.
+        public bool? Completed { get; set; }
 
         // UTC creation timestamp used for sorting and history views.
         public DateTime CreatedAt { get; set; }
@@ -27,7 +39,7 @@ namespace Project.Model
         // Converts the task into a readable string for display in the console UI.
         public override string ToString()
         {
-            return $"[{Id}] {(Completed ? "[X]" : "[ ]")} {Description}";
+            return $"[{Id}] [{Status}] {Description}";
         }
     }
 }
