@@ -107,7 +107,7 @@ namespace Project.View
             }
             else
             {
-                tasks = _service.GetFilteredTasks(_activeFilterField);
+                tasks = _service.GetSortedAndFilteredTasks(_activeSortField, _activeSortAscending, _activeFilterField);
             }
 
             var toDoTasks = new ArrayCollection<TaskItem>();
@@ -222,19 +222,17 @@ namespace Project.View
 
             var idChoice = Texts.Get("ID");
             var descriptionChoice = Texts.Get("Description");
-            var statusChoice = Texts.Get("Status");
             var createdTimeChoice = Texts.Get("Created_Time");
 
             string fieldChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title($"[yellow]{Texts.Get("Sort_On")}[/]")
                     .HighlightStyle(new Style(Color.Cyan1))
-                    .AddChoices(idChoice, descriptionChoice, statusChoice, createdTimeChoice));
+                    .AddChoices(idChoice, descriptionChoice, createdTimeChoice));
 
             _activeSortField = fieldChoice switch
             {
                 var c when c == descriptionChoice => TaskSortField.Description,
-                var c when c == statusChoice => TaskSortField.Status,
                 var c when c == createdTimeChoice => TaskSortField.CreatedAt,
                 _ => TaskSortField.Id
             };

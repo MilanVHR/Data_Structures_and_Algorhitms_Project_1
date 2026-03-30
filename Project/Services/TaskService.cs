@@ -59,6 +59,20 @@ namespace Project.Services
             };
         }
 
+        // Combines filtering and sorting in one step to avoid multiple iterations.
+        public IMyCollection<TaskItem> GetSortedAndFilteredTasks(TaskSortField sortField, bool ascending, TaskFilterField filterField)
+        {
+            var filtered = GetFilteredTasks(filterField);
+            IMyCollection<TaskItem> sorted = _collectionFactory.Create(filtered.Count > 0 ? filtered.Count : 8);
+
+            var it = filtered.GetIterator();
+            while (it.HasNext())
+                sorted.Add(it.Next());
+
+            sorted.Sort((a, b) => CompareByField(a, b, sortField, ascending));
+            return sorted;
+        }
+
         public TaskItem? GetTaskById(int id)
         {
             return _tasks.Find(t => t.Id == id);
