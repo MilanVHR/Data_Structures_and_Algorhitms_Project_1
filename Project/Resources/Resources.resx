@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Welcome" xml:space="preserve">
+    <value>Welcome</value>
+    <comment/>
+  </data>
+  <data name="Add_Task" xml:space="preserve">
+    <value>Add Tasks</value>
+    <comment/>
+  </data>
+  <data name="Delete_Task" xml:space="preserve">
+    <value>Delete Tasks</value>
+    <comment/>
+  </data>
+  <data name="Toggle_Task" xml:space="preserve">
+    <value>Toggle Task (Completed / Not Completed)</value>
+    <comment/>
+  </data>
+  <data name="Update_Task" xml:space="preserve">
+    <value>Update Tasks</value>
+    <comment/>
+  </data>
+  <data name="Sort_Task" xml:space="preserve">
+    <value>Sort Tasks</value>
+    <comment/>
+  </data>
+  <data name="Filter_Task" xml:space="preserve">
+    <value>Filter Tasks</value>
+    <comment/>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Quit</value>
+    <comment/>
+  </data>
+  <data name="Add_Another_Task" xml:space="preserve">
+    <value>Add Another Task</value>
+    <comment/>
+  </data>
+  <data name="Delete_Another_Task" xml:space="preserve">
+    <value>Delete Another Task</value>
+    <comment/>
+  </data>
+  <data name="Toggle_Another_Task" xml:space="preserve">
+    <value>Toggle Another Task</value>
+    <comment/>
+  </data>
+  <data name="Update_Another_Task" xml:space="preserve">
+    <value>Update Another Task</value>
+    <comment/>
+  </data>
+  <data name="Another_Sort" xml:space="preserve">
+    <value>Set a new sort</value>
+    <comment/>
+  </data>
+  <data name="Another Filter" xml:space="preserve">
+    <value>Set a new filter</value>
+    <comment/>
+  </data>
+  <data name="Another_Filter" xml:space="preserve">
+    <value>Set a new filter</value>
+    <comment/>
+  </data>
+  <data name="Change_Language" xml:space="preserve">
+    <value>Change Language</value>
+    <comment/>
+  </data>
+  <data name="ID" xml:space="preserve">
+    <value>ID</value>
+    <comment/>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+    <comment/>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed</value>
+    <comment/>
+  </data>
+  <data name="Created_Time" xml:space="preserve">
+    <value>Created Time (UTC)</value>
+    <comment/>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort :</value>
+    <comment/>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter :</value>
+    <comment/>
+  </data>
+  <data name="Sort_On" xml:space="preserve">
+    <value>Sort on :</value>
+    <comment/>
+  </data>
+  <data name="App_Title" xml:space="preserve">
+    <value>To-Do List</value>
+    <comment/>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+    <comment/>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+    <comment/>
+  </data>
+  <data name="No_Tasks_Yet" xml:space="preserve">
+    <value>No tasks yet</value>
+    <comment/>
+  </data>
+  <data name="Choose_Option" xml:space="preserve">
+    <value>Choose an option</value>
+    <comment/>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Order:</value>
+    <comment/>
+  </data>
+  <data name="Sort_Ascending" xml:space="preserve">
+    <value>Ascending</value>
+    <comment/>
+  </data>
+  <data name="Sort_Descending" xml:space="preserve">
+    <value>Descending</value>
+    <comment/>
+  </data>
+  <data name="Sort_Applied" xml:space="preserve">
+    <value>Sort applied</value>
+    <comment/>
+  </data>
+  <data name="Filter_On_Status" xml:space="preserve">
+    <value>Filter by status:</value>
+    <comment/>
+  </data>
+  <data name="All_Tasks" xml:space="preserve">
+    <value>All tasks</value>
+    <comment/>
+  </data>
+  <data name="Completed_Tasks" xml:space="preserve">
+    <value>Completed tasks</value>
+    <comment/>
+  </data>
+  <data name="Open_Tasks" xml:space="preserve">
+    <value>Open tasks</value>
+    <comment/>
+  </data>
+  <data name="Filter_Applied" xml:space="preserve">
+    <value>Filter applied</value>
+    <comment/>
+  </data>
+  <data name="What_Do_You_Want_To_Do" xml:space="preserve">
+    <value>What do you want to do?</value>
+    <comment/>
+  </data>
+  <data name="Back_To_Menu" xml:space="preserve">
+    <value>Back to menu</value>
+    <comment/>
+  </data>
+  <data name="Task_Description_Prompt" xml:space="preserve">
+    <value>Task description:</value>
+    <comment/>
+  </data>
+  <data name="Task_Added" xml:space="preserve">
+    <value>Task added!</value>
+    <comment/>
+  </data>
+  <data name="Task_Id_To_Delete_Prompt" xml:space="preserve">
+    <value>ID of the task to delete:</value>
+    <comment/>
+  </data>
+  <data name="Task_Id_To_Toggle_Prompt" xml:space="preserve">
+    <value>ID of the task to toggle:</value>
+    <comment/>
+  </data>
+  <data name="Task_Id_To_Update_Prompt" xml:space="preserve">
+    <value>ID of the task to update:</value>
+    <comment/>
+  </data>
+  <data name="Task_With_Id_Not_Found" xml:space="preserve">
+    <value>Task with ID {0} does not exist.</value>
+    <comment/>
+  </data>
+  <data name="Selected_Task_Highlighted" xml:space="preserve">
+    <value>Selected task is highlighted.</value>
+    <comment/>
+  </data>
+  <data name="Confirm_Delete_Task" xml:space="preserve">
+    <value>Do you want to delete this task?</value>
+    <comment/>
+  </data>
+  <data name="Delete_Cancelled" xml:space="preserve">
+    <value>Delete cancelled.</value>
+    <comment/>
+  </data>
+  <data name="Task_Removed_Success" xml:space="preserve">
+    <value>Task removed successfully.</value>
+    <comment/>
+  </data>
+  <data name="Confirm_Toggle_Task_Status" xml:space="preserve">
+    <value>Do you want to change this task status?</value>
+    <comment/>
+  </data>
+  <data name="Change_Cancelled" xml:space="preserve">
+    <value>Change cancelled.</value>
+    <comment/>
+  </data>
+  <data name="Task_Status_Updated" xml:space="preserve">
+    <value>Task status updated!</value>
+    <comment/>
+  </data>
+  <data name="New_Description_Prompt" xml:space="preserve">
+    <value>New description:</value>
+    <comment/>
+  </data>
+  <data name="Confirm_Save_Changes" xml:space="preserve">
+    <value>Do you want to save this change?</value>
+    <comment/>
+  </data>
+  <data name="Update_Cancelled" xml:space="preserve">
+    <value>Update cancelled.</value>
+    <comment/>
+  </data>
+  <data name="Task_Updated" xml:space="preserve">
+    <value>Task updated.</value>
+    <comment/>
+  </data>
+  <data name="Choose_Language" xml:space="preserve">
+    <value>Choose your language</value>
+    <comment/>
+  </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>English</value>
+    <comment/>
+  </data>
+  <data name="Language_Dutch" xml:space="preserve">
+    <value>Nederlands</value>
+    <comment/>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+    <comment/>
+  </data>
+  <data name="Move_Task" xml:space="preserve">
+    <value>Move Task</value>
+    <comment/>
+  </data>
+  <data name="Move_Another_Task" xml:space="preserve">
+    <value>Move Another Task</value>
+    <comment/>
+  </data>
+  <data name="Task_Id_To_Move_Prompt" xml:space="preserve">
+    <value>ID of the task to move:</value>
+    <comment/>
+  </data>
+  <data name="Move_Task_To_Status" xml:space="preserve">
+    <value>Move task to:</value>
+    <comment/>
+  </data>
+  <data name="Confirm_Move_Task" xml:space="preserve">
+    <value>Do you want to move this task?</value>
+    <comment/>
+  </data>
+  <data name="Move_Cancelled" xml:space="preserve">
+    <value>Move cancelled.</value>
+    <comment/>
+  </data>
+  <data name="Task_Moved_Success" xml:space="preserve">
+    <value>Task moved successfully.</value>
+    <comment/>
+  </data>
+  <data name="Task_Already_In_Status" xml:space="preserve">
+    <value>Task is already in that status.</value>
+    <comment/>
+  </data>
+  <data name="To_Do" xml:space="preserve">
+    <value>To-Do</value>
+    <comment/>
+  </data>
+  <data name="Doing" xml:space="preserve">
+    <value>Doing</value>
+    <comment/>
+  </data>
+  <data name="To_Review" xml:space="preserve">
+    <value>To Review</value>
+    <comment/>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
+    <comment/>
+  </data>
+  <data name="To_Do_Tasks" xml:space="preserve">
+    <value>To-Do tasks</value>
+    <comment/>
+  </data>
+  <data name="Doing_Tasks" xml:space="preserve">
+    <value>Doing tasks</value>
+    <comment/>
+  </data>
+  <data name="To_Review_Tasks" xml:space="preserve">
+    <value>To Review tasks</value>
+    <comment/>
+  </data>
+  <data name="Done_Tasks" xml:space="preserve">
+    <value>Done tasks</value>
+    <comment/>
+  </data>
+</root>

@@ -10,6 +10,8 @@
 using Project.Repository;
 using Project.Services;
 using Project.View;
+using Project.Collections;
+using Project.Model;
 
 namespace Project
 {
@@ -20,12 +22,13 @@ namespace Project
             // Path to the JSON file where tasks will be saved.
             // The repository handles reading/writing this file.
             string filePath = "Data/tasks.json";
+            IMyCollectionFactory<TaskItem> collectionFactory = new ArrayCollectionFactory<TaskItem>();
 
             // Create the repository (data persistence layer).
-            ITaskRepository repository = new JsonTaskRepository(filePath);
+            ITaskRepository repository = new JsonTaskRepository(filePath, collectionFactory);
 
             // Create the service (business logic layer).
-            ITaskService service = new TaskService(repository);
+            ITaskService service = new TaskService(repository, collectionFactory);
 
             // Create the view (user interface layer).
             ITaskView view = new ConsoleTaskView(service);
