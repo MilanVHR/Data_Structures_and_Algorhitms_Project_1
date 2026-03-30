@@ -130,7 +130,7 @@
     <comment/>
   </data>
   <data name="Toggle_Task" xml:space="preserve">
-    <value>Toggle Tasks (Completed / Not Completed0</value>
+    <value>Toggle Task (Completed / Not Completed)</value>
     <comment/>
   </data>
   <data name="Update_Task" xml:space="preserve">
@@ -173,6 +173,10 @@
     <value>Set a new filter</value>
     <comment/>
   </data>
+  <data name="Another_Filter" xml:space="preserve">
+    <value>Set a new filter</value>
+    <comment/>
+  </data>
   <data name="Change_Language" xml:space="preserve">
     <value>Change Language</value>
     <comment/>
@@ -203,6 +207,150 @@
   </data>
   <data name="Sort_On" xml:space="preserve">
     <value>Sort on :</value>
+    <comment/>
+  </data>
+  <data name="App_Title" xml:space="preserve">
+    <value>To-Do List</value>
+    <comment/>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+    <comment/>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+    <comment/>
+  </data>
+  <data name="No_Tasks_Yet" xml:space="preserve">
+    <value>No tasks yet</value>
+    <comment/>
+  </data>
+  <data name="Choose_Option" xml:space="preserve">
+    <value>Choose an option</value>
+    <comment/>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Order:</value>
+    <comment/>
+  </data>
+  <data name="Sort_Ascending" xml:space="preserve">
+    <value>Ascending</value>
+    <comment/>
+  </data>
+  <data name="Sort_Descending" xml:space="preserve">
+    <value>Descending</value>
+    <comment/>
+  </data>
+  <data name="Sort_Applied" xml:space="preserve">
+    <value>Sort applied</value>
+    <comment/>
+  </data>
+  <data name="Filter_On_Status" xml:space="preserve">
+    <value>Filter by status:</value>
+    <comment/>
+  </data>
+  <data name="All_Tasks" xml:space="preserve">
+    <value>All tasks</value>
+    <comment/>
+  </data>
+  <data name="Completed_Tasks" xml:space="preserve">
+    <value>Completed tasks</value>
+    <comment/>
+  </data>
+  <data name="Open_Tasks" xml:space="preserve">
+    <value>Open tasks</value>
+    <comment/>
+  </data>
+  <data name="Filter_Applied" xml:space="preserve">
+    <value>Filter applied</value>
+    <comment/>
+  </data>
+  <data name="What_Do_You_Want_To_Do" xml:space="preserve">
+    <value>What do you want to do?</value>
+    <comment/>
+  </data>
+  <data name="Back_To_Menu" xml:space="preserve">
+    <value>Back to menu</value>
+    <comment/>
+  </data>
+  <data name="Task_Description_Prompt" xml:space="preserve">
+    <value>Task description:</value>
+    <comment/>
+  </data>
+  <data name="Task_Added" xml:space="preserve">
+    <value>Task added!</value>
+    <comment/>
+  </data>
+  <data name="Task_Id_To_Delete_Prompt" xml:space="preserve">
+    <value>ID of the task to delete:</value>
+    <comment/>
+  </data>
+  <data name="Task_Id_To_Toggle_Prompt" xml:space="preserve">
+    <value>ID of the task to toggle:</value>
+    <comment/>
+  </data>
+  <data name="Task_Id_To_Update_Prompt" xml:space="preserve">
+    <value>ID of the task to update:</value>
+    <comment/>
+  </data>
+  <data name="Task_With_Id_Not_Found" xml:space="preserve">
+    <value>Task with ID {0} does not exist.</value>
+    <comment/>
+  </data>
+  <data name="Selected_Task_Highlighted" xml:space="preserve">
+    <value>Selected task is highlighted.</value>
+    <comment/>
+  </data>
+  <data name="Confirm_Delete_Task" xml:space="preserve">
+    <value>Do you want to delete this task?</value>
+    <comment/>
+  </data>
+  <data name="Delete_Cancelled" xml:space="preserve">
+    <value>Delete cancelled.</value>
+    <comment/>
+  </data>
+  <data name="Task_Removed_Success" xml:space="preserve">
+    <value>Task removed successfully.</value>
+    <comment/>
+  </data>
+  <data name="Confirm_Toggle_Task_Status" xml:space="preserve">
+    <value>Do you want to change this task status?</value>
+    <comment/>
+  </data>
+  <data name="Change_Cancelled" xml:space="preserve">
+    <value>Change cancelled.</value>
+    <comment/>
+  </data>
+  <data name="Task_Status_Updated" xml:space="preserve">
+    <value>Task status updated!</value>
+    <comment/>
+  </data>
+  <data name="New_Description_Prompt" xml:space="preserve">
+    <value>New description:</value>
+    <comment/>
+  </data>
+  <data name="Confirm_Save_Changes" xml:space="preserve">
+    <value>Do you want to save this change?</value>
+    <comment/>
+  </data>
+  <data name="Update_Cancelled" xml:space="preserve">
+    <value>Update cancelled.</value>
+    <comment/>
+  </data>
+  <data name="Task_Updated" xml:space="preserve">
+    <value>Task updated.</value>
+    <comment/>
+  </data>
+  <data name="Choose_Language" xml:space="preserve">
+    <value>Choose your language</value>
+    <comment/>
+  </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>English</value>
+    <comment/>
+  </data>
+  <data name="Language_Dutch" xml:space="preserve">
+    <value>Nederlands</value>
     <comment/>
   </data>
 </root>

@@ -10,6 +10,9 @@ namespace Project.View
 {
     public class ConsoleTaskView : ITaskView
     {
+        private const string EnglishCulture = "en-US";
+        private const string DutchCulture = "nl-NL";
+
         private readonly ITaskService _service;
         private TaskSortField _activeSortField = TaskSortField.Id;
         private bool _activeSortAscending = true;
@@ -20,73 +23,68 @@ namespace Project.View
         {
             _service = service;
         }
-        // Language selection prompt
-        private static readonly SelectionPrompt<string> LanguagePrompt = new SelectionPrompt<string>()
-        .Title("[bold]Choose your language[/]")
-        .AddChoices("English", "Nederlands")
-        .HighlightStyle(new Style(foreground: Color.Green));
-
-        private static void ApplyLanguage(string lang)
+        private static void ApplyLanguage(string culture)
         {
-            var culture = lang switch
-            {
-                "Nederlands" => "nl-NL",
-                _ => "en-US"
-            };
-
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
+        }
+
+        private string PromptLanguageCulture()
+        {
+            var english = Texts.Get("Language_English");
+            var dutch = Texts.Get("Language_Dutch");
+
+            var selectedLanguage = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title($"[bold]{Texts.Get("Choose_Language")}[/]")
+                    .AddChoices(english, dutch)
+                    .HighlightStyle(new Style(foreground: Color.Green)));
+
+            return selectedLanguage == dutch ? DutchCulture : EnglishCulture;
         }
 
         public void Run()
         {
             Console.Clear();
-            var languageChoice = AnsiConsole.Prompt(LanguagePrompt);
-            ApplyLanguage(languageChoice);
+            ApplyLanguage(PromptLanguageCulture());
 
-            bool running = true;
-            while (running)
+            while (true)
             {
-                while (true)
+                DisplayTasks();
+
+                var option = PromptMainMenu();
+
+                switch (option)
                 {
-                    DisplayTasks();
+                    case var c when c == Texts.Get("Add_Task"):
+                        RepeatActionUntilMenu(AddTask, Texts.Get("Add_Another_Task"));
+                        break;
 
-                    var option = PromptMainMenu();
+                    case var c when c == Texts.Get("Delete_Task"):
+                        RepeatActionUntilMenu(RemoveTask, Texts.Get("Delete_Another_Task"));
+                        break;
 
-                    switch (option)
-                    {
-                        case var c when c == Texts.Get("Add_Task"):
-                            RepeatActionUntilMenu(AddTask, Texts.Get("Add_Another_Task"));
-                            break;
+                    case var c when c == Texts.Get("Toggle_Task"):
+                        RepeatActionUntilMenu(ToggleTask, Texts.Get("Toggle_Another_Task"));
+                        break;
 
-                        case var c when c == Texts.Get("Delete_Task"):
-                            RepeatActionUntilMenu(RemoveTask, Texts.Get("Delete_Another_Task"));
-                            break;
+                    case var c when c == Texts.Get("Update_Task"):
+                        RepeatActionUntilMenu(EditTask, Texts.Get("Update_Another_Task"));
+                        break;
 
-                        case var c when c == Texts.Get("Toggle_Task"):
-                            RepeatActionUntilMenu(ToggleTask, Texts.Get("Toggle_Another_Task"));
-                            break;
+                    case var c when c == Texts.Get("Sort_Task"):
+                        RepeatActionUntilMenu(SortTasks, Texts.Get("Another_Sort"));
+                        break;
 
-                        case var c when c == Texts.Get("Update_Task"):
-                            RepeatActionUntilMenu(EditTask, Texts.Get("Update_Another_Task"));
-                            break;
+                    case var c when c == Texts.Get("Filter_Task"):
+                        RepeatActionUntilMenu(FilterTasks, Texts.Get("Another_Filter"));
+                        break;
 
-                        case var c when c == Texts.Get("Sort_Task"):
-                            RepeatActionUntilMenu(SortTasks, Texts.Get("Another_Sort"));
-                            break;
+                    case var c when c == Texts.Get("Change_Language"):
+                        ApplyLanguage(PromptLanguageCulture());
+                        break;
 
-                        case var c when c == Texts.Get("Filter_Task"):
-                            RepeatActionUntilMenu(FilterTasks, Texts.Get("Another_Filter"));
-                            break;
-
-                        case var c when c == Texts.Get("Change_Language"):
-                            var lang = AnsiConsole.Prompt(LanguagePrompt);
-                            ApplyLanguage(lang);
-                            Texts.Get("Change_Language");
-                            break;
-
-                        case var c when c == Texts.Get("Quit"):
-                            return;
-                    }
+                    case var c when c == Texts.Get("Quit"):
+                        return;
                 }
             }
         }
@@ -96,7 +94,7 @@ namespace Project.View
             Console.Clear();
 
             AnsiConsole.Write(
-                new FigletText("To-Do List")
+                new FigletText(Texts.Get("App_Title"))
                     .Centered()
                     .Color(Color.Cyan1));
 
@@ -134,8 +132,8 @@ namespace Project.View
                         $"[black on yellow]{task.Id}[/]",
                         $"[black on yellow]{task.Description}[/]",
                         task.Completed
-                            ? "[black on yellow]Yes[/]"
-                            : "[black on yellow]No[/]",
+                            ? $"[black on yellow]{Texts.Get("Yes")}[/]"
+                            : $"[black on yellow]{Texts.Get("No")}[/]",
                         $"[black on yellow]{FormatCreatedAt(task.CreatedAt)}[/]");
                 }
                 else
@@ -143,14 +141,14 @@ namespace Project.View
                     table.AddRow(
                         task.Id.ToString(),
                         task.Description,
-                        task.Completed ? "[green]Yes[/]" : "[red]No[/]",
+                        task.Completed ? $"[green]{Texts.Get("Yes")}[/]" : $"[red]{Texts.Get("No")}[/]",
                         FormatCreatedAt(task.CreatedAt));
                 }
             }
 
             if (!hasTasks)
             {
-                table.AddRow("-", "[grey]Nog geen taken[/]", "-", "-");
+                table.AddRow("-", $"[grey]{Texts.Get("No_Tasks_Yet")}[/]", "-", "-");
             }
 
             AnsiConsole.Write(table);
@@ -169,7 +167,7 @@ namespace Project.View
         {
             return AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                    .Title("[yellow]Kies een optie[/]")
+                    .Title($"[yellow]{Texts.Get("Choose_Option")}[/]")
                     .HighlightStyle(new Style(Color.Cyan1))
                     .AddChoices(
                         Texts.Get("Add_Task"),
@@ -186,51 +184,63 @@ namespace Project.View
         {
             DisplayTasks(Texts.Get("Sort_Task"));
 
+            var idChoice = Texts.Get("ID");
+            var descriptionChoice = Texts.Get("Description");
+            var completedChoice = Texts.Get("Completed");
+            var createdTimeChoice = Texts.Get("Created_Time");
+
             string fieldChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title($"[yellow]{Texts.Get("Sort_On")}[/]")
                     .HighlightStyle(new Style(Color.Cyan1))
-                    .AddChoices($"{Texts.Get("ID")}", $"{Texts.Get("Description")}", $"{Texts.Get("Completed")}", $"{Texts.Get("Created_Time")}"));
+                    .AddChoices(idChoice, descriptionChoice, completedChoice, createdTimeChoice));
 
             _activeSortField = fieldChoice switch
             {
-                "Beschrijving" => TaskSortField.Description,
-                "Status" => TaskSortField.Status,
-                "Creatiedatum" => TaskSortField.CreatedAt,
+                var c when c == descriptionChoice => TaskSortField.Description,
+                var c when c == completedChoice => TaskSortField.Status,
+                var c when c == createdTimeChoice => TaskSortField.CreatedAt,
                 _ => TaskSortField.Id
             };
 
+            var ascendingChoice = Texts.Get("Sort_Ascending");
+            var descendingChoice = Texts.Get("Sort_Descending");
+
             string directionChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                    .Title("[yellow]Volgorde:[/]")
+                    .Title($"[yellow]{Texts.Get("Order")}[/]")
                     .HighlightStyle(new Style(Color.Cyan1))
-                    .AddChoices("Oplopend", "Aflopend"));
+                    .AddChoices(ascendingChoice, descendingChoice));
 
-            _activeSortAscending = directionChoice == "Oplopend";
+            _activeSortAscending = directionChoice == ascendingChoice;
 
-            DisplayTasks("Taken sorteren");
-            AnsiConsole.MarkupLine($"[bold green]Sortering toegepast: {GetSortLabel()}[/]");
+            DisplayTasks($"{Texts.Get("Sort_Task")}");
+            AnsiConsole.MarkupLine($"[bold green]{Texts.Get("Sort_Applied")}: {GetSortLabel()}[/]");
         }
 
         private void FilterTasks()
         {
-            DisplayTasks("Taken filteren");
+            DisplayTasks($"{Texts.Get("Filter_Task")}");
+
+            var allTasksChoice = Texts.Get("All_Tasks");
+            var completedTasksChoice = Texts.Get("Completed_Tasks");
+            var openTasksChoice = Texts.Get("Open_Tasks");
 
             string filterChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                    .Title("[yellow]Filter op status:[/]")
+                    .Title($"[yellow]{Texts.Get("Filter_On_Status")}[/]")
                     .HighlightStyle(new Style(Color.Cyan1))
-                    .AddChoices("Alle taken", "Voltooid", "Open"));
+                    .AddChoices(allTasksChoice, completedTasksChoice, openTasksChoice));
 
             _activeFilterField = filterChoice switch
             {
-                "Voltooid" => TaskFilterField.Completed,
-                "Open" => TaskFilterField.Pending,
+                var c when c == completedTasksChoice => TaskFilterField.Completed,
+                var c when c == openTasksChoice => TaskFilterField.Pending,
                 _ => TaskFilterField.All
             };
 
-            DisplayTasks("Taken filteren");
-            AnsiConsole.MarkupLine($"[bold green]Filter toegepast: {GetFilterLabel()}[/]");
+            DisplayTasks(Texts.Get("Filter_Task"));
+            AnsiConsole.MarkupLine($"[bold green]{Texts.Get("Filter_Applied")}: {GetFilterLabel()}[/]");
         }
 
         private void RepeatActionUntilMenu(Action action, string repeatText)
@@ -241,11 +251,11 @@ namespace Project.View
 
                 var shouldRepeat = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
-                        .Title("[yellow]Wat wil je doen?[/]")
+                        .Title($"[yellow]{Texts.Get("What_Do_You_Want_To_Do")}[/]")
                         .HighlightStyle(new Style(Color.Cyan1))
-                        .AddChoices(repeatText, "Terug naar menu"));
+                        .AddChoices(repeatText, Texts.Get("Back_To_Menu")));
 
-                if (shouldRepeat == "Terug naar menu")
+                if (shouldRepeat == Texts.Get("Back_To_Menu"))
                     return;
             }
         }
@@ -261,9 +271,9 @@ namespace Project.View
                 new SelectionPrompt<string>()
                     .Title($"[yellow]{prompt}[/]")
                     .HighlightStyle(new Style(Color.Cyan1))
-                    .AddChoices("Ja", "Nee"));
+                    .AddChoices(Texts.Get("Yes"), Texts.Get("No")));
 
-            return choice == "Ja";
+            return choice == Texts.Get("Yes");
         }
 
         private string FormatCreatedAt(DateTime createdAt)
@@ -277,13 +287,13 @@ namespace Project.View
         {
             string field = _activeSortField switch
             {
-                TaskSortField.Description => "Beschrijving",
-                TaskSortField.Status => "Status",
-                TaskSortField.CreatedAt => "Creatiedatum",
-                _ => "ID"
+                TaskSortField.Description => Texts.Get("Description"),
+                TaskSortField.Status => Texts.Get("Completed"),
+                TaskSortField.CreatedAt => Texts.Get("Created_Time"),
+                _ => Texts.Get("ID")
             };
 
-            string direction = _activeSortAscending ? "oplopend" : "aflopend";
+            string direction = _activeSortAscending ? Texts.Get("Sort_Ascending") : Texts.Get("Sort_Descending");
             return $"{field} ({direction})";
         }
 
@@ -291,122 +301,122 @@ namespace Project.View
         {
             return _activeFilterField switch
             {
-                TaskFilterField.Completed => "Voltooide taken",
-                TaskFilterField.Pending => "Open taken",
-                _ => "Alle taken"
+                TaskFilterField.Completed => Texts.Get("Completed_Tasks"),
+                TaskFilterField.Pending => Texts.Get("Open_Tasks"),
+                _ => Texts.Get("All_Tasks")
             };
         }
 
         private void AddTask()
         {
-            DisplayTasks("Taak toevoegen");
+            DisplayTasks(Texts.Get("Add_Task"));
 
-            string desc = AnsiConsole.Ask<string>("[green]Beschrijving van de taak:[/]");
+            string desc = AnsiConsole.Ask<string>($"[green]{Texts.Get("Task_Description_Prompt")}[/]");
             _service.AddTask(desc);
 
-            DisplayTasks("Taak toevoegen");
-            AnsiConsole.MarkupLine("[bold green]Taak toegevoegd![/]");
+            DisplayTasks(Texts.Get("Add_Task"));
+            AnsiConsole.MarkupLine($"[bold green]{Texts.Get("Task_Added")}[/]");
         }
 
         private void RemoveTask()
         {
-            DisplayTasks("Taak verwijderen");
+            DisplayTasks(Texts.Get("Delete_Task"));
 
-            int id = AskTaskId("[red]ID van de taak om te verwijderen:[/]");
+            int id = AskTaskId($"[red]{Texts.Get("Task_Id_To_Delete_Prompt")}[/]");
             var selectedTask = _service.GetTaskById(id);
 
             if (selectedTask == null)
             {
-                DisplayTasks("Taak verwijderen");
-                AnsiConsole.MarkupLine($"[bold red]Taak met ID {id} bestaat niet.[/]");
+                DisplayTasks(Texts.Get("Delete_Task"));
+                AnsiConsole.MarkupLine($"[bold red]{string.Format(Texts.Get("Task_With_Id_Not_Found"), id)}[/]");
                 return;
             }
 
-            DisplayTasks("Taak verwijderen", id);
-            AnsiConsole.MarkupLine("[bold yellow]Geselecteerde taak is gemarkeerd.[/]");
+            DisplayTasks(Texts.Get("Delete_Task"), id);
+            AnsiConsole.MarkupLine($"[bold yellow]{Texts.Get("Selected_Task_Highlighted")}[/]");
 
-            if (!Confirm("Wil je deze taak verwijderen?"))
+            if (!Confirm(Texts.Get("Confirm_Delete_Task")))
             {
-                DisplayTasks("Taak verwijderen", id);
-                AnsiConsole.MarkupLine("[bold yellow]Verwijderen geannuleerd.[/]");
+                DisplayTasks(Texts.Get("Delete_Task"), id);
+                AnsiConsole.MarkupLine($"[bold yellow]{Texts.Get("Delete_Cancelled")}[/]");
                 return;
             }
 
             bool removed = _service.RemoveTask(id);
 
-            DisplayTasks("Taak verwijderen");
+            DisplayTasks(Texts.Get("Delete_Task"));
             AnsiConsole.MarkupLine(
                 removed
-                    ? "[bold green]Taak succesvol verwijderd.[/]"
-                    : $"[bold red]Taak met ID {id} bestaat niet.[/]");
+                    ? $"[bold green]{Texts.Get("Task_Removed_Success")}[/]"
+                    : $"[bold red]{string.Format(Texts.Get("Task_With_Id_Not_Found"), id)}[/]");
         }
 
         private void ToggleTask()
         {
-            DisplayTasks("Taak togglen");
+            DisplayTasks(Texts.Get("Toggle_Task"));
 
-            int id = AskTaskId("[blue]ID van de taak om te togglen:[/]");
+            int id = AskTaskId($"[blue]{Texts.Get("Task_Id_To_Toggle_Prompt")}[/]");
             var selectedTask = _service.GetTaskById(id);
 
             if (selectedTask == null)
             {
-                DisplayTasks("Taak togglen");
-                AnsiConsole.MarkupLine($"[bold red]Taak met ID {id} bestaat niet.[/]");
+                DisplayTasks(Texts.Get("Toggle_Task"));
+                AnsiConsole.MarkupLine($"[bold red]{string.Format(Texts.Get("Task_With_Id_Not_Found"), id)}[/]");
                 return;
             }
 
-            DisplayTasks("Taak togglen", id);
-            AnsiConsole.MarkupLine("[bold yellow]Geselecteerde taak is gemarkeerd.[/]");
+            DisplayTasks(Texts.Get("Toggle_Task"), id);
+            AnsiConsole.MarkupLine($"[bold yellow]{Texts.Get("Selected_Task_Highlighted")}[/]");
 
-            if (!Confirm("Wil je deze taakstatus wijzigen?"))
+            if (!Confirm(Texts.Get("Confirm_Toggle_Task_Status")))
             {
-                DisplayTasks("Taak togglen", id);
-                AnsiConsole.MarkupLine("[bold yellow]Wijzigen geannuleerd.[/]");
+                DisplayTasks(Texts.Get("Toggle_Task"), id);
+                AnsiConsole.MarkupLine($"[bold yellow]{Texts.Get("Change_Cancelled")}[/]");
                 return;
             }
 
             bool toggled = _service.ToggleTaskCompletion(id);
 
-            DisplayTasks("Taak togglen");
+            DisplayTasks(Texts.Get("Toggle_Task"));
             AnsiConsole.MarkupLine(
                 toggled
-                    ? "[bold green]Taakstatus aangepast![/]"
-                    : $"[bold red]Taak met ID {id} bestaat niet.[/]");
+                    ? $"[bold green]{Texts.Get("Task_Status_Updated")}[/]"
+                    : $"[bold red]{string.Format(Texts.Get("Task_With_Id_Not_Found"), id)}[/]");
         }
 
         private void EditTask()
         {
-            DisplayTasks("Taak aanpassen");
+            DisplayTasks(Texts.Get("Update_Task"));
 
-            int id = AskTaskId("[yellow]ID van de taak om aan te passen:[/]");
+            int id = AskTaskId($"[yellow]{Texts.Get("Task_Id_To_Update_Prompt")}[/]");
             var selectedTask = _service.GetTaskById(id);
 
             if (selectedTask == null)
             {
-                DisplayTasks("Taak aanpassen");
-                AnsiConsole.MarkupLine($"[bold red]Taak met ID {id} bestaat niet.[/]");
+                DisplayTasks(Texts.Get("Update_Task"));
+                AnsiConsole.MarkupLine($"[bold red]{string.Format(Texts.Get("Task_With_Id_Not_Found"), id)}[/]");
                 return;
             }
 
-            DisplayTasks("Taak aanpassen", id);
-            AnsiConsole.MarkupLine("[bold yellow]Geselecteerde taak is gemarkeerd.[/]");
+            DisplayTasks(Texts.Get("Update_Task"), id);
+            AnsiConsole.MarkupLine($"[bold yellow]{Texts.Get("Selected_Task_Highlighted")}[/]");
 
-            string newDesc = AnsiConsole.Ask<string>("[green]Nieuwe beschrijving:[/]");
+            string newDesc = AnsiConsole.Ask<string>($"[green]{Texts.Get("New_Description_Prompt")}[/]");
 
-            if (!Confirm("Wil je deze wijziging opslaan?"))
+            if (!Confirm(Texts.Get("Confirm_Save_Changes")))
             {
-                DisplayTasks("Taak aanpassen", id);
-                AnsiConsole.MarkupLine("[bold yellow]Aanpassen geannuleerd.[/]");
+                DisplayTasks(Texts.Get("Update_Task"), id);
+                AnsiConsole.MarkupLine($"[bold yellow]{Texts.Get("Update_Cancelled")}[/]");
                 return;
             }
 
             bool updated = _service.UpdateTaskDescription(id, newDesc);
 
-            DisplayTasks("Taak aanpassen");
+            DisplayTasks(Texts.Get("Update_Task"));
             AnsiConsole.MarkupLine(
                 updated
-                    ? "[bold green]Taak aangepast.[/]"
-                    : $"[bold red]Taak met ID {id} bestaat niet.[/]");
+                    ? $"[bold green]{Texts.Get("Task_Updated")}[/]"
+                    : $"[bold red]{string.Format(Texts.Get("Task_With_Id_Not_Found"), id)}[/]");
         }
     }
 }

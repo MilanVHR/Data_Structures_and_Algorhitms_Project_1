@@ -141,7 +141,7 @@
     <value>Taken sorteren</value>
     <comment/>
   </data>
-  <data name="Filter_task" xml:space="preserve">
+  <data name="Filter_Task" xml:space="preserve">
     <value>Taken filteren</value>
     <comment/>
   </data>
@@ -203,6 +203,150 @@
   </data>
   <data name="Sort_On" xml:space="preserve">
     <value>Sorteer op :</value>
+    <comment/>
+  </data>
+  <data name="App_Title" xml:space="preserve">
+    <value>To-Do Lijst</value>
+    <comment/>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ja</value>
+    <comment/>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nee</value>
+    <comment/>
+  </data>
+  <data name="No_Tasks_Yet" xml:space="preserve">
+    <value>Nog geen taken</value>
+    <comment/>
+  </data>
+  <data name="Choose_Option" xml:space="preserve">
+    <value>Kies een optie</value>
+    <comment/>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Volgorde:</value>
+    <comment/>
+  </data>
+  <data name="Sort_Ascending" xml:space="preserve">
+    <value>Oplopend</value>
+    <comment/>
+  </data>
+  <data name="Sort_Descending" xml:space="preserve">
+    <value>Aflopend</value>
+    <comment/>
+  </data>
+  <data name="Sort_Applied" xml:space="preserve">
+    <value>Sortering toegepast</value>
+    <comment/>
+  </data>
+  <data name="Filter_On_Status" xml:space="preserve">
+    <value>Filter op status:</value>
+    <comment/>
+  </data>
+  <data name="All_Tasks" xml:space="preserve">
+    <value>Alle taken</value>
+    <comment/>
+  </data>
+  <data name="Completed_Tasks" xml:space="preserve">
+    <value>Voltooide taken</value>
+    <comment/>
+  </data>
+  <data name="Open_Tasks" xml:space="preserve">
+    <value>Open taken</value>
+    <comment/>
+  </data>
+  <data name="Filter_Applied" xml:space="preserve">
+    <value>Filter toegepast</value>
+    <comment/>
+  </data>
+  <data name="What_Do_You_Want_To_Do" xml:space="preserve">
+    <value>Wat wil je doen?</value>
+    <comment/>
+  </data>
+  <data name="Back_To_Menu" xml:space="preserve">
+    <value>Terug naar menu</value>
+    <comment/>
+  </data>
+  <data name="Task_Description_Prompt" xml:space="preserve">
+    <value>Beschrijving van de taak:</value>
+    <comment/>
+  </data>
+  <data name="Task_Added" xml:space="preserve">
+    <value>Taak toegevoegd!</value>
+    <comment/>
+  </data>
+  <data name="Task_Id_To_Delete_Prompt" xml:space="preserve">
+    <value>ID van de taak om te verwijderen:</value>
+    <comment/>
+  </data>
+  <data name="Task_Id_To_Toggle_Prompt" xml:space="preserve">
+    <value>ID van de taak om te togglen:</value>
+    <comment/>
+  </data>
+  <data name="Task_Id_To_Update_Prompt" xml:space="preserve">
+    <value>ID van de taak om aan te passen:</value>
+    <comment/>
+  </data>
+  <data name="Task_With_Id_Not_Found" xml:space="preserve">
+    <value>Taak met ID {0} bestaat niet.</value>
+    <comment/>
+  </data>
+  <data name="Selected_Task_Highlighted" xml:space="preserve">
+    <value>Geselecteerde taak is gemarkeerd.</value>
+    <comment/>
+  </data>
+  <data name="Confirm_Delete_Task" xml:space="preserve">
+    <value>Wil je deze taak verwijderen?</value>
+    <comment/>
+  </data>
+  <data name="Delete_Cancelled" xml:space="preserve">
+    <value>Verwijderen geannuleerd.</value>
+    <comment/>
+  </data>
+  <data name="Task_Removed_Success" xml:space="preserve">
+    <value>Taak succesvol verwijderd.</value>
+    <comment/>
+  </data>
+  <data name="Confirm_Toggle_Task_Status" xml:space="preserve">
+    <value>Wil je deze taakstatus wijzigen?</value>
+    <comment/>
+  </data>
+  <data name="Change_Cancelled" xml:space="preserve">
+    <value>Wijzigen geannuleerd.</value>
+    <comment/>
+  </data>
+  <data name="Task_Status_Updated" xml:space="preserve">
+    <value>Taakstatus aangepast!</value>
+    <comment/>
+  </data>
+  <data name="New_Description_Prompt" xml:space="preserve">
+    <value>Nieuwe beschrijving:</value>
+    <comment/>
+  </data>
+  <data name="Confirm_Save_Changes" xml:space="preserve">
+    <value>Wil je deze wijziging opslaan?</value>
+    <comment/>
+  </data>
+  <data name="Update_Cancelled" xml:space="preserve">
+    <value>Aanpassen geannuleerd.</value>
+    <comment/>
+  </data>
+  <data name="Task_Updated" xml:space="preserve">
+    <value>Taak aangepast.</value>
+    <comment/>
+  </data>
+  <data name="Choose_Language" xml:space="preserve">
+    <value>Kies je taal</value>
+    <comment/>
+  </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>English</value>
+    <comment/>
+  </data>
+  <data name="Language_Dutch" xml:space="preserve">
+    <value>Nederlands</value>
     <comment/>
   </data>
 </root>
