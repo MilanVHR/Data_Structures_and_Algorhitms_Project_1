@@ -2,43 +2,57 @@
   {
     "Id": 1,
     "Description": "Code Uitleggen aan elkaar",
-    "Completed": true,
+    "Status": 3,
+    "Completed": null,
     "CreatedAt": "2026-03-14T11:39:24.2167775Z"
   },
   {
     "Id": 2,
     "Description": "Taak verdeling sprint",
-    "Completed": false,
+    "Status": 0,
+    "Completed": null,
     "CreatedAt": "2026-03-15T11:39:56.3445912Z"
   },
   {
     "Id": 3,
     "Description": "Array\u0027s leren begrijpen",
-    "Completed": false,
+    "Status": 0,
+    "Completed": null,
     "CreatedAt": "2026-03-16T11:40:44.6171017Z"
   },
   {
     "Id": 4,
     "Description": "Aan project werken",
-    "Completed": false,
+    "Status": 1,
+    "Completed": null,
     "CreatedAt": "2026-03-16T11:41:09.5419529Z"
   },
   {
     "Id": 5,
     "Description": "Groepsoverleg",
-    "Completed": true,
+    "Status": 3,
+    "Completed": null,
     "CreatedAt": "2026-03-16T11:42:30.2424677Z"
   },
   {
     "Id": 6,
     "Description": "Naar de les gaan",
-    "Completed": true,
+    "Status": 3,
+    "Completed": null,
     "CreatedAt": "2026-03-16T11:42:38.6561313Z"
   },
   {
     "Id": 7,
     "Description": "blablabla random bullshit go oke je hoeft niet hele ding oke je hoefst niet zon lang dingetjes goed fding that we found",
-    "Completed": false,
+    "Status": 0,
+    "Completed": null,
     "CreatedAt": "2026-03-26T11:57:52.0707718Z"
+  },
+  {
+    "Id": 8,
+    "Description": "hey",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-04-02T10:40:26.0849667Z"
   }
 ]

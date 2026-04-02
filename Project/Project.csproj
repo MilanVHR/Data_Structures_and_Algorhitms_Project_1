@@ -8,5 +8,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Spectre.Console" Version="0.54.0" />
+    <PackageReference Include="System.Windows.Extensions" Version="8.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Sounds\*.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

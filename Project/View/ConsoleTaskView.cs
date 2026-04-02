@@ -15,14 +15,16 @@ namespace Project.View
         private const string DutchCulture = "nl-NL";
 
         private readonly ITaskService _service;
+        private readonly IUiSoundPlayer _soundPlayer;
         private TaskSortField _activeSortField = TaskSortField.Id;
         private bool _activeSortAscending = true;
 
         private TaskFilterField _activeFilterField = TaskFilterField.All;
 
-        public ConsoleTaskView(ITaskService service)
+        public ConsoleTaskView(ITaskService service, IUiSoundPlayer soundPlayer)
         {
             _service = service;
+            _soundPlayer = soundPlayer;
         }
         private static void ApplyLanguage(string culture)
         {
@@ -39,6 +41,8 @@ namespace Project.View
                     .Title($"[bold]{Texts.Get("Choose_Language")}[/]")
                     .AddChoices(english, dutch)
                     .HighlightStyle(new Style(foreground: Color.Green)));
+
+            _soundPlayer.PlayClick();
 
             return selectedLanguage == dutch ? DutchCulture : EnglishCulture;
         }
@@ -193,7 +197,7 @@ namespace Project.View
 
         private string PromptMainMenu()
         {
-            return AnsiConsole.Prompt(
+            var option = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title($"[yellow]{Texts.Get("Choose_Option")}[/]")
                     .HighlightStyle(new Style(Color.Cyan1))
@@ -206,6 +210,9 @@ namespace Project.View
                         Texts.Get("Filter_Task"),
                         Texts.Get("Change_Language"),
                         Texts.Get("Quit")));
+
+            _soundPlayer.PlayClick();
+            return option;
         }
 
         private void SortTasks()
@@ -222,6 +229,8 @@ namespace Project.View
                     .HighlightStyle(new Style(Color.Cyan1))
                     .AddChoices(idChoice, descriptionChoice, createdTimeChoice));
 
+            _soundPlayer.PlayClick();
+
             _activeSortField = fieldChoice switch
             {
                 var c when c == descriptionChoice => TaskSortField.Description,
@@ -237,6 +246,8 @@ namespace Project.View
                     .Title($"[yellow]{Texts.Get("Order")}[/]")
                     .HighlightStyle(new Style(Color.Cyan1))
                     .AddChoices(ascendingChoice, descendingChoice));
+
+            _soundPlayer.PlayClick();
 
             _activeSortAscending = directionChoice == ascendingChoice;
 
@@ -259,6 +270,8 @@ namespace Project.View
                     .Title($"[yellow]{Texts.Get("Filter_On_Status")}[/]")
                     .HighlightStyle(new Style(Color.Cyan1))
                     .AddChoices(allTasksChoice, toDoTasksChoice, doingTasksChoice, toReviewTasksChoice, doneTasksChoice));
+
+            _soundPlayer.PlayClick();
 
             _activeFilterField = filterChoice switch
             {
@@ -285,6 +298,8 @@ namespace Project.View
                         .HighlightStyle(new Style(Color.Cyan1))
                         .AddChoices(repeatText, Texts.Get("Back_To_Menu")));
 
+                _soundPlayer.PlayClick();
+
                 if (shouldRepeat == Texts.Get("Back_To_Menu"))
                     return;
             }
@@ -302,6 +317,8 @@ namespace Project.View
                     .Title($"[yellow]{prompt}[/]")
                     .HighlightStyle(new Style(Color.Cyan1))
                     .AddChoices(Texts.Get("Yes"), Texts.Get("No")));
+
+            _soundPlayer.PlayClick();
 
             return choice == Texts.Get("Yes");
         }
@@ -339,8 +356,8 @@ namespace Project.View
             };
         }
 
-// This method creates a panel for a lane in the Kanban board.
-// It takes the lane title, border color, tasks in that lane, the currently selected task ID (if any), and accent colors for styling.
+        // This method creates a panel for a lane in the Kanban board.
+        // It takes the lane title, border color, tasks in that lane, the currently selected task ID (if any), and accent colors for styling.
         private Panel CreateLanePanel(
             string title,
             Color borderColor,
@@ -358,8 +375,8 @@ namespace Project.View
             };
         }
 
-// This method creates a panel for a lane in the Kanban board. 
-//It uses the BuildLaneContent method to generate the content string based on the tasks in that lane.
+        // This method creates a panel for a lane in the Kanban board. 
+        //It uses the BuildLaneContent method to generate the content string based on the tasks in that lane.
         private Panel CreateBoardCell(
             IMyCollection<TaskItem> laneTasks,
             int? selectedTaskId,
@@ -375,10 +392,10 @@ namespace Project.View
             };
         }
 
-// This method builds the content string for a lane in the Kanban board. 
-//It iterates through the tasks in the lane and formats each task's description and creation date. 
-//The currently selected task (if any) is highlighted with a different background color. 
-//If there are no tasks, it shows a placeholder message.
+        // This method builds the content string for a lane in the Kanban board. 
+        //It iterates through the tasks in the lane and formats each task's description and creation date. 
+        //The currently selected task (if any) is highlighted with a different background color. 
+        //If there are no tasks, it shows a placeholder message.
         private string BuildLaneContent(
             IMyCollection<TaskItem> laneTasks,
             int? selectedTaskId,
@@ -419,9 +436,9 @@ namespace Project.View
             return content.ToString();
         }
 
-// This method prompts the user to select a new status for a task when moving it. 
-// It displays the available statuses with localized names and returns the corresponding 
-//TaskStage value based on the user's selection.
+        // This method prompts the user to select a new status for a task when moving it. 
+        // It displays the available statuses with localized names and returns the corresponding 
+        //TaskStage value based on the user's selection.
         private TaskStage PromptTaskStatus(string title)
         {
             var toDoChoice = Texts.Get("To_Do");
@@ -434,6 +451,8 @@ namespace Project.View
                     .Title($"[yellow]{title}[/]")
                     .HighlightStyle(new Style(Color.Cyan1))
                     .AddChoices(toDoChoice, doingChoice, toReviewChoice, doneChoice));
+
+            _soundPlayer.PlayClick();
 
             return selectedStatus switch
             {
@@ -466,6 +485,7 @@ namespace Project.View
             {
                 DisplayTasks(Texts.Get("Delete_Task"));
                 AnsiConsole.MarkupLine($"[bold red]{string.Format(Texts.Get("Task_With_Id_Not_Found"), id)}[/]");
+                _soundPlayer.PlayError();
                 return;
             }
 
@@ -486,11 +506,16 @@ namespace Project.View
                 removed
                     ? $"[bold green]{Texts.Get("Task_Removed_Success")}[/]"
                     : $"[bold red]{string.Format(Texts.Get("Task_With_Id_Not_Found"), id)}[/]");
+
+            if (!removed)
+            {
+                _soundPlayer.PlayError();
+            }
         }
 
-// This method prompts the user to select a new status for a task when moving it.
-// It displays the available statuses with localized names and returns the corresponding
-//TaskStage value based on the user's selection.
+        // This method prompts the user to select a new status for a task when moving it.
+        // It displays the available statuses with localized names and returns the corresponding
+        //TaskStage value based on the user's selection.
         private void MoveTask()
         {
             DisplayTasks(Texts.Get("Move_Task"));
@@ -502,6 +527,7 @@ namespace Project.View
             {
                 DisplayTasks(Texts.Get("Move_Task"));
                 AnsiConsole.MarkupLine($"[bold red]{string.Format(Texts.Get("Task_With_Id_Not_Found"), id)}[/]");
+                _soundPlayer.PlayError();
                 return;
             }
 
@@ -514,6 +540,7 @@ namespace Project.View
             {
                 DisplayTasks(Texts.Get("Move_Task"), id);
                 AnsiConsole.MarkupLine($"[bold yellow]{Texts.Get("Task_Already_In_Status")}[/]");
+                _soundPlayer.PlayError();
                 return;
             }
 
@@ -531,11 +558,16 @@ namespace Project.View
                 moved
                     ? $"[bold green]{Texts.Get("Task_Moved_Success")}[/]"
                     : $"[bold red]{string.Format(Texts.Get("Task_With_Id_Not_Found"), id)}[/]");
+
+            if (!moved)
+            {
+                _soundPlayer.PlayError();
+            }
         }
 
-// This method prompts the user to select a new status for a task when moving it.
-// It displays the available statuses with localized names and returns the corresponding
-//TaskStage value based on the user's selection.
+        // This method prompts the user to select a new status for a task when moving it.
+        // It displays the available statuses with localized names and returns the corresponding
+        //TaskStage value based on the user's selection.
 
         private void EditTask()
         {
@@ -548,6 +580,7 @@ namespace Project.View
             {
                 DisplayTasks(Texts.Get("Update_Task"));
                 AnsiConsole.MarkupLine($"[bold red]{string.Format(Texts.Get("Task_With_Id_Not_Found"), id)}[/]");
+                _soundPlayer.PlayError();
                 return;
             }
 
@@ -570,6 +603,11 @@ namespace Project.View
                 updated
                     ? $"[bold green]{Texts.Get("Task_Updated")}[/]"
                     : $"[bold red]{string.Format(Texts.Get("Task_With_Id_Not_Found"), id)}[/]");
+
+            if (!updated)
+            {
+                _soundPlayer.PlayError();
+            }
         }
     }
 }
