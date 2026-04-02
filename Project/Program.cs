@@ -24,6 +24,8 @@ namespace Project
             string filePath = "Data/tasks.json";
             IMyCollectionFactory<TaskItem> collectionFactory = new ArrayCollectionFactory<TaskItem>();
 
+            IMyCollectionFactory<TaskItem> linkedListCollectionFactory = new LinkedListCollectionFactory<TaskItem>();
+
             // Create the repository (data persistence layer).
             ITaskRepository repository = new JsonTaskRepository(filePath, collectionFactory);
 
