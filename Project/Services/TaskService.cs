@@ -64,7 +64,7 @@ namespace Project.Services
         public IMyCollection<TaskItem> GetSortedAndFilteredTasks(TaskSortField sortField, bool ascending, TaskFilterField filterField)
         {
             var filtered = GetFilteredTasks(filterField);
-            var sorted = new ArrayCollection<TaskItem>(filtered.Count > 0 ? filtered.Count : 8);
+            var sorted = _collectionFactory.Create(filtered.Count > 0 ? filtered.Count : 8);
 
             var it = filtered.GetIterator();
             while (it.HasNext())
