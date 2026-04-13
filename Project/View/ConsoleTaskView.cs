@@ -339,8 +339,8 @@ namespace Project.View
             };
         }
 
-// This method creates a panel for a lane in the Kanban board.
-// It takes the lane title, border color, tasks in that lane, the currently selected task ID (if any), and accent colors for styling.
+        // This method creates a panel for a lane in the Kanban board.
+        // It takes the lane title, border color, tasks in that lane, the currently selected task ID (if any), and accent colors for styling.
         private Panel CreateLanePanel(
             string title,
             Color borderColor,
@@ -358,8 +358,8 @@ namespace Project.View
             };
         }
 
-// This method creates a panel for a lane in the Kanban board. 
-//It uses the BuildLaneContent method to generate the content string based on the tasks in that lane.
+        // This method creates a panel for a lane in the Kanban board. 
+        //It uses the BuildLaneContent method to generate the content string based on the tasks in that lane.
         private Panel CreateBoardCell(
             IMyCollection<TaskItem> laneTasks,
             int? selectedTaskId,
@@ -375,10 +375,10 @@ namespace Project.View
             };
         }
 
-// This method builds the content string for a lane in the Kanban board. 
-//It iterates through the tasks in the lane and formats each task's description and creation date. 
-//The currently selected task (if any) is highlighted with a different background color. 
-//If there are no tasks, it shows a placeholder message.
+        // This method builds the content string for a lane in the Kanban board. 
+        //It iterates through the tasks in the lane and formats each task's description and creation date. 
+        //The currently selected task (if any) is highlighted with a different background color. 
+        //If there are no tasks, it shows a placeholder message.
         private string BuildLaneContent(
             IMyCollection<TaskItem> laneTasks,
             int? selectedTaskId,
@@ -400,15 +400,18 @@ namespace Project.View
                 bool isSelected = selectedTaskId.HasValue && task.Id == selectedTaskId.Value;
                 var escapedDescription = Markup.Escape(task.Description);
                 var escapedDate = Markup.Escape(FormatCreatedAt(task.CreatedAt));
+                var escapedAssignee = Markup.Escape(task.Assignee?.ToString() ?? "-");
 
                 if (isSelected)
                 {
                     content.AppendLine($"[black on yellow]#{task.Id} {escapedDescription}[/]");
+                    content.AppendLine($"[black on yellow]Owner: {escapedAssignee}[/]");
                     content.AppendLine($"[black on yellow]{escapedDate}[/]");
                 }
                 else
                 {
                     content.AppendLine($"[bold {accentColor}]#{task.Id}[/] [{accentColor}]{escapedDescription}[/]");
+                    content.AppendLine($"[{secondaryColor}]Owner: {escapedAssignee}[/]");
                     content.AppendLine($"[{secondaryColor}]{escapedDate}[/]");
                 }
 
@@ -419,9 +422,9 @@ namespace Project.View
             return content.ToString();
         }
 
-// This method prompts the user to select a new status for a task when moving it. 
-// It displays the available statuses with localized names and returns the corresponding 
-//TaskStage value based on the user's selection.
+        // This method prompts the user to select a new status for a task when moving it. 
+        // It displays the available statuses with localized names and returns the corresponding 
+        //TaskStage value based on the user's selection.
         private TaskStage PromptTaskStatus(string title)
         {
             var toDoChoice = Texts.Get("To_Do");
@@ -444,12 +447,33 @@ namespace Project.View
             };
         }
 
+        private TaskAssignee PromptTaskAssignee(string title)
+        {
+            var halitChoice = TaskAssignee.Halit.ToString();
+            var milanChoice = TaskAssignee.Milan.ToString();
+            var mennoChoice = TaskAssignee.Menno.ToString();
+
+            var selectedAssignee = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title($"[yellow]{title}[/]")
+                    .HighlightStyle(new Style(Color.Cyan1))
+                    .AddChoices(halitChoice, milanChoice, mennoChoice));
+
+            return selectedAssignee switch
+            {
+                var c when c == milanChoice => TaskAssignee.Milan,
+                var c when c == mennoChoice => TaskAssignee.Menno,
+                _ => TaskAssignee.Halit
+            };
+        }
+
         private void AddTask()
         {
             DisplayTasks(Texts.Get("Add_Task"));
 
             string desc = AnsiConsole.Ask<string>($"[green]{Texts.Get("Task_Description_Prompt")}[/]");
-            _service.AddTask(desc);
+            var assignee = PromptTaskAssignee("Kies een verantwoordelijke");
+            _service.AddTask(desc, assignee);
 
             DisplayTasks(Texts.Get("Add_Task"));
             AnsiConsole.MarkupLine($"[bold green]{Texts.Get("Task_Added")}[/]");
@@ -488,9 +512,9 @@ namespace Project.View
                     : $"[bold red]{string.Format(Texts.Get("Task_With_Id_Not_Found"), id)}[/]");
         }
 
-// This method prompts the user to select a new status for a task when moving it.
-// It displays the available statuses with localized names and returns the corresponding
-//TaskStage value based on the user's selection.
+        // This method prompts the user to select a new status for a task when moving it.
+        // It displays the available statuses with localized names and returns the corresponding
+        //TaskStage value based on the user's selection.
         private void MoveTask()
         {
             DisplayTasks(Texts.Get("Move_Task"));
@@ -533,9 +557,9 @@ namespace Project.View
                     : $"[bold red]{string.Format(Texts.Get("Task_With_Id_Not_Found"), id)}[/]");
         }
 
-// This method prompts the user to select a new status for a task when moving it.
-// It displays the available statuses with localized names and returns the corresponding
-//TaskStage value based on the user's selection.
+        // This method prompts the user to select a new status for a task when moving it.
+        // It displays the available statuses with localized names and returns the corresponding
+        //TaskStage value based on the user's selection.
 
         private void EditTask()
         {

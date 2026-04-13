@@ -58,7 +58,7 @@ namespace Project.Services
                 _ => _tasks.Filter(t => true) // All
             };
         }
-        
+
         // Combines sorting and filtering in one method to avoid multiple iterations.
         // First filters the tasks, then sorts the filtered list.
         public IMyCollection<TaskItem> GetSortedAndFilteredTasks(TaskSortField sortField, bool ascending, TaskFilterField filterField)
@@ -106,7 +106,7 @@ namespace Project.Services
             _nextId = Math.Max(persisted, max + 1);
         }
 
-        public void AddTask(string description)
+        public void AddTask(string description, TaskAssignee assignee)
         {
             var task = new TaskItem
             {
@@ -114,7 +114,8 @@ namespace Project.Services
                 Description = description,
                 Status = TaskStage.ToDo,
                 Completed = null,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                Assignee = assignee
             };
 
             _tasks.Add(task);
@@ -224,9 +225,9 @@ namespace Project.Services
                 _repository.SaveTasks(_tasks);
         }
 
-// This method ensures that all tasks have a valid CreatedAt timestamp.
-// If any task has CreatedAt set to the default value (DateTime.MinValue), 
-// it is updated to the current UTC time.
+        // This method ensures that all tasks have a valid CreatedAt timestamp.
+        // If any task has CreatedAt set to the default value (DateTime.MinValue), 
+        // it is updated to the current UTC time.
         private void EnsureCreatedAtValues()
         {
             bool hasChanges = false;

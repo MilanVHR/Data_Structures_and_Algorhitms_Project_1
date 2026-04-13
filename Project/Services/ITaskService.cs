@@ -36,12 +36,12 @@ namespace Project.Services
 
         // Combines sorting and filtering in one method to avoid multiple iterations.
         IMyCollection<TaskItem> GetSortedAndFilteredTasks(TaskSortField sortField, bool ascending, TaskFilterField filterField);
-        
+
         // Returns a task by ID, or null if not found.
         TaskItem? GetTaskById(int id);
 
-        // Creates a new task with the given description.
-        void AddTask(string description);
+        // Creates a new task with the given description and assignee.
+        void AddTask(string description, TaskAssignee assignee);
 
         // Removes a task by its ID.
         // Returns true when removed, false when not found.

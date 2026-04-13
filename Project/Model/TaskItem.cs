@@ -18,6 +18,13 @@ namespace Project.Model
         Done
     }
 
+    public enum TaskAssignee
+    {
+        Halit,
+        Milan,
+        Menno
+    }
+
     public class TaskItem
     {
         // Unique identifier for the task.
@@ -36,10 +43,13 @@ namespace Project.Model
         // UTC creation timestamp used for sorting and history views.
         public DateTime CreatedAt { get; set; }
 
+        // Person responsible for this task.
+        public TaskAssignee? Assignee { get; set; }
+
         // Converts the task into a readable string for display in the console UI.
         public override string ToString()
         {
-            return $"[{Id}] [{Status}] {Description}";
+            return $"[{Id}] [{Status}] [{Assignee}] {Description}";
         }
     }
 }
