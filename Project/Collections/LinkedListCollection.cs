@@ -140,34 +140,99 @@ namespace Project.Collections
             return filtered;
         }
 
-        // Sorts the list using a bubble sort
+        // Sorts the list using merge sort
         public void Sort(Comparison<T> comparison)
         {
+            if (comparison == null)
+                throw new ArgumentNullException(nameof(comparison));
+
             if (_head == null || _head.Next == null)
                 return;
 
-            bool swapped;
+            _head = MergeSort(_head, comparison);
 
-            do
+            // Rebuild _tail after sorting
+            _tail = _head;
+            while (_tail != null && _tail.Next != null)
             {
-                swapped = false;
-                LinkedListNode<T>? current = _head;
-
-                while (current != null && current.Next != null)
-                {
-                    if (comparison(current.Data, current.Next.Data) > 0)
-                    {
-                        T temp = current.Data;
-                        current.Data = current.Next.Data;
-                        current.Next.Data = temp;
-                        swapped = true;
-                    }
-
-                    current = current.Next;
-                }
+                _tail = _tail.Next;
             }
-            while (swapped);
         }
+
+        private LinkedListNode<T>? MergeSort(LinkedListNode<T>? head, Comparison<T> comparison)
+        {
+            if (head == null || head.Next == null)
+                return head;
+
+            LinkedListNode<T> middle = GetMiddle(head);
+            LinkedListNode<T>? rightHalf = middle.Next;
+            middle.Next = null;
+
+            LinkedListNode<T>? left = MergeSort(head, comparison);
+            LinkedListNode<T>? right = MergeSort(rightHalf, comparison);
+
+            return Merge(left, right, comparison);
+        }
+
+        private LinkedListNode<T> GetMiddle(LinkedListNode<T> head)
+        {
+            LinkedListNode<T> slow = head;
+            LinkedListNode<T>? fast = head.Next;
+
+            while (fast != null && fast.Next != null)
+            {
+                slow = slow.Next!;
+                fast = fast.Next.Next;
+            }
+
+            return slow;
+        }
+
+        private LinkedListNode<T>? Merge(LinkedListNode<T>? left, LinkedListNode<T>? right, Comparison<T> comparison)
+        {
+            if (left == null) return right;
+            if (right == null) return left;
+
+            LinkedListNode<T>? head;
+            LinkedListNode<T>? tail;
+
+            // Initialize head and tail
+            if (comparison(left.Data, right.Data) <= 0)
+            {
+                head = left;
+                left = left.Next;
+            }
+            else
+            {
+                head = right;
+                right = right.Next;
+            }
+
+            tail = head;
+
+            // Merge remaining nodes
+            while (left != null && right != null)
+            {
+                if (comparison(left.Data, right.Data) <= 0)
+                {
+                    tail.Next = left;
+                    left = left.Next;
+                }
+                else
+                {
+                    tail.Next = right;
+                    right = right.Next;
+                }
+
+                tail = tail.Next!;
+            }
+
+            // Attach remaining part
+            tail.Next = left ?? right;
+
+            return head;
+        }
+
 
         // Aggregates all elements into 1 value
         public R Reduce<R>(R initial, Func<R, T, R> accumulator)
