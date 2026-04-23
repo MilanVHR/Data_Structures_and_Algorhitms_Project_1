@@ -48,8 +48,16 @@ namespace Project.Repository
             if (tasks == null)
                 return _collectionFactory.Create();
 
-            // Convert the array into your custom collection implementation.
-            return _collectionFactory.CreateFromArray(tasks);
+            // Create the configured collection implementation
+            // and copy all tasks into it.
+            IMyCollection<TaskItem> collection = _collectionFactory.Create();
+
+            foreach (TaskItem task in tasks)
+            {
+                collection.Add(task);
+            }
+
+            return collection;
         }
 
         public void SaveTasks(IMyCollection<TaskItem> tasks)

@@ -7,8 +7,7 @@ namespace Project.Collections
 {
     public interface IMyCollectionFactory<T>
     {
-        IMyCollection<T> Create(int capacity = 8);
-
-        IMyCollection<T> CreateFromArray(T[] items);
+        string Name { get; }
+        IMyCollection<T> Create();
     }
 }

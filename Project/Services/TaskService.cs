@@ -37,7 +37,7 @@ namespace Project.Services
 
         public IMyCollection<TaskItem> GetSortedTasks(TaskSortField sortField, bool ascending)
         {
-            IMyCollection<TaskItem> sorted = _collectionFactory.Create(_tasks.Count > 0 ? _tasks.Count : 8);
+            IMyCollection<TaskItem> sorted = _collectionFactory.Create();
 
             var it = _tasks.GetIterator();
             while (it.HasNext())
@@ -64,7 +64,7 @@ namespace Project.Services
         public IMyCollection<TaskItem> GetSortedAndFilteredTasks(TaskSortField sortField, bool ascending, TaskFilterField filterField)
         {
             var filtered = GetFilteredTasks(filterField);
-            var sorted = _collectionFactory.Create(filtered.Count > 0 ? filtered.Count : 8);
+            var sorted = _collectionFactory.Create();
 
             var it = filtered.GetIterator();
             while (it.HasNext())
