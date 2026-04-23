@@ -8,11 +8,17 @@ namespace Project
         public static IMyCollectionFactory<TaskItem> ChooseFactory()
         {
             List<IMyCollectionFactory<TaskItem>> factories =
-                CollectionFactoryResolver.GetAllFactories<TaskItem>();
+                CollectionFactoryFinder.GetAllFactories<TaskItem>();
+
+            Console.WriteLine($"Factories found: {factories.Count}");
+            foreach (var f in factories)
+            {
+                Console.WriteLine($"- {f.Name}");
+            }
 
             while (true)
             {
-                Console.Clear();
+                //Console.Clear();
                 Console.WriteLine("Choose which data structure you want to use:");
                 Console.WriteLine();
 
