@@ -1,1 +1,702 @@
-[]
+[
+    {
+    "Id": 1,
+    "Description": "Set up the project repository.",
+    "Status": 3,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:04:15.8496478Z"
+  },
+  {
+    "Id": 2,
+    "Description": "Create the database schema.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:04:39.3308369Z"
+  },
+  {
+    "Id": 3,
+    "Description": "Design the users table.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:05:05.771912Z"
+  },
+  {
+    "Id": 4,
+    "Description": "Design the tasks table.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:05:16.173533Z"
+  },
+  {
+    "Id": 5,
+    "Description": "Write SQL migration scripts.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:05:23.4220165Z"
+  },
+  {
+    "Id": 6,
+    "Description": "Create seed data for testing.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:05:31.6127691Z"
+  },
+  {
+    "Id": 7,
+    "Description": "Build the login endpoint.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:05:37.1469397Z"
+  },
+  {
+    "Id": 8,
+    "Description": "Build the register endpoint.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:05:48.4863649Z"
+  },
+  {
+    "Id": 9,
+    "Description": "Hash user passwords before saving them.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:06:00Z"
+  },
+  {
+    "Id": 10,
+    "Description": "Add JWT authentication.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:06:05Z"
+  },
+  {
+    "Id": 11,
+    "Description": "Create middleware for protected routes.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:06:10Z"
+  },
+  {
+    "Id": 12,
+    "Description": "Create CRUD endpoints for tasks.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:06:15Z"
+  },
+  {
+    "Id": 13,
+    "Description": "Create endpoint to update task status.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:06:20Z"
+  },
+  {
+    "Id": 14,
+    "Description": "Validate request body data.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:06:25Z"
+  },
+  {
+    "Id": 15,
+    "Description": "Add error handling for API requests.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:06:30Z"
+  },
+  {
+    "Id": 16,
+    "Description": "Write unit tests for task creation.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:06:35Z"
+  },
+  {
+    "Id": 17,
+    "Description": "Write unit tests for task deletion.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:06:40Z"
+  },
+  {
+    "Id": 18,
+    "Description": "Write integration tests for authentication.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:06:45Z"
+  },
+  {
+    "Id": 19,
+    "Description": "Optimize SQL queries for task loading.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:06:50Z"
+  },
+  {
+    "Id": 20,
+    "Description": "Add indexes to frequently searched columns.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:06:55Z"
+  },
+  {
+    "Id": 21,
+    "Description": "Create database relationships.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:07:00Z"
+  },
+  {
+    "Id": 22,
+    "Description": "Add foreign key constraints.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:07:05Z"
+  },
+  {
+    "Id": 23,
+    "Description": "Create ERD diagram for the database.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:07:10Z"
+  },
+  {
+    "Id": 24,
+    "Description": "Document all API routes.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:07:15Z"
+  },
+  {
+    "Id": 25,
+    "Description": "Create Swagger documentation.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:07:20Z"
+  },
+  {
+    "Id": 26,
+    "Description": "Implement pagination for task lists.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:07:25Z"
+  },
+  {
+    "Id": 27,
+    "Description": "Implement search functionality.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:07:30Z"
+  },
+  {
+    "Id": 28,
+    "Description": "Implement task filtering by status.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:07:35Z"
+  },
+  {
+    "Id": 29,
+    "Description": "Implement task sorting by creation date.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:07:40Z"
+  },
+  {
+    "Id": 30,
+    "Description": "Build frontend task list component.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:07:45Z"
+  },
+  {
+    "Id": 31,
+    "Description": "Build frontend task creation form.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:07:50Z"
+  },
+  {
+    "Id": 32,
+    "Description": "Build frontend task edit modal.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:07:55Z"
+  },
+  {
+    "Id": 33,
+    "Description": "Connect frontend to backend API.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:08:00Z"
+  },
+  {
+    "Id": 34,
+    "Description": "Handle loading states in the UI.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:08:05Z"
+  },
+  {
+    "Id": 35,
+    "Description": "Handle API error messages in the UI.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:08:10Z"
+  },
+  {
+    "Id": 36,
+    "Description": "Add form validation on the frontend.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:08:15Z"
+  },
+  {
+    "Id": 37,
+    "Description": "Implement responsive layout.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:08:20Z"
+  },
+  {
+    "Id": 38,
+    "Description": "Create dashboard page.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:08:25Z"
+  },
+  {
+    "Id": 39,
+    "Description": "Create profile page.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:08:30Z"
+  },
+  {
+    "Id": 40,
+    "Description": "Add logout functionality.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:08:35Z"
+  },
+  {
+    "Id": 41,
+    "Description": "Store authentication token securely.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:08:40Z"
+  },
+  {
+    "Id": 42,
+    "Description": "Create role based access control.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:08:45Z"
+  },
+  {
+    "Id": 43,
+    "Description": "Add admin permissions.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:08:50Z"
+  },
+  {
+    "Id": 44,
+    "Description": "Create admin dashboard.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:08:55Z"
+  },
+  {
+    "Id": 45,
+    "Description": "Create algorithm to prioritize tasks.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:09:00Z"
+  },
+  {
+    "Id": 46,
+    "Description": "Implement binary search practice function.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:09:05Z"
+  },
+  {
+    "Id": 47,
+    "Description": "Implement quicksort algorithm.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:09:10Z"
+  },
+  {
+    "Id": 48,
+    "Description": "Implement mergesort algorithm.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:09:15Z"
+  },
+  {
+    "Id": 49,
+    "Description": "Implement stack data structure.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:09:20Z"
+  },
+  {
+    "Id": 50,
+    "Description": "Implement queue data structure.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:09:25Z"
+  },
+  {
+    "Id": 51,
+    "Description": "Implement linked list data structure.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:09:30Z"
+  },
+  {
+    "Id": 52,
+    "Description": "Implement hash map example.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:09:35Z"
+  },
+  {
+    "Id": 53,
+    "Description": "Create graph traversal using BFS.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:09:40Z"
+  },
+  {
+    "Id": 54,
+    "Description": "Create graph traversal using DFS.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:09:45Z"
+  },
+  {
+    "Id": 55,
+    "Description": "Analyze time complexity of algorithms.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:09:50Z"
+  },
+  {
+    "Id": 56,
+    "Description": "Analyze space complexity of algorithms.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:09:55Z"
+  },
+  {
+    "Id": 57,
+    "Description": "Create Big O notation notes.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:10:00Z"
+  },
+  {
+    "Id": 58,
+    "Description": "Refactor duplicate backend code.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:10:05Z"
+  },
+  {
+    "Id": 59,
+    "Description": "Refactor frontend components.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:10:10Z"
+  },
+  {
+    "Id": 60,
+    "Description": "Fix broken API response format.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:10:15Z"
+  },
+  {
+    "Id": 61,
+    "Description": "Fix database connection bug.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:10:20Z"
+  },
+  {
+    "Id": 62,
+    "Description": "Fix authentication redirect bug.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:10:25Z"
+  },
+  {
+    "Id": 63,
+    "Description": "Fix task status update bug.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:10:30Z"
+  },
+  {
+    "Id": 64,
+    "Description": "Add logging for backend errors.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:10:35Z"
+  },
+  {
+    "Id": 65,
+    "Description": "Add environment variables.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:10:40Z"
+  },
+  {
+    "Id": 66,
+    "Description": "Create .env example file.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:10:45Z"
+  },
+  {
+    "Id": 67,
+    "Description": "Set up Docker for the database.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:10:50Z"
+  },
+  {
+    "Id": 68,
+    "Description": "Create Docker Compose file.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:10:55Z"
+  },
+  {
+    "Id": 69,
+    "Description": "Test app inside Docker container.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:11:00Z"
+  },
+  {
+    "Id": 70,
+    "Description": "Set up CI pipeline.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:11:05Z"
+  },
+  {
+    "Id": 71,
+    "Description": "Run tests automatically on push.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:11:10Z"
+  },
+  {
+    "Id": 72,
+    "Description": "Add linting to the project.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:11:15Z"
+  },
+  {
+    "Id": 73,
+    "Description": "Format code with Prettier.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:11:20Z"
+  },
+  {
+    "Id": 74,
+    "Description": "Create README setup instructions.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:11:25Z"
+  },
+  {
+    "Id": 75,
+    "Description": "Add screenshots to README.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:11:30Z"
+  },
+  {
+    "Id": 76,
+    "Description": "Create database backup script.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:11:35Z"
+  },
+  {
+    "Id": 77,
+    "Description": "Create database restore script.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:11:40Z"
+  },
+  {
+    "Id": 78,
+    "Description": "Test database backup and restore.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:11:45Z"
+  },
+  {
+    "Id": 79,
+    "Description": "Normalize the database tables.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:11:50Z"
+  },
+  {
+    "Id": 80,
+    "Description": "Check database for redundant data.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:11:55Z"
+  },
+  {
+    "Id": 81,
+    "Description": "Create SQL joins practice queries.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:12:00Z"
+  },
+  {
+    "Id": 82,
+    "Description": "Create SQL aggregation queries.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:12:05Z"
+  },
+  {
+    "Id": 83,
+    "Description": "Create stored procedure example.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:12:10Z"
+  },
+  {
+    "Id": 84,
+    "Description": "Create database trigger example.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:12:15Z"
+  },
+  {
+    "Id": 85,
+    "Description": "Add completed timestamp when task is done.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:12:20Z"
+  },
+  {
+    "Id": 86,
+    "Description": "Test status workflow logic.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:12:25Z"
+  },
+  {
+    "Id": 87,
+    "Description": "Prevent invalid status values.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:12:30Z"
+  },
+  {
+    "Id": 88,
+    "Description": "Create enum for task statuses.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:12:35Z"
+  },
+  {
+    "Id": 89,
+    "Description": "Add comments to complex code sections.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:12:40Z"
+  },
+  {
+    "Id": 90,
+    "Description": "Remove unused imports.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:12:45Z"
+  },
+  {
+    "Id": 91,
+    "Description": "Remove unused database columns.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:12:50Z"
+  },
+  {
+    "Id": 92,
+    "Description": "Create final project presentation notes.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:12:55Z"
+  },
+  {
+    "Id": 93,
+    "Description": "Prepare demo data for presentation.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:13:00Z"
+  },
+  {
+    "Id": 94,
+    "Description": "Test the full user flow.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:13:05Z"
+  },
+  {
+    "Id": 95,
+    "Description": "Fix UI bug on mobile screen size.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:13:10Z"
+  },
+  {
+    "Id": 96,
+    "Description": "Review code before submission.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:13:15Z"
+  },
+  {
+    "Id": 97,
+    "Description": "Merge feature branch into main.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:13:20Z"
+  },
+  {
+    "Id": 98,
+    "Description": "Deploy the application.",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:13:25Z"
+  },
+  {
+    "Id": 99,
+    "Description": "Verify production database connection.",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:13:30Z"
+  },
+  {
+    "Id": 100,
+    "Description": "Submit the final IT project.",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:13:35Z"
+  }
+]
