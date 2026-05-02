@@ -12,6 +12,7 @@ using Project.Services;
 using Project.View;
 using Project.Collections;
 using Project.Model;
+using Spectre.Console;
 
 namespace Project
 {
@@ -22,7 +23,21 @@ namespace Project
             // Path to the JSON file where tasks will be saved.
             // The repository handles reading/writing this file.
             string filePath = "Data/tasks.json";
-            IMyCollectionFactory<TaskItem> collectionFactory = new BstCollectionFactory<TaskItem>();
+
+            // Ask the user which data structure to use as the backing collection.
+            Console.Clear();
+            string choice = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("[bold]Choose a data structure:[/]")
+                    .AddChoices("Array", "Linked List", "Binary Search Tree")
+                    .HighlightStyle(new Style(foreground: Color.Green)));
+
+            IMyCollectionFactory<TaskItem> collectionFactory = choice switch
+            {
+                "Array"               => new ArrayCollectionFactory<TaskItem>(),
+                "Linked List"         => new LinkedListCollectionFactory<TaskItem>(),
+                "Binary Search Tree"  => new BstCollectionFactory<TaskItem>()
+            };
 
             // Create the repository (data persistence layer).
             ITaskRepository repository = new JsonTaskRepository(filePath, collectionFactory);
