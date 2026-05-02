@@ -22,7 +22,7 @@ namespace Project
             // Path to the JSON file where tasks will be saved.
             // The repository handles reading/writing this file.
             string filePath = "Data/tasks.json";
-            IMyCollectionFactory<TaskItem> collectionFactory = new LinkedListCollectionFactory<TaskItem>();
+            IMyCollectionFactory<TaskItem> collectionFactory = new BstCollectionFactory<TaskItem>();
 
             // Create the repository (data persistence layer).
             ITaskRepository repository = new JsonTaskRepository(filePath, collectionFactory);
