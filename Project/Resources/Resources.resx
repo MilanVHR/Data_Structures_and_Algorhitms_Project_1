@@ -145,6 +145,22 @@
     <value>Filter Tasks</value>
     <comment/>
   </data>
+  <data name="Page_Task" xml:space="preserve">
+    <value>Page Tasks</value>
+    <comment/>
+  </data>
+  <data name="Previous_Page" xml:space="preserve">
+    <value>Previous page</value>
+    <comment/>
+  </data>
+  <data name="Next_Page" xml:space="preserve">
+    <value>Next page</value>
+    <comment/>
+  </data>
+  <data name="Page_Label" xml:space="preserve">
+    <value>Page</value>
+    <comment/>
+  </data>
   <data name="Quit" xml:space="preserve">
     <value>Quit</value>
     <comment/>

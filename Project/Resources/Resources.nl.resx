@@ -145,6 +145,22 @@
     <value>Taken filteren</value>
     <comment/>
   </data>
+  <data name="Page_Task" xml:space="preserve">
+    <value>Paginer taken</value>
+    <comment/>
+  </data>
+  <data name="Previous_Page" xml:space="preserve">
+    <value>Vorige pagina</value>
+    <comment/>
+  </data>
+  <data name="Next_Page" xml:space="preserve">
+    <value>Volgende pagina</value>
+    <comment/>
+  </data>
+  <data name="Page_Label" xml:space="preserve">
+    <value>Pagina</value>
+    <comment/>
+  </data>
   <data name="Quit" xml:space="preserve">
     <value>Afsluiten</value>
     <comment/>
