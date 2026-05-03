@@ -147,6 +147,87 @@ namespace Project.View
             int toReviewPageCount = GetPageCount(toReviewTasks.Count);
             int donePageCount = GetPageCount(doneTasks.Count);
 
+            // If a task is selected for highlighting, switch to the page where it is located
+            if (selectedTaskId.HasValue)
+            {
+                TaskItem? selectedTask = null;
+                var tasksIt = tasks.GetIterator();
+                while (tasksIt.HasNext())
+                {
+                    var task = tasksIt.Next();
+                    if (task.Id == selectedTaskId.Value)
+                    {
+                        selectedTask = task;
+                        break;
+                    }
+                }
+                // If the selected task is found, determine which lane it belongs to and calculate the page index for that lane.
+                if (selectedTask != null)
+                {
+                    int taskIndex = -1;
+                    IMyCollection<TaskItem> laneTasks = null;
+                    int pageCount = 0;
+                    // Determine which lane the selected task belongs to and get the corresponding collection and page count for that lane.
+                    switch (selectedTask.Status)
+                    {
+                        case TaskStage.ToDo:
+                            laneTasks = toDoTasks;
+                            pageCount = toDoPageCount;
+                            break;
+                        case TaskStage.Doing:
+                            laneTasks = doingTasks;
+                            pageCount = doingPageCount;
+                            break;
+                        case TaskStage.ToReview:
+                            laneTasks = toReviewTasks;
+                            pageCount = toReviewPageCount;
+                            break;
+                        case TaskStage.Done:
+                            laneTasks = doneTasks;
+                            pageCount = donePageCount;
+                            break;
+                    }
+                    // If the lane collection is found, iterate through it to find the index of the selected task.
+                    if (laneTasks != null)
+                    {
+                        var laneIt = laneTasks.GetIterator();
+                        int index = 0;
+                        while (laneIt.HasNext())
+                        {
+                            // Check if the current task in the lane matches the selected task ID. If it does, store the index and break the loop.
+                            if (laneIt.Next().Id == selectedTaskId.Value)
+                            {
+                                taskIndex = index;
+                                break;
+                            }
+                            index++;
+                        }
+                        // If the task index is found, calculate the target page based on the index and update the corresponding page variable for that lane 
+                        // to ensure the selected task is visible when the board is displayed.
+                        if (taskIndex >= 0)
+                        {
+                            // Calculate the target page index for the selected task based on its position in the lane and the defined page size.
+                            int targetPage = taskIndex / PageSize;
+                            switch (selectedTask.Status)
+                            {
+                                case TaskStage.ToDo:
+                                    _toDoPage = ClampPageIndex(targetPage, pageCount);
+                                    break;
+                                case TaskStage.Doing:
+                                    _doingPage = ClampPageIndex(targetPage, pageCount);
+                                    break;
+                                case TaskStage.ToReview:
+                                    _toReviewPage = ClampPageIndex(targetPage, pageCount);
+                                    break;
+                                case TaskStage.Done:
+                                    _donePage = ClampPageIndex(targetPage, pageCount);
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+
             _toDoPage = ClampPageIndex(_toDoPage, toDoPageCount);
             _doingPage = ClampPageIndex(_doingPage, doingPageCount);
             _toReviewPage = ClampPageIndex(_toReviewPage, toReviewPageCount);
