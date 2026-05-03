@@ -588,16 +588,43 @@ namespace Project.View
             DisplayTasks(Texts.Get("Update_Task"), id);
             AnsiConsole.MarkupLine($"[bold yellow]{Texts.Get("Selected_Task_Highlighted")}[/]");
 
-            string newDesc = AnsiConsole.Ask<string>($"[green]{Texts.Get("New_Description_Prompt")}[/]");
+            var updateDescriptionChoice = Texts.Get("Update_Description");
+            var updateAssigneeChoice = Texts.Get("Update_Assignee");
 
-            if (!Confirm(Texts.Get("Confirm_Save_Changes")))
+            string updateChoice = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title($"[yellow]{Texts.Get("Update_Field_Prompt")}[/]")
+                    .HighlightStyle(new Style(Color.Cyan1))
+                    .AddChoices(updateDescriptionChoice, updateAssigneeChoice));
+
+            bool updated;
+
+            if (updateChoice == updateAssigneeChoice)
             {
-                DisplayTasks(Texts.Get("Update_Task"), id);
-                AnsiConsole.MarkupLine($"[bold yellow]{Texts.Get("Update_Cancelled")}[/]");
-                return;
-            }
+                string? newAssignee = PromptAssignee();
 
-            bool updated = _service.UpdateTaskDescription(id, newDesc);
+                if (!Confirm(Texts.Get("Confirm_Save_Changes")))
+                {
+                    DisplayTasks(Texts.Get("Update_Task"), id);
+                    AnsiConsole.MarkupLine($"[bold yellow]{Texts.Get("Update_Cancelled")}[/]");
+                    return;
+                }
+
+                updated = _service.UpdateTaskAssignee(id, newAssignee ?? string.Empty);
+            }
+            else
+            {
+                string newDesc = AnsiConsole.Ask<string>($"[green]{Texts.Get("New_Description_Prompt")}[/]");
+
+                if (!Confirm(Texts.Get("Confirm_Save_Changes")))
+                {
+                    DisplayTasks(Texts.Get("Update_Task"), id);
+                    AnsiConsole.MarkupLine($"[bold yellow]{Texts.Get("Update_Cancelled")}[/]");
+                    return;
+                }
+
+                updated = _service.UpdateTaskDescription(id, newDesc);
+            }
 
             DisplayTasks(Texts.Get("Update_Task"));
             AnsiConsole.MarkupLine(

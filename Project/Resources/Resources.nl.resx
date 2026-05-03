@@ -325,6 +325,18 @@
     <value>Nieuwe beschrijving:</value>
     <comment/>
   </data>
+  <data name="Update_Field_Prompt" xml:space="preserve">
+    <value>Wat wil je bijwerken?</value>
+    <comment/>
+  </data>
+  <data name="Update_Description" xml:space="preserve">
+    <value>Bijwerking beschrijving</value>
+    <comment/>
+  </data>
+  <data name="Update_Assignee" xml:space="preserve">
+    <value>Bijwerking toegewezen persoon</value>
+    <comment/>
+  </data>
   <data name="Confirm_Save_Changes" xml:space="preserve">
     <value>Wil je deze wijziging opslaan?</value>
     <comment/>

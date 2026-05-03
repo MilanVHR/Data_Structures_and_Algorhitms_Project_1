@@ -329,6 +329,18 @@
     <value>New description:</value>
     <comment/>
   </data>
+  <data name="Update_Field_Prompt" xml:space="preserve">
+    <value>What do you want to update?</value>
+    <comment/>
+  </data>
+  <data name="Update_Description" xml:space="preserve">
+    <value>Update description</value>
+    <comment/>
+  </data>
+  <data name="Update_Assignee" xml:space="preserve">
+    <value>Update assignee</value>
+    <comment/>
+  </data>
   <data name="Confirm_Save_Changes" xml:space="preserve">
     <value>Do you want to save this change?</value>
     <comment/>

@@ -55,6 +55,10 @@ namespace Project.Services
         // Returns true when updated, false when not found.
         bool UpdateTaskDescription(int id, string newDescription);
 
+        // Updates the assignee of a task by its ID.
+        // Returns true when updated, false when not found.
+        bool UpdateTaskAssignee(int id, string assignedTo);
+
         // Gets the list of available assignees.
         List<string> GetAssignees();
     }

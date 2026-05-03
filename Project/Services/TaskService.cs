@@ -179,6 +179,27 @@ namespace Project.Services
             return false;
         }
 
+        public bool UpdateTaskAssignee(int id, string assignedTo)
+        {
+            var task = GetTaskById(id);
+
+            if (task != null)
+            {
+                task.AssignedTo = assignedTo;
+
+                if (!string.IsNullOrEmpty(assignedTo) && !_assignees.Contains(assignedTo))
+                {
+                    _assignees.Add(assignedTo);
+                    _repository.SaveAssignees(_assignees);
+                }
+
+                _repository.SaveTasks(_tasks);
+                return true;
+            }
+
+            return false;
+        }
+
         // Helper method to compare two tasks based on the selected sort field and direction.
         private int CompareByField(TaskItem left, TaskItem right, TaskSortField sortField, bool ascending)
         {
