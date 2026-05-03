@@ -417,4 +417,24 @@
     <value>Klaar taken</value>
     <comment/>
   </data>
+  <data name="Assign_Task_Prompt" xml:space="preserve">
+    <value>Wie wilt u deze taak toewijzen?</value>
+    <comment/>
+  </data>
+  <data name="Other_Add_New_Name" xml:space="preserve">
+    <value>Anders (Nieuwe naam toevoegen)</value>
+    <comment/>
+  </data>
+  <data name="Enter_New_Name" xml:space="preserve">
+    <value>Voer nieuwe naam in:</value>
+    <comment/>
+  </data>
+  <data name="Assigned_To" xml:space="preserve">
+    <value>Toegewezen aan</value>
+    <comment/>
+  </data>
+  <data name="Unassigned" xml:space="preserve">
+    <value>Niet toegewezen</value>
+    <comment/>
+  </data>
 </root>
