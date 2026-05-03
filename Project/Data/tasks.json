@@ -1,70 +1,8 @@
 [
   {
-    "Id": 1,
-    "Description": "Set up the project repository.",
-    "Status": 3,
-    "Completed": null,
-    "CreatedAt": "2026-05-02T18:04:15.8496478Z"
-  },
-  {
-    "Id": 2,
-    "Description": "Create the database schema.",
-    "Status": 2,
-    "Completed": null,
-    "CreatedAt": "2026-05-02T18:04:39.3308369Z"
-  },
-  {
-    "Id": 3,
-    "Description": "Design the users table.",
-    "Status": 1,
-    "Completed": null,
-    "CreatedAt": "2026-05-02T18:05:05.771912Z"
-  },
-  {
-    "Id": 4,
-    "Description": "Design the tasks table.",
-    "Status": 0,
-    "Completed": null,
-    "CreatedAt": "2026-05-02T18:05:16.173533Z"
-  },
-  {
-    "Id": 5,
-    "Description": "Write SQL migration scripts.",
-    "Status": 1,
-    "Completed": null,
-    "CreatedAt": "2026-05-02T18:05:23.4220165Z"
-  },
-  {
-    "Id": 6,
-    "Description": "Create seed data for testing.",
-    "Status": 2,
-    "Completed": null,
-    "CreatedAt": "2026-05-02T18:05:31.6127691Z"
-  },
-  {
-    "Id": 7,
-    "Description": "Build the login endpoint.",
-    "Status": 0,
-    "Completed": null,
-    "CreatedAt": "2026-05-02T18:05:37.1469397Z"
-  },
-  {
-    "Id": 8,
-    "Description": "Build the register endpoint.",
-    "Status": 1,
-    "Completed": null,
-    "CreatedAt": "2026-05-02T18:05:48.4863649Z"
-  },
-  {
-    "Id": 9,
-    "Description": "Hash user passwords before saving them.",
-    "Status": 2,
-    "Completed": null,
-    "CreatedAt": "2026-05-02T18:06:00Z"
-  },
-  {
     "Id": 10,
     "Description": "Add JWT authentication.",
+    "AssignedTo": "Halit",
     "Status": 0,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:06:05Z"
@@ -72,6 +10,7 @@
   {
     "Id": 11,
     "Description": "Create middleware for protected routes.",
+    "AssignedTo": "Menno",
     "Status": 1,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:06:10Z"
@@ -79,6 +18,7 @@
   {
     "Id": 12,
     "Description": "Create CRUD endpoints for tasks.",
+    "AssignedTo": "Milan",
     "Status": 2,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:06:15Z"
@@ -86,6 +26,7 @@
   {
     "Id": 13,
     "Description": "Create endpoint to update task status.",
+    "AssignedTo": "Halit",
     "Status": 0,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:06:20Z"
@@ -93,6 +34,7 @@
   {
     "Id": 14,
     "Description": "Validate request body data.",
+    "AssignedTo": "Menno",
     "Status": 1,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:06:25Z"
@@ -100,6 +42,7 @@
   {
     "Id": 15,
     "Description": "Add error handling for API requests.",
+    "AssignedTo": "Milan",
     "Status": 2,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:06:30Z"
@@ -107,6 +50,7 @@
   {
     "Id": 16,
     "Description": "Write unit tests for task creation.",
+    "AssignedTo": "Halit",
     "Status": 0,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:06:35Z"
@@ -114,6 +58,7 @@
   {
     "Id": 17,
     "Description": "Write unit tests for task deletion.",
+    "AssignedTo": "Menno",
     "Status": 1,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:06:40Z"
@@ -121,6 +66,7 @@
   {
     "Id": 18,
     "Description": "Write integration tests for authentication.",
+    "AssignedTo": "Milan",
     "Status": 2,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:06:45Z"
@@ -128,13 +74,23 @@
   {
     "Id": 19,
     "Description": "Optimize SQL queries for task loading.",
+    "AssignedTo": "Halit",
     "Status": 0,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:06:50Z"
   },
   {
+    "Id": 1,
+    "Description": "Set up the project repository.",
+    "AssignedTo": "Menno",
+    "Status": 3,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:04:15.8496478Z"
+  },
+  {
     "Id": 20,
     "Description": "Add indexes to frequently searched columns.",
+    "AssignedTo": "Milan",
     "Status": 1,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:06:55Z"
@@ -142,6 +98,7 @@
   {
     "Id": 21,
     "Description": "Create database relationships.",
+    "AssignedTo": "Halit",
     "Status": 2,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:07:00Z"
@@ -149,6 +106,7 @@
   {
     "Id": 22,
     "Description": "Add foreign key constraints.",
+    "AssignedTo": "Menno",
     "Status": 0,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:07:05Z"
@@ -156,6 +114,7 @@
   {
     "Id": 23,
     "Description": "Create ERD diagram for the database.",
+    "AssignedTo": "Milan",
     "Status": 1,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:07:10Z"
@@ -163,6 +122,7 @@
   {
     "Id": 24,
     "Description": "Document all API routes.",
+    "AssignedTo": "Halit",
     "Status": 2,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:07:15Z"
@@ -170,6 +130,7 @@
   {
     "Id": 25,
     "Description": "Create Swagger documentation.",
+    "AssignedTo": "Menno",
     "Status": 0,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:07:20Z"
@@ -177,6 +138,7 @@
   {
     "Id": 26,
     "Description": "Implement pagination for task lists.",
+    "AssignedTo": "Milan",
     "Status": 1,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:07:25Z"
@@ -184,6 +146,7 @@
   {
     "Id": 27,
     "Description": "Implement search functionality.",
+    "AssignedTo": "Halit",
     "Status": 2,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:07:30Z"
@@ -191,6 +154,7 @@
   {
     "Id": 28,
     "Description": "Implement task filtering by status.",
+    "AssignedTo": "Menno",
     "Status": 0,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:07:35Z"
@@ -198,13 +162,23 @@
   {
     "Id": 29,
     "Description": "Implement task sorting by creation date.",
+    "AssignedTo": "Milan",
     "Status": 1,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:07:40Z"
   },
   {
+    "Id": 2,
+    "Description": "Create the database schema.",
+    "AssignedTo": "Halit",
+    "Status": 2,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:04:39.3308369Z"
+  },
+  {
     "Id": 30,
     "Description": "Build frontend task list component.",
+    "AssignedTo": "Menno",
     "Status": 2,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:07:45Z"
@@ -212,6 +186,7 @@
   {
     "Id": 31,
     "Description": "Build frontend task creation form.",
+    "AssignedTo": "Milan",
     "Status": 0,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:07:50Z"
@@ -219,6 +194,7 @@
   {
     "Id": 32,
     "Description": "Build frontend task edit modal.",
+    "AssignedTo": "Halit",
     "Status": 1,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:07:55Z"
@@ -226,6 +202,7 @@
   {
     "Id": 33,
     "Description": "Connect frontend to backend API.",
+    "AssignedTo": "Menno",
     "Status": 3,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:08:00Z"
@@ -233,6 +210,7 @@
   {
     "Id": 34,
     "Description": "Handle loading states in the UI.",
+    "AssignedTo": "Milan",
     "Status": 0,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:08:05Z"
@@ -240,6 +218,7 @@
   {
     "Id": 35,
     "Description": "Handle API error messages in the UI.",
+    "AssignedTo": "Halit",
     "Status": 1,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:08:10Z"
@@ -247,6 +226,7 @@
   {
     "Id": 36,
     "Description": "Add form validation on the frontend.",
+    "AssignedTo": "Menno",
     "Status": 2,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:08:15Z"
@@ -254,6 +234,7 @@
   {
     "Id": 37,
     "Description": "Implement responsive layout.",
+    "AssignedTo": "Milan",
     "Status": 3,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:08:20Z"
@@ -261,6 +242,7 @@
   {
     "Id": 38,
     "Description": "Create dashboard page.",
+    "AssignedTo": "Halit",
     "Status": 3,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:08:25Z"
@@ -268,13 +250,23 @@
   {
     "Id": 39,
     "Description": "Create profile page.",
+    "AssignedTo": "Menno",
     "Status": 2,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:08:30Z"
   },
   {
+    "Id": 3,
+    "Description": "Design the users table.",
+    "AssignedTo": "Milan",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:05:05.771912Z"
+  },
+  {
     "Id": 40,
     "Description": "Add logout functionality.",
+    "AssignedTo": "Halit",
     "Status": 0,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:08:35Z"
@@ -282,6 +274,7 @@
   {
     "Id": 41,
     "Description": "Store authentication token securely.",
+    "AssignedTo": "Menno",
     "Status": 3,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:08:40Z"
@@ -289,6 +282,7 @@
   {
     "Id": 42,
     "Description": "Create role based access control.",
+    "AssignedTo": "Milan",
     "Status": 3,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:08:45Z"
@@ -296,6 +290,7 @@
   {
     "Id": 43,
     "Description": "Add admin permissions.",
+    "AssignedTo": "Halit",
     "Status": 0,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:08:50Z"
@@ -303,6 +298,7 @@
   {
     "Id": 44,
     "Description": "Create admin dashboard.",
+    "AssignedTo": "Menno",
     "Status": 1,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:08:55Z"
@@ -310,6 +306,7 @@
   {
     "Id": 45,
     "Description": "Create algorithm to prioritize tasks.",
+    "AssignedTo": "Milan",
     "Status": 2,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:09:00Z"
@@ -317,6 +314,7 @@
   {
     "Id": 46,
     "Description": "Implement binary search practice function.",
+    "AssignedTo": "Halit",
     "Status": 0,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:09:05Z"
@@ -324,6 +322,7 @@
   {
     "Id": 47,
     "Description": "Implement quicksort algorithm.",
+    "AssignedTo": "Menno",
     "Status": 1,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:09:10Z"
@@ -331,6 +330,7 @@
   {
     "Id": 48,
     "Description": "Implement mergesort algorithm.",
+    "AssignedTo": "Milan",
     "Status": 2,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:09:15Z"
@@ -338,13 +338,23 @@
   {
     "Id": 49,
     "Description": "Implement stack data structure.",
+    "AssignedTo": "Halit",
     "Status": 3,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:09:20Z"
   },
   {
+    "Id": 4,
+    "Description": "Design the tasks table.",
+    "AssignedTo": "Menno",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:05:16.173533Z"
+  },
+  {
     "Id": 50,
     "Description": "Implement queue data structure.",
+    "AssignedTo": "Milan",
     "Status": 1,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:09:25Z"
@@ -352,6 +362,7 @@
   {
     "Id": 51,
     "Description": "Implement linked list data structure.",
+    "AssignedTo": "Halit",
     "Status": 3,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:09:30Z"
@@ -359,6 +370,7 @@
   {
     "Id": 52,
     "Description": "Implement hash map example.",
+    "AssignedTo": "Menno",
     "Status": 0,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:09:35Z"
@@ -366,6 +378,7 @@
   {
     "Id": 53,
     "Description": "Create graph traversal using BFS.",
+    "AssignedTo": "Milan",
     "Status": 3,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:09:40Z"
@@ -373,6 +386,7 @@
   {
     "Id": 54,
     "Description": "Create graph traversal using DFS.",
+    "AssignedTo": "Halit",
     "Status": 2,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:09:45Z"
@@ -380,6 +394,7 @@
   {
     "Id": 55,
     "Description": "Analyze time complexity of algorithms.",
+    "AssignedTo": "Menno",
     "Status": 0,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:09:50Z"
@@ -387,6 +402,7 @@
   {
     "Id": 56,
     "Description": "Analyze space complexity of algorithms.",
+    "AssignedTo": "Milan",
     "Status": 1,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:09:55Z"
@@ -394,6 +410,7 @@
   {
     "Id": 57,
     "Description": "Create Big O notation notes.",
+    "AssignedTo": "Halit",
     "Status": 3,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:10:00Z"
@@ -401,6 +418,7 @@
   {
     "Id": 58,
     "Description": "Refactor duplicate backend code.",
+    "AssignedTo": "Menno",
     "Status": 3,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:10:05Z"
@@ -408,13 +426,23 @@
   {
     "Id": 59,
     "Description": "Refactor frontend components.",
+    "AssignedTo": "Milan",
     "Status": 1,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:10:10Z"
   },
   {
+    "Id": 5,
+    "Description": "Write SQL migration scripts.",
+    "AssignedTo": "Halit",
+    "Status": 1,
+    "Completed": null,
+    "CreatedAt": "2026-05-02T18:05:23.4220165Z"
+  },
+  {
     "Id": 60,
     "Description": "Fix broken API response format.",
+    "AssignedTo": "Menno",
     "Status": 2,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:10:15Z"
@@ -422,6 +450,7 @@
   {
     "Id": 61,
     "Description": "Fix database connection bug.",
+    "AssignedTo": "Milan",
     "Status": 3,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:10:20Z"
@@ -429,6 +458,7 @@
   {
     "Id": 62,
     "Description": "Fix authentication redirect bug.",
+    "AssignedTo": "Halit",
     "Status": 1,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:10:25Z"
@@ -436,6 +466,7 @@
   {
     "Id": 63,
     "Description": "Fix task status update bug.",
+    "AssignedTo": "Menno",
     "Status": 2,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:10:30Z"
@@ -443,6 +474,7 @@
   {
     "Id": 64,
     "Description": "Add logging for backend errors.",
+    "AssignedTo": "Milan",
     "Status": 0,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:10:35Z"
@@ -450,8 +482,17 @@
   {
     "Id": 65,
     "Description": "Add environment variables.",
+    "AssignedTo": "Halit",
     "Status": 3,
     "Completed": null,
     "CreatedAt": "2026-05-02T18:10:40Z"
+  },
+  {
+    "Id": 66,
+    "Description": "new test 03/05/2026",
+    "AssignedTo": "Menno",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-03T17:39:59.0327687Z"
   }
-] 
+]
