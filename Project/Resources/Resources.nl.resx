@@ -145,6 +145,22 @@
     <value>Taken filteren</value>
     <comment/>
   </data>
+  <data name="Page_Task" xml:space="preserve">
+    <value>Paginer taken</value>
+    <comment/>
+  </data>
+  <data name="Previous_Page" xml:space="preserve">
+    <value>Vorige pagina</value>
+    <comment/>
+  </data>
+  <data name="Next_Page" xml:space="preserve">
+    <value>Volgende pagina</value>
+    <comment/>
+  </data>
+  <data name="Page_Label" xml:space="preserve">
+    <value>Pagina</value>
+    <comment/>
+  </data>
   <data name="Quit" xml:space="preserve">
     <value>Afsluiten</value>
     <comment/>
@@ -325,6 +341,18 @@
     <value>Nieuwe beschrijving:</value>
     <comment/>
   </data>
+  <data name="Update_Field_Prompt" xml:space="preserve">
+    <value>Wat wil je bijwerken?</value>
+    <comment/>
+  </data>
+  <data name="Update_Description" xml:space="preserve">
+    <value>Bijwerking beschrijving</value>
+    <comment/>
+  </data>
+  <data name="Update_Assignee" xml:space="preserve">
+    <value>Bijwerking toegewezen persoon</value>
+    <comment/>
+  </data>
   <data name="Confirm_Save_Changes" xml:space="preserve">
     <value>Wil je deze wijziging opslaan?</value>
     <comment/>
@@ -415,6 +443,26 @@
   </data>
   <data name="Done_Tasks" xml:space="preserve">
     <value>Klaar taken</value>
+    <comment/>
+  </data>
+  <data name="Assign_Task_Prompt" xml:space="preserve">
+    <value>Wie wilt u deze taak toewijzen?</value>
+    <comment/>
+  </data>
+  <data name="Other_Add_New_Name" xml:space="preserve">
+    <value>Anders (Nieuwe naam toevoegen)</value>
+    <comment/>
+  </data>
+  <data name="Enter_New_Name" xml:space="preserve">
+    <value>Voer nieuwe naam in:</value>
+    <comment/>
+  </data>
+  <data name="Assigned_To" xml:space="preserve">
+    <value>Toegewezen aan</value>
+    <comment/>
+  </data>
+  <data name="Unassigned" xml:space="preserve">
+    <value>Niet toegewezen</value>
     <comment/>
   </data>
 </root>

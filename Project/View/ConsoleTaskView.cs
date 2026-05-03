@@ -20,6 +20,12 @@ namespace Project.View
 
         private TaskFilterField _activeFilterField = TaskFilterField.All;
 
+        private const int PageSize = 10;
+        private int _toDoPage;
+        private int _doingPage;
+        private int _toReviewPage;
+        private int _donePage;
+
         public ConsoleTaskView(ITaskService service)
         {
             _service = service;
@@ -80,6 +86,10 @@ namespace Project.View
                         RepeatActionUntilMenu(FilterTasks, Texts.Get("Another_Filter"));
                         break;
 
+                    case var c when c == Texts.Get("Page_Task"):
+                        NavigatePages();
+                        break;
+
                     case var c when c == Texts.Get("Change_Language"):
                         ApplyLanguage(PromptLanguageCulture());
                         break;
@@ -132,6 +142,102 @@ namespace Project.View
                 }
             }
 
+            int toDoPageCount = GetPageCount(toDoTasks.Count);
+            int doingPageCount = GetPageCount(doingTasks.Count);
+            int toReviewPageCount = GetPageCount(toReviewTasks.Count);
+            int donePageCount = GetPageCount(doneTasks.Count);
+
+            // If a task is selected for highlighting, switch to the page where it is located
+            if (selectedTaskId.HasValue)
+            {
+                TaskItem? selectedTask = null;
+                var tasksIt = tasks.GetIterator();
+                while (tasksIt.HasNext())
+                {
+                    var task = tasksIt.Next();
+                    if (task.Id == selectedTaskId.Value)
+                    {
+                        selectedTask = task;
+                        break;
+                    }
+                }
+                // If the selected task is found, determine which lane it belongs to and calculate the page index for that lane.
+                if (selectedTask != null)
+                {
+                    int taskIndex = -1;
+                    IMyCollection<TaskItem> laneTasks = null;
+                    int pageCount = 0;
+                    // Determine which lane the selected task belongs to and get the corresponding collection and page count for that lane.
+                    switch (selectedTask.Status)
+                    {
+                        case TaskStage.ToDo:
+                            laneTasks = toDoTasks;
+                            pageCount = toDoPageCount;
+                            break;
+                        case TaskStage.Doing:
+                            laneTasks = doingTasks;
+                            pageCount = doingPageCount;
+                            break;
+                        case TaskStage.ToReview:
+                            laneTasks = toReviewTasks;
+                            pageCount = toReviewPageCount;
+                            break;
+                        case TaskStage.Done:
+                            laneTasks = doneTasks;
+                            pageCount = donePageCount;
+                            break;
+                    }
+                    // If the lane collection is found, iterate through it to find the index of the selected task.
+                    if (laneTasks != null)
+                    {
+                        var laneIt = laneTasks.GetIterator();
+                        int index = 0;
+                        while (laneIt.HasNext())
+                        {
+                            // Check if the current task in the lane matches the selected task ID. If it does, store the index and break the loop.
+                            if (laneIt.Next().Id == selectedTaskId.Value)
+                            {
+                                taskIndex = index;
+                                break;
+                            }
+                            index++;
+                        }
+                        // If the task index is found, calculate the target page based on the index and update the corresponding page variable for that lane 
+                        // to ensure the selected task is visible when the board is displayed.
+                        if (taskIndex >= 0)
+                        {
+                            // Calculate the target page index for the selected task based on its position in the lane and the defined page size.
+                            int targetPage = taskIndex / PageSize;
+                            switch (selectedTask.Status)
+                            {
+                                case TaskStage.ToDo:
+                                    _toDoPage = ClampPageIndex(targetPage, pageCount);
+                                    break;
+                                case TaskStage.Doing:
+                                    _doingPage = ClampPageIndex(targetPage, pageCount);
+                                    break;
+                                case TaskStage.ToReview:
+                                    _toReviewPage = ClampPageIndex(targetPage, pageCount);
+                                    break;
+                                case TaskStage.Done:
+                                    _donePage = ClampPageIndex(targetPage, pageCount);
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            _toDoPage = ClampPageIndex(_toDoPage, toDoPageCount);
+            _doingPage = ClampPageIndex(_doingPage, doingPageCount);
+            _toReviewPage = ClampPageIndex(_toReviewPage, toReviewPageCount);
+            _donePage = ClampPageIndex(_donePage, donePageCount);
+
+            var toDoPageTasks = GetPagedTasks(toDoTasks, _toDoPage);
+            var doingPageTasks = GetPagedTasks(doingTasks, _doingPage);
+            var toReviewPageTasks = GetPagedTasks(toReviewTasks, _toReviewPage);
+            var donePageTasks = GetPagedTasks(doneTasks, _donePage);
+
             if (_activeFilterField == TaskFilterField.All)
             {
                 var boardTable = new Table()
@@ -143,10 +249,10 @@ namespace Project.View
                     .AddColumn($"[bold green]{Texts.Get("Done")}[/]");
 
                 boardTable.AddRow(
-                    CreateBoardCell(toDoTasks, selectedTaskId, Color.SteelBlue, "steelblue1", "steelblue3"),
-                    CreateBoardCell(doingTasks, selectedTaskId, Color.Orange1, "orange1", "orange3"),
-                    CreateBoardCell(toReviewTasks, selectedTaskId, Color.MediumPurple, "mediumpurple", "mediumpurple3"),
-                    CreateBoardCell(doneTasks, selectedTaskId, Color.Green, "green", "green3"));
+                    CreateBoardCell(toDoPageTasks, selectedTaskId, Color.SteelBlue, "steelblue1", "steelblue3", _toDoPage + 1, toDoPageCount),
+                    CreateBoardCell(doingPageTasks, selectedTaskId, Color.Orange1, "orange1", "orange3", _doingPage + 1, doingPageCount),
+                    CreateBoardCell(toReviewPageTasks, selectedTaskId, Color.MediumPurple, "mediumpurple", "mediumpurple3", _toReviewPage + 1, toReviewPageCount),
+                    CreateBoardCell(donePageTasks, selectedTaskId, Color.Green, "green", "green3", _donePage + 1, donePageCount));
 
                 AnsiConsole.Write(boardTable);
             }
@@ -157,23 +263,23 @@ namespace Project.View
                 switch (_activeFilterField)
                 {
                     case TaskFilterField.ToDo:
-                        lanePanel = CreateLanePanel(Texts.Get("To_Do"), Color.SteelBlue, toDoTasks, selectedTaskId, "steelblue1", "steelblue3");
+                        lanePanel = CreateLanePanel(Texts.Get("To_Do"), Color.SteelBlue, toDoPageTasks, selectedTaskId, "steelblue1", "steelblue3", _toDoPage + 1, toDoPageCount);
                         break;
 
                     case TaskFilterField.Doing:
-                        lanePanel = CreateLanePanel(Texts.Get("Doing"), Color.Orange1, doingTasks, selectedTaskId, "orange1", "orange3");
+                        lanePanel = CreateLanePanel(Texts.Get("Doing"), Color.Orange1, doingPageTasks, selectedTaskId, "orange1", "orange3", _doingPage + 1, doingPageCount);
                         break;
 
                     case TaskFilterField.ToReview:
-                        lanePanel = CreateLanePanel(Texts.Get("To_Review"), Color.MediumPurple, toReviewTasks, selectedTaskId, "mediumpurple", "mediumpurple3");
+                        lanePanel = CreateLanePanel(Texts.Get("To_Review"), Color.MediumPurple, toReviewPageTasks, selectedTaskId, "mediumpurple", "mediumpurple3", _toReviewPage + 1, toReviewPageCount);
                         break;
 
                     case TaskFilterField.Done:
-                        lanePanel = CreateLanePanel(Texts.Get("Done"), Color.Green, doneTasks, selectedTaskId, "green", "green3");
+                        lanePanel = CreateLanePanel(Texts.Get("Done"), Color.Green, donePageTasks, selectedTaskId, "green", "green3", _donePage + 1, donePageCount);
                         break;
 
                     default:
-                        lanePanel = CreateLanePanel(Texts.Get("To_Do"), Color.SteelBlue, toDoTasks, selectedTaskId, "steelblue1", "steelblue3");
+                        lanePanel = CreateLanePanel(Texts.Get("To_Do"), Color.SteelBlue, toDoPageTasks, selectedTaskId, "steelblue1", "steelblue3", _toDoPage + 1, toDoPageCount);
                         break;
                 }
 
@@ -204,6 +310,7 @@ namespace Project.View
                         Texts.Get("Update_Task"),
                         Texts.Get("Sort_Task"),
                         Texts.Get("Filter_Task"),
+                        Texts.Get("Page_Task"),
                         Texts.Get("Change_Language"),
                         Texts.Get("Quit")));
         }
@@ -347,9 +454,11 @@ namespace Project.View
             IMyCollection<TaskItem> laneTasks,
             int? selectedTaskId,
             string accentColor,
-            string secondaryColor)
+            string secondaryColor,
+            int pageIndex,
+            int pageCount)
         {
-            return new Panel(new Markup(BuildLaneContent(laneTasks, selectedTaskId, accentColor, secondaryColor)))
+            return new Panel(new Markup(BuildLaneContent(laneTasks, selectedTaskId, accentColor, secondaryColor, pageIndex, pageCount)))
             {
                 Header = new PanelHeader($"[bold]{title}[/]", Justify.Center),
                 Border = BoxBorder.Rounded,
@@ -365,9 +474,11 @@ namespace Project.View
             int? selectedTaskId,
             Color borderColor,
             string accentColor,
-            string secondaryColor)
+            string secondaryColor,
+            int pageIndex,
+            int pageCount)
         {
-            return new Panel(new Markup(BuildLaneContent(laneTasks, selectedTaskId, accentColor, secondaryColor)))
+            return new Panel(new Markup(BuildLaneContent(laneTasks, selectedTaskId, accentColor, secondaryColor, pageIndex, pageCount)))
             {
                 Border = BoxBorder.Rounded,
                 BorderStyle = new Style(borderColor),
@@ -383,7 +494,9 @@ namespace Project.View
             IMyCollection<TaskItem> laneTasks,
             int? selectedTaskId,
             string accentColor,
-            string secondaryColor)
+            string secondaryColor,
+            int pageIndex,
+            int pageCount)
         {
             var content = new StringBuilder();
             var it = laneTasks.GetIterator();
@@ -391,32 +504,177 @@ namespace Project.View
             if (!it.HasNext())
             {
                 content.Append($"[{secondaryColor}]{Texts.Get("No_Tasks_Yet")}[/]");
-                return content.ToString();
+            }
+            else
+            {
+                while (it.HasNext())
+                {
+                    var task = it.Next();
+                    bool isSelected = selectedTaskId.HasValue && task.Id == selectedTaskId.Value;
+                    var escapedDescription = Markup.Escape(task.Description);
+                    var escapedDate = Markup.Escape(FormatCreatedAt(task.CreatedAt));
+                    var assigneeText = string.IsNullOrEmpty(task.AssignedTo)
+                        ? Texts.Get("Unassigned")
+                        : task.AssignedTo ?? string.Empty;
+                    var escapedAssignee = Markup.Escape(assigneeText);
+
+                    if (isSelected)
+                    {
+                        content.AppendLine($"[black on yellow]#{task.Id} {escapedDescription}[/]");
+                        content.AppendLine($"[black on yellow]{escapedDate}[/]");
+                        content.AppendLine($"[black on yellow]{Texts.Get("Assigned_To")}: {escapedAssignee}[/]");
+                    }
+                    else
+                    {
+                        content.AppendLine($"[bold {accentColor}]#{task.Id}[/] [{accentColor}]{escapedDescription}[/]");
+                        content.AppendLine($"[{secondaryColor}]{escapedDate}[/]");
+                        content.AppendLine($"[{secondaryColor}]{Texts.Get("Assigned_To")}: {escapedAssignee}[/]");
+                    }
+
+                    if (it.HasNext())
+                        content.AppendLine();
+                }
             }
 
+            content.AppendLine();
+            content.Append($"[{secondaryColor}]{Texts.Get("Page_Label")} {pageIndex}/{pageCount}[/]");
+            return content.ToString();
+        }
+
+        // This method takes a collection of tasks for a specific lane and returns only the tasks that should be displayed on the current page based on the defined page size.
+        private IMyCollection<TaskItem> GetPagedTasks(IMyCollection<TaskItem> laneTasks, int pageIndex)
+        {
+            var pagedTasks = new ArrayCollection<TaskItem>();
+            int startIndex = pageIndex * PageSize;
+            int endIndex = startIndex + PageSize;
+            int currentIndex = 0;
+            // Iterate through the tasks in the lane and add only those that fall within the current page range to the pagedTasks collection.
+            var it = laneTasks.GetIterator();
             while (it.HasNext())
             {
                 var task = it.Next();
-                bool isSelected = selectedTaskId.HasValue && task.Id == selectedTaskId.Value;
-                var escapedDescription = Markup.Escape(task.Description);
-                var escapedDate = Markup.Escape(FormatCreatedAt(task.CreatedAt));
 
-                if (isSelected)
+                if (currentIndex >= startIndex && currentIndex < endIndex)
                 {
-                    content.AppendLine($"[black on yellow]#{task.Id} {escapedDescription}[/]");
-                    content.AppendLine($"[black on yellow]{escapedDate}[/]");
+                    pagedTasks.Add(task);
                 }
-                else
-                {
-                    content.AppendLine($"[bold {accentColor}]#{task.Id}[/] [{accentColor}]{escapedDescription}[/]");
-                    content.AppendLine($"[{secondaryColor}]{escapedDate}[/]");
-                }
-
-                if (it.HasNext())
-                    content.AppendLine();
+                // Increment the current index to keep track of how many tasks have been processed, and break the loop once we've added enough tasks for the current page. 
+                // This ensures that we only process as many tasks as needed for display, improving performance when there are many tasks in a lane.
+                currentIndex++;
+                if (currentIndex >= endIndex)
+                    break;
             }
 
-            return content.ToString();
+            return pagedTasks;
+        }
+        // This method calculates the total number of pages needed to display a given number of items based on the defined page size.
+        private int GetPageCount(int totalItems)
+        {
+            if (totalItems <= 0)
+                return 1;
+
+            return (totalItems + PageSize - 1) / PageSize;
+        }
+        // This method ensures that the page index stays within valid bounds based on the total number of pages available.
+        private int ClampPageIndex(int pageIndex, int pageCount)
+        {
+            if (pageIndex < 0)
+                return 0;
+
+            if (pageIndex >= pageCount)
+                return pageCount - 1;
+
+            return pageIndex;
+        }
+        // This method handles the pagination navigation for the Kanban board.
+        private void NavigatePages()
+        {
+            var tasks = _service.GetSortedAndFilteredTasks(_activeSortField, _activeSortAscending, _activeFilterField);
+
+            var toDoTasks = new ArrayCollection<TaskItem>();
+            var doingTasks = new ArrayCollection<TaskItem>();
+            var toReviewTasks = new ArrayCollection<TaskItem>();
+            var doneTasks = new ArrayCollection<TaskItem>();
+
+            var it = tasks.GetIterator();
+            while (it.HasNext())
+            {
+                var task = it.Next();
+                switch (task.Status)
+                {
+                    case TaskStage.ToDo:
+                        toDoTasks.Add(task);
+                        break;
+                    case TaskStage.Doing:
+                        doingTasks.Add(task);
+                        break;
+                    case TaskStage.ToReview:
+                        toReviewTasks.Add(task);
+                        break;
+                    case TaskStage.Done:
+                        doneTasks.Add(task);
+                        break;
+                }
+            }
+
+            int toDoPageCount = GetPageCount(toDoTasks.Count);
+            int doingPageCount = GetPageCount(doingTasks.Count);
+            int toReviewPageCount = GetPageCount(toReviewTasks.Count);
+            int donePageCount = GetPageCount(doneTasks.Count);
+
+            var toDoPrev = $"{Texts.Get("To_Do")} {Texts.Get("Previous_Page")}";
+            var toDoNext = $"{Texts.Get("To_Do")} {Texts.Get("Next_Page")}";
+            var doingPrev = $"{Texts.Get("Doing")} {Texts.Get("Previous_Page")}";
+            var doingNext = $"{Texts.Get("Doing")} {Texts.Get("Next_Page")}";
+            var toReviewPrev = $"{Texts.Get("To_Review")} {Texts.Get("Previous_Page")}";
+            var toReviewNext = $"{Texts.Get("To_Review")} {Texts.Get("Next_Page")}";
+            var donePrev = $"{Texts.Get("Done")} {Texts.Get("Previous_Page")}";
+            var doneNext = $"{Texts.Get("Done")} {Texts.Get("Next_Page")}";
+
+            string choice = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title($"[yellow]{Texts.Get("Page_Task")}[/]")
+                    .HighlightStyle(new Style(Color.Cyan1))
+                    .AddChoices(
+                        toDoPrev,
+                        toDoNext,
+                        doingPrev,
+                        doingNext,
+                        toReviewPrev,
+                        toReviewNext,
+                        donePrev,
+                        doneNext,
+                        Texts.Get("Back_To_Menu")));
+
+            switch (choice)
+            {
+                case var c when c == toDoPrev:
+                    _toDoPage = ClampPageIndex(_toDoPage - 1, toDoPageCount);
+                    break;
+                case var c when c == toDoNext:
+                    _toDoPage = ClampPageIndex(_toDoPage + 1, toDoPageCount);
+                    break;
+                case var c when c == doingPrev:
+                    _doingPage = ClampPageIndex(_doingPage - 1, doingPageCount);
+                    break;
+                case var c when c == doingNext:
+                    _doingPage = ClampPageIndex(_doingPage + 1, doingPageCount);
+                    break;
+                case var c when c == toReviewPrev:
+                    _toReviewPage = ClampPageIndex(_toReviewPage - 1, toReviewPageCount);
+                    break;
+                case var c when c == toReviewNext:
+                    _toReviewPage = ClampPageIndex(_toReviewPage + 1, toReviewPageCount);
+                    break;
+                case var c when c == donePrev:
+                    _donePage = ClampPageIndex(_donePage - 1, donePageCount);
+                    break;
+                case var c when c == doneNext:
+                    _donePage = ClampPageIndex(_donePage + 1, donePageCount);
+                    break;
+                default:
+                    return;
+            }
         }
 
 // This method prompts the user to select a new status for a task when moving it. 
@@ -449,10 +707,38 @@ namespace Project.View
             DisplayTasks(Texts.Get("Add_Task"));
 
             string desc = AnsiConsole.Ask<string>($"[green]{Texts.Get("Task_Description_Prompt")}[/]");
-            _service.AddTask(desc);
+
+            string? assignee = PromptAssignee();
+
+            _service.AddTask(desc, assignee);
 
             DisplayTasks(Texts.Get("Add_Task"));
             AnsiConsole.MarkupLine($"[bold green]{Texts.Get("Task_Added")}[/]");
+        }
+
+        private string? PromptAssignee()
+        {
+            var assignees = _service.GetAssignees();
+            var options = new List<string>();
+            foreach (var assignee in assignees)
+            {
+                options.Add(assignee);
+            }
+            options.Add(Texts.Get("Other_Add_New_Name"));
+
+            var selected = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title($"[green]{Texts.Get("Assign_Task_Prompt")}[/]")
+                    .AddChoices(options)
+                    .HighlightStyle(new Style(foreground: Color.Green)));
+
+            if (selected == Texts.Get("Other_Add_New_Name"))
+            {
+                string newName = AnsiConsole.Ask<string>($"[green]{Texts.Get("Enter_New_Name")}[/]");
+                return newName;
+            }
+
+            return selected;
         }
 
         private void RemoveTask()
@@ -554,16 +840,43 @@ namespace Project.View
             DisplayTasks(Texts.Get("Update_Task"), id);
             AnsiConsole.MarkupLine($"[bold yellow]{Texts.Get("Selected_Task_Highlighted")}[/]");
 
-            string newDesc = AnsiConsole.Ask<string>($"[green]{Texts.Get("New_Description_Prompt")}[/]");
+            var updateDescriptionChoice = Texts.Get("Update_Description");
+            var updateAssigneeChoice = Texts.Get("Update_Assignee");
 
-            if (!Confirm(Texts.Get("Confirm_Save_Changes")))
+            string updateChoice = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title($"[yellow]{Texts.Get("Update_Field_Prompt")}[/]")
+                    .HighlightStyle(new Style(Color.Cyan1))
+                    .AddChoices(updateDescriptionChoice, updateAssigneeChoice));
+
+            bool updated;
+
+            if (updateChoice == updateAssigneeChoice)
             {
-                DisplayTasks(Texts.Get("Update_Task"), id);
-                AnsiConsole.MarkupLine($"[bold yellow]{Texts.Get("Update_Cancelled")}[/]");
-                return;
-            }
+                string? newAssignee = PromptAssignee();
 
-            bool updated = _service.UpdateTaskDescription(id, newDesc);
+                if (!Confirm(Texts.Get("Confirm_Save_Changes")))
+                {
+                    DisplayTasks(Texts.Get("Update_Task"), id);
+                    AnsiConsole.MarkupLine($"[bold yellow]{Texts.Get("Update_Cancelled")}[/]");
+                    return;
+                }
+
+                updated = _service.UpdateTaskAssignee(id, newAssignee ?? string.Empty);
+            }
+            else
+            {
+                string newDesc = AnsiConsole.Ask<string>($"[green]{Texts.Get("New_Description_Prompt")}[/]");
+
+                if (!Confirm(Texts.Get("Confirm_Save_Changes")))
+                {
+                    DisplayTasks(Texts.Get("Update_Task"), id);
+                    AnsiConsole.MarkupLine($"[bold yellow]{Texts.Get("Update_Cancelled")}[/]");
+                    return;
+                }
+
+                updated = _service.UpdateTaskDescription(id, newDesc);
+            }
 
             DisplayTasks(Texts.Get("Update_Task"));
             AnsiConsole.MarkupLine(

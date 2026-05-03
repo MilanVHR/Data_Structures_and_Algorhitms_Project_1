@@ -145,6 +145,22 @@
     <value>Filter Tasks</value>
     <comment/>
   </data>
+  <data name="Page_Task" xml:space="preserve">
+    <value>Page Tasks</value>
+    <comment/>
+  </data>
+  <data name="Previous_Page" xml:space="preserve">
+    <value>Previous page</value>
+    <comment/>
+  </data>
+  <data name="Next_Page" xml:space="preserve">
+    <value>Next page</value>
+    <comment/>
+  </data>
+  <data name="Page_Label" xml:space="preserve">
+    <value>Page</value>
+    <comment/>
+  </data>
   <data name="Quit" xml:space="preserve">
     <value>Quit</value>
     <comment/>
@@ -329,6 +345,18 @@
     <value>New description:</value>
     <comment/>
   </data>
+  <data name="Update_Field_Prompt" xml:space="preserve">
+    <value>What do you want to update?</value>
+    <comment/>
+  </data>
+  <data name="Update_Description" xml:space="preserve">
+    <value>Update description</value>
+    <comment/>
+  </data>
+  <data name="Update_Assignee" xml:space="preserve">
+    <value>Update assignee</value>
+    <comment/>
+  </data>
   <data name="Confirm_Save_Changes" xml:space="preserve">
     <value>Do you want to save this change?</value>
     <comment/>
@@ -419,6 +447,26 @@
   </data>
   <data name="Done_Tasks" xml:space="preserve">
     <value>Done tasks</value>
+    <comment/>
+  </data>
+  <data name="Assign_Task_Prompt" xml:space="preserve">
+    <value>Who would you like to assign to this task?</value>
+    <comment/>
+  </data>
+  <data name="Other_Add_New_Name" xml:space="preserve">
+    <value>Other (Add new name)</value>
+    <comment/>
+  </data>
+  <data name="Enter_New_Name" xml:space="preserve">
+    <value>Enter new name:</value>
+    <comment/>
+  </data>
+  <data name="Assigned_To" xml:space="preserve">
+    <value>Assigned to</value>
+    <comment/>
+  </data>
+  <data name="Unassigned" xml:space="preserve">
+    <value>Unassigned</value>
     <comment/>
   </data>
 </root>

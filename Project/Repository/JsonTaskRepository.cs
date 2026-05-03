@@ -26,6 +26,10 @@ namespace Project.Repository
         private string MetaFilePath =>
             Path.Combine(Path.GetDirectoryName(_filePath) ?? ".", "meta.json");
 
+        // Path to the assignees file.
+        private string AssigneesFilePath =>
+            Path.Combine(Path.GetDirectoryName(_filePath) ?? ".", "assignees.json");
+
         public JsonTaskRepository(string filePath, IMyCollectionFactory<TaskItem> collectionFactory)
         {
             _filePath = filePath;
@@ -94,6 +98,30 @@ namespace Project.Repository
             );
 
             File.WriteAllText(MetaFilePath, json);
+        }
+
+        public List<string> LoadAssignees()
+        {
+            if (!File.Exists(AssigneesFilePath))
+                return new List<string> { "Milan", "Halit", "Menno" }; // Default assignees
+
+            string json = File.ReadAllText(AssigneesFilePath);
+            var assignees = JsonSerializer.Deserialize<List<string>>(json);
+            return assignees ?? new List<string> { "Milan", "Halit", "Menno" };
+        }
+
+        public void SaveAssignees(List<string> assignees)
+        {
+            string? dir = Path.GetDirectoryName(AssigneesFilePath);
+            if (!string.IsNullOrEmpty(dir))
+                Directory.CreateDirectory(dir);
+
+            string json = JsonSerializer.Serialize(
+                assignees,
+                new JsonSerializerOptions { WriteIndented = true }
+            );
+
+            File.WriteAllText(AssigneesFilePath, json);
         }
     }
 }

@@ -22,5 +22,11 @@ namespace Project.Repository
 
         // Persists the current next-ID counter value.
         void SaveNextId(int nextId);
+
+        // Loads the list of available assignees.
+        List<string> LoadAssignees();
+
+        // Saves the list of available assignees.
+        void SaveAssignees(List<string> assignees);
     }
 }
