@@ -27,6 +27,9 @@ namespace Project.Model
         // A short text describing what the task is about.
         public string Description { get; set; } = "";
 
+        // Person assigned to the task.
+        public string? AssignedTo { get; set; }
+
         // Current task status in the Kanban flow.
         public TaskStage Status { get; set; } = TaskStage.ToDo;
 
@@ -39,7 +42,8 @@ namespace Project.Model
         // Converts the task into a readable string for display in the console UI.
         public override string ToString()
         {
-            return $"[{Id}] [{Status}] {Description}";
+            string assignee = string.IsNullOrEmpty(AssignedTo) ? "Unassigned" : AssignedTo;
+            return $"[{Id}] [{Status}] {Description} (Assigned to: {assignee})";
         }
     }
 }

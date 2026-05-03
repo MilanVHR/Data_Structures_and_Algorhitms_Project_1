@@ -41,7 +41,7 @@ namespace Project.Services
         TaskItem? GetTaskById(int id);
 
         // Creates a new task with the given description.
-        void AddTask(string description);
+        void AddTask(string description, string? assignedTo);
 
         // Removes a task by its ID.
         // Returns true when removed, false when not found.
@@ -54,5 +54,8 @@ namespace Project.Services
         // Updates the description of a task by its ID.
         // Returns true when updated, false when not found.
         bool UpdateTaskDescription(int id, string newDescription);
+
+        // Gets the list of available assignees.
+        List<string> GetAssignees();
     }
 }

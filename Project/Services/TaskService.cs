@@ -15,6 +15,7 @@ namespace Project.Services
         private readonly IMyCollectionFactory<TaskItem> _collectionFactory;
         private readonly IMyCollection<TaskItem> _tasks;  // In-memory storage of tasks
         private int _nextId;
+        private List<string> _assignees;
 
         public TaskService(ITaskRepository repository, IMyCollectionFactory<TaskItem> collectionFactory)
         {
@@ -28,6 +29,7 @@ namespace Project.Services
             EnsureStatusValues();
             InitializeNextId();
             EnsureCreatedAtValues();
+            _assignees = _repository.LoadAssignees();
         }
 
         public IMyCollection<TaskItem> GetAllTasks()
@@ -106,18 +108,26 @@ namespace Project.Services
             _nextId = Math.Max(persisted, max + 1);
         }
 
-        public void AddTask(string description)
+        public void AddTask(string description, string? assignedTo)
         {
             var task = new TaskItem
             {
                 Id = GetNextId(),
                 Description = description,
+                AssignedTo = assignedTo,
                 Status = TaskStage.ToDo,
                 Completed = null,
                 CreatedAt = DateTime.UtcNow
             };
 
             _tasks.Add(task);
+
+            // If assignedTo is new, add to assignees list
+            if (!string.IsNullOrEmpty(assignedTo) && !_assignees.Contains(assignedTo))
+            {
+                _assignees.Add(assignedTo);
+                _repository.SaveAssignees(_assignees);
+            }
 
             // Save updated list and persist the new ID counter value.
             _repository.SaveTasks(_tasks);
@@ -245,6 +255,11 @@ namespace Project.Services
 
             if (hasChanges)
                 _repository.SaveTasks(_tasks);
+        }
+
+        public List<string> GetAssignees()
+        {
+            return _assignees;
         }
     }
 }
