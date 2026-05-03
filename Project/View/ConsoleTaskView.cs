@@ -400,16 +400,22 @@ namespace Project.View
                 bool isSelected = selectedTaskId.HasValue && task.Id == selectedTaskId.Value;
                 var escapedDescription = Markup.Escape(task.Description);
                 var escapedDate = Markup.Escape(FormatCreatedAt(task.CreatedAt));
+                var assigneeText = string.IsNullOrEmpty(task.AssignedTo)
+                    ? Texts.Get("Unassigned")
+                    : task.AssignedTo ?? string.Empty;
+                var escapedAssignee = Markup.Escape(assigneeText);
 
                 if (isSelected)
                 {
                     content.AppendLine($"[black on yellow]#{task.Id} {escapedDescription}[/]");
                     content.AppendLine($"[black on yellow]{escapedDate}[/]");
+                    content.AppendLine($"[black on yellow]{Texts.Get("Assigned_To")}: {escapedAssignee}[/]");
                 }
                 else
                 {
                     content.AppendLine($"[bold {accentColor}]#{task.Id}[/] [{accentColor}]{escapedDescription}[/]");
                     content.AppendLine($"[{secondaryColor}]{escapedDate}[/]");
+                    content.AppendLine($"[{secondaryColor}]{Texts.Get("Assigned_To")}: {escapedAssignee}[/]");
                 }
 
                 if (it.HasNext())
@@ -449,10 +455,38 @@ namespace Project.View
             DisplayTasks(Texts.Get("Add_Task"));
 
             string desc = AnsiConsole.Ask<string>($"[green]{Texts.Get("Task_Description_Prompt")}[/]");
-            _service.AddTask(desc);
+
+            string? assignee = PromptAssignee();
+
+            _service.AddTask(desc, assignee);
 
             DisplayTasks(Texts.Get("Add_Task"));
             AnsiConsole.MarkupLine($"[bold green]{Texts.Get("Task_Added")}[/]");
+        }
+
+        private string? PromptAssignee()
+        {
+            var assignees = _service.GetAssignees();
+            var options = new List<string>();
+            foreach (var assignee in assignees)
+            {
+                options.Add(assignee);
+            }
+            options.Add(Texts.Get("Other_Add_New_Name"));
+
+            var selected = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title($"[green]{Texts.Get("Assign_Task_Prompt")}[/]")
+                    .AddChoices(options)
+                    .HighlightStyle(new Style(foreground: Color.Green)));
+
+            if (selected == Texts.Get("Other_Add_New_Name"))
+            {
+                string newName = AnsiConsole.Ask<string>($"[green]{Texts.Get("Enter_New_Name")}[/]");
+                return newName;
+            }
+
+            return selected;
         }
 
         private void RemoveTask()
