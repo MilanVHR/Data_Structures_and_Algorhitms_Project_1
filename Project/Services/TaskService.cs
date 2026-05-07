@@ -6,6 +6,7 @@
 using Project.Collections;
 using Project.Model;
 using Project.Repository;
+using System.Collections.Generic;
 
 namespace Project.Services
 {
@@ -108,16 +109,22 @@ namespace Project.Services
             _nextId = Math.Max(persisted, max + 1);
         }
 
-        public void AddTask(string description, string? assignedTo)
+        public int AddTask(string description, string? assignedTo, int? parentTaskId = null)
         {
+            int newTaskId = GetNextId();
+
+            if (!ValidateParentAssignment(newTaskId, parentTaskId, out string? validationError))
+                throw new InvalidOperationException(validationError ?? "Invalid parent task.");
+
             var task = new TaskItem
             {
-                Id = GetNextId(),
+                Id = newTaskId,
                 Description = description,
                 AssignedTo = assignedTo,
                 Status = TaskStage.ToDo,
                 Completed = null,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ParentTaskId = parentTaskId
             };
 
             _tasks.Add(task);
@@ -132,6 +139,8 @@ namespace Project.Services
             // Save updated list and persist the new ID counter value.
             _repository.SaveTasks(_tasks);
             _repository.SaveNextId(_nextId);
+
+            return newTaskId;
         }
 
         public bool RemoveTask(int id)
@@ -141,6 +150,15 @@ namespace Project.Services
 
             if (task != null)
             {
+                // Promote direct subtasks to top-level tasks when their parent is removed.
+                var it = _tasks.GetIterator();
+                while (it.HasNext())
+                {
+                    var candidate = it.Next();
+                    if (candidate.ParentTaskId == id)
+                        candidate.ParentTaskId = null;
+                }
+
                 _tasks.Remove(task);
                 _repository.SaveTasks(_tasks);
                 return true;
@@ -149,17 +167,47 @@ namespace Project.Services
             return false;
         }
 
-        public bool MoveTaskToStatus(int id, TaskStage status)
+        public bool MoveTaskToStatus(int id, TaskStage status, out string? errorMessage)
         {
+            errorMessage = null;
             var task = GetTaskById(id);
 
-            if (task != null)
+            if (task == null)
             {
-                task.Status = status;
-                task.Completed = null;
+                errorMessage = $"Task with id {id} was not found.";
+                return false;
+            }
 
-                _repository.SaveTasks(_tasks);
-                return true;
+            if (HasIncompleteDescendants(task.Id, new HashSet<int>()))
+            {
+                errorMessage = "This parent task cannot be moved until all child tasks are done.";
+                return false;
+            }
+
+            task.Status = status;
+            task.Completed = null;
+
+            _repository.SaveTasks(_tasks);
+            return true;
+        }
+
+        private bool HasIncompleteDescendants(int parentTaskId, HashSet<int> visitedTaskIds)
+        {
+            if (!visitedTaskIds.Add(parentTaskId))
+                return false;
+
+            var it = _tasks.GetIterator();
+            while (it.HasNext())
+            {
+                var candidate = it.Next();
+                if (candidate.ParentTaskId != parentTaskId)
+                    continue;
+
+                if (candidate.Status != TaskStage.Done)
+                    return true;
+
+                if (HasIncompleteDescendants(candidate.Id, visitedTaskIds))
+                    return true;
             }
 
             return false;
@@ -195,6 +243,77 @@ namespace Project.Services
 
                 _repository.SaveTasks(_tasks);
                 return true;
+            }
+
+            return false;
+        }
+
+        public bool UpdateTaskParent(int id, int? parentTaskId, out string? errorMessage)
+        {
+            errorMessage = null;
+            var task = GetTaskById(id);
+
+            if (task == null)
+            {
+                errorMessage = $"Task with id {id} was not found.";
+                return false;
+            }
+
+            if (!ValidateParentAssignment(id, parentTaskId, out errorMessage))
+                return false;
+
+            task.ParentTaskId = parentTaskId;
+            _repository.SaveTasks(_tasks);
+            return true;
+        }
+
+        private bool ValidateParentAssignment(int taskId, int? parentTaskId, out string? errorMessage)
+        {
+            errorMessage = null;
+
+            if (!parentTaskId.HasValue)
+                return true;
+
+            if (parentTaskId.Value == taskId)
+            {
+                errorMessage = "A task cannot depend on itself.";
+                return false;
+            }
+
+            var parent = GetTaskById(parentTaskId.Value);
+            if (parent == null)
+            {
+                errorMessage = $"Parent task with id {parentTaskId.Value} does not exist.";
+                return false;
+            }
+
+            if (WouldCreateCycle(taskId, parentTaskId.Value))
+            {
+                errorMessage = "Circular dependencies are not allowed.";
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool WouldCreateCycle(int taskId, int parentTaskId)
+        {
+            var visited = new HashSet<int>();
+            int? current = parentTaskId;
+
+            while (current.HasValue)
+            {
+                if (current.Value == taskId)
+                    return true;
+
+                if (!visited.Add(current.Value))
+                    return true;
+
+                var currentTask = GetTaskById(current.Value);
+                if (currentTask == null)
+                    return false;
+
+                current = currentTask.ParentTaskId;
             }
 
             return false;

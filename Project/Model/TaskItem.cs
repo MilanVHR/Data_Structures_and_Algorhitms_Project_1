@@ -39,6 +39,10 @@ namespace Project.Model
         // UTC creation timestamp used for sorting and history views.
         public DateTime CreatedAt { get; set; }
 
+        // When set, this task is a dependent subtask of the parent task.
+        // Null means this is a top-level task.
+        public int? ParentTaskId { get; set; }
+
         // Converts the task into a readable string for display in the console UI.
         public override string ToString()
         {

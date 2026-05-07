@@ -41,15 +41,16 @@ namespace Project.Services
         TaskItem? GetTaskById(int id);
 
         // Creates a new task with the given description.
-        void AddTask(string description, string? assignedTo);
+        // parentTaskId is optional; when set, the task becomes a subtask.
+        int AddTask(string description, string? assignedTo, int? parentTaskId = null);
 
         // Removes a task by its ID.
         // Returns true when removed, false when not found.
         bool RemoveTask(int id);
 
         // Moves a task to the selected Kanban status.
-        // Returns true when moved, false when not found.
-        bool MoveTaskToStatus(int id, TaskStage status);
+        // Returns true when moved, false when not found or blocked by unfinished subtasks.
+        bool MoveTaskToStatus(int id, TaskStage status, out string? errorMessage);
 
         // Updates the description of a task by its ID.
         // Returns true when updated, false when not found.
@@ -58,6 +59,10 @@ namespace Project.Services
         // Updates the assignee of a task by its ID.
         // Returns true when updated, false when not found.
         bool UpdateTaskAssignee(int id, string assignedTo);
+
+        // Updates the parent relationship of a task by its ID.
+        // Returns true when updated, false when not found or invalid.
+        bool UpdateTaskParent(int id, int? parentTaskId, out string? errorMessage);
 
         // Gets the list of available assignees.
         List<string> GetAssignees();
