@@ -33,9 +33,23 @@ namespace Project
             // Create the view (user interface layer).
             ITaskView view = new ConsoleTaskView(service);
 
-            // Start the application.
-            view.Run();
+            var shutdownRequested = false;
+
+            Console.CancelKeyPress += (_, eventArgs) =>
+            {
+                eventArgs.Cancel = true;
+                shutdownRequested = true;
+            };
+
+            try
+            {
+                view.Run(() => shutdownRequested);
+            }
+            finally
+            {
+                if (service.HasUnsavedChanges)
+                    service.SaveChanges();
+            }
         }
     }
-        
 }

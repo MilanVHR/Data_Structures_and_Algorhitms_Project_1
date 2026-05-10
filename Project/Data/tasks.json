@@ -5,7 +5,8 @@
     "AssignedTo": "Halit",
     "Status": 0,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:06:05Z"
+    "CreatedAt": "2026-05-02T18:06:05Z",
+    "ParentTaskId": null
   },
   {
     "Id": 11,
@@ -13,7 +14,8 @@
     "AssignedTo": "Menno",
     "Status": 1,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:06:10Z"
+    "CreatedAt": "2026-05-02T18:06:10Z",
+    "ParentTaskId": null
   },
   {
     "Id": 12,
@@ -21,7 +23,8 @@
     "AssignedTo": "Milan",
     "Status": 2,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:06:15Z"
+    "CreatedAt": "2026-05-02T18:06:15Z",
+    "ParentTaskId": null
   },
   {
     "Id": 13,
@@ -29,7 +32,8 @@
     "AssignedTo": "Halit",
     "Status": 0,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:06:20Z"
+    "CreatedAt": "2026-05-02T18:06:20Z",
+    "ParentTaskId": null
   },
   {
     "Id": 14,
@@ -37,7 +41,8 @@
     "AssignedTo": "Menno",
     "Status": 1,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:06:25Z"
+    "CreatedAt": "2026-05-02T18:06:25Z",
+    "ParentTaskId": null
   },
   {
     "Id": 15,
@@ -45,7 +50,8 @@
     "AssignedTo": "Milan",
     "Status": 2,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:06:30Z"
+    "CreatedAt": "2026-05-02T18:06:30Z",
+    "ParentTaskId": null
   },
   {
     "Id": 16,
@@ -53,7 +59,8 @@
     "AssignedTo": "Halit",
     "Status": 0,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:06:35Z"
+    "CreatedAt": "2026-05-02T18:06:35Z",
+    "ParentTaskId": null
   },
   {
     "Id": 17,
@@ -61,7 +68,8 @@
     "AssignedTo": "Menno",
     "Status": 1,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:06:40Z"
+    "CreatedAt": "2026-05-02T18:06:40Z",
+    "ParentTaskId": null
   },
   {
     "Id": 18,
@@ -69,7 +77,8 @@
     "AssignedTo": "Milan",
     "Status": 2,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:06:45Z"
+    "CreatedAt": "2026-05-02T18:06:45Z",
+    "ParentTaskId": null
   },
   {
     "Id": 19,
@@ -77,7 +86,8 @@
     "AssignedTo": "Halit",
     "Status": 0,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:06:50Z"
+    "CreatedAt": "2026-05-02T18:06:50Z",
+    "ParentTaskId": null
   },
   {
     "Id": 1,
@@ -85,7 +95,8 @@
     "AssignedTo": "Menno",
     "Status": 3,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:04:15.8496478Z"
+    "CreatedAt": "2026-05-02T18:04:15.8496478Z",
+    "ParentTaskId": null
   },
   {
     "Id": 20,
@@ -93,7 +104,8 @@
     "AssignedTo": "Milan",
     "Status": 1,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:06:55Z"
+    "CreatedAt": "2026-05-02T18:06:55Z",
+    "ParentTaskId": null
   },
   {
     "Id": 21,
@@ -101,7 +113,8 @@
     "AssignedTo": "Halit",
     "Status": 2,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:07:00Z"
+    "CreatedAt": "2026-05-02T18:07:00Z",
+    "ParentTaskId": null
   },
   {
     "Id": 22,
@@ -109,7 +122,8 @@
     "AssignedTo": "Menno",
     "Status": 0,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:07:05Z"
+    "CreatedAt": "2026-05-02T18:07:05Z",
+    "ParentTaskId": null
   },
   {
     "Id": 23,
@@ -117,7 +131,8 @@
     "AssignedTo": "Milan",
     "Status": 1,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:07:10Z"
+    "CreatedAt": "2026-05-02T18:07:10Z",
+    "ParentTaskId": null
   },
   {
     "Id": 24,
@@ -125,7 +140,8 @@
     "AssignedTo": "Halit",
     "Status": 2,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:07:15Z"
+    "CreatedAt": "2026-05-02T18:07:15Z",
+    "ParentTaskId": null
   },
   {
     "Id": 25,
@@ -133,7 +149,8 @@
     "AssignedTo": "Menno",
     "Status": 0,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:07:20Z"
+    "CreatedAt": "2026-05-02T18:07:20Z",
+    "ParentTaskId": null
   },
   {
     "Id": 26,
@@ -141,7 +158,8 @@
     "AssignedTo": "Milan",
     "Status": 1,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:07:25Z"
+    "CreatedAt": "2026-05-02T18:07:25Z",
+    "ParentTaskId": null
   },
   {
     "Id": 27,
@@ -149,7 +167,8 @@
     "AssignedTo": "Halit",
     "Status": 2,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:07:30Z"
+    "CreatedAt": "2026-05-02T18:07:30Z",
+    "ParentTaskId": null
   },
   {
     "Id": 28,
@@ -157,7 +176,8 @@
     "AssignedTo": "Menno",
     "Status": 0,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:07:35Z"
+    "CreatedAt": "2026-05-02T18:07:35Z",
+    "ParentTaskId": null
   },
   {
     "Id": 29,
@@ -165,7 +185,8 @@
     "AssignedTo": "Milan",
     "Status": 1,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:07:40Z"
+    "CreatedAt": "2026-05-02T18:07:40Z",
+    "ParentTaskId": null
   },
   {
     "Id": 2,
@@ -173,7 +194,8 @@
     "AssignedTo": "Halit",
     "Status": 2,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:04:39.3308369Z"
+    "CreatedAt": "2026-05-02T18:04:39.3308369Z",
+    "ParentTaskId": null
   },
   {
     "Id": 30,
@@ -181,7 +203,8 @@
     "AssignedTo": "Menno",
     "Status": 2,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:07:45Z"
+    "CreatedAt": "2026-05-02T18:07:45Z",
+    "ParentTaskId": null
   },
   {
     "Id": 31,
@@ -189,7 +212,8 @@
     "AssignedTo": "Milan",
     "Status": 0,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:07:50Z"
+    "CreatedAt": "2026-05-02T18:07:50Z",
+    "ParentTaskId": null
   },
   {
     "Id": 32,
@@ -197,7 +221,8 @@
     "AssignedTo": "Halit",
     "Status": 1,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:07:55Z"
+    "CreatedAt": "2026-05-02T18:07:55Z",
+    "ParentTaskId": null
   },
   {
     "Id": 33,
@@ -205,7 +230,8 @@
     "AssignedTo": "Menno",
     "Status": 3,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:08:00Z"
+    "CreatedAt": "2026-05-02T18:08:00Z",
+    "ParentTaskId": null
   },
   {
     "Id": 34,
@@ -213,7 +239,8 @@
     "AssignedTo": "Milan",
     "Status": 0,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:08:05Z"
+    "CreatedAt": "2026-05-02T18:08:05Z",
+    "ParentTaskId": null
   },
   {
     "Id": 35,
@@ -221,7 +248,8 @@
     "AssignedTo": "Halit",
     "Status": 1,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:08:10Z"
+    "CreatedAt": "2026-05-02T18:08:10Z",
+    "ParentTaskId": null
   },
   {
     "Id": 36,
@@ -229,7 +257,8 @@
     "AssignedTo": "Menno",
     "Status": 2,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:08:15Z"
+    "CreatedAt": "2026-05-02T18:08:15Z",
+    "ParentTaskId": null
   },
   {
     "Id": 37,
@@ -237,7 +266,8 @@
     "AssignedTo": "Milan",
     "Status": 3,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:08:20Z"
+    "CreatedAt": "2026-05-02T18:08:20Z",
+    "ParentTaskId": null
   },
   {
     "Id": 38,
@@ -245,7 +275,8 @@
     "AssignedTo": "Halit",
     "Status": 3,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:08:25Z"
+    "CreatedAt": "2026-05-02T18:08:25Z",
+    "ParentTaskId": null
   },
   {
     "Id": 39,
@@ -253,7 +284,8 @@
     "AssignedTo": "Menno",
     "Status": 2,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:08:30Z"
+    "CreatedAt": "2026-05-02T18:08:30Z",
+    "ParentTaskId": null
   },
   {
     "Id": 3,
@@ -261,7 +293,8 @@
     "AssignedTo": "Milan",
     "Status": 1,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:05:05.771912Z"
+    "CreatedAt": "2026-05-02T18:05:05.771912Z",
+    "ParentTaskId": null
   },
   {
     "Id": 40,
@@ -269,7 +302,8 @@
     "AssignedTo": "Halit",
     "Status": 0,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:08:35Z"
+    "CreatedAt": "2026-05-02T18:08:35Z",
+    "ParentTaskId": null
   },
   {
     "Id": 41,
@@ -277,7 +311,8 @@
     "AssignedTo": "Menno",
     "Status": 3,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:08:40Z"
+    "CreatedAt": "2026-05-02T18:08:40Z",
+    "ParentTaskId": null
   },
   {
     "Id": 42,
@@ -285,7 +320,8 @@
     "AssignedTo": "Milan",
     "Status": 3,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:08:45Z"
+    "CreatedAt": "2026-05-02T18:08:45Z",
+    "ParentTaskId": null
   },
   {
     "Id": 43,
@@ -293,7 +329,8 @@
     "AssignedTo": "Halit",
     "Status": 0,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:08:50Z"
+    "CreatedAt": "2026-05-02T18:08:50Z",
+    "ParentTaskId": null
   },
   {
     "Id": 44,
@@ -301,7 +338,8 @@
     "AssignedTo": "Menno",
     "Status": 1,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:08:55Z"
+    "CreatedAt": "2026-05-02T18:08:55Z",
+    "ParentTaskId": null
   },
   {
     "Id": 45,
@@ -309,7 +347,8 @@
     "AssignedTo": "Milan",
     "Status": 2,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:09:00Z"
+    "CreatedAt": "2026-05-02T18:09:00Z",
+    "ParentTaskId": null
   },
   {
     "Id": 46,
@@ -317,7 +356,8 @@
     "AssignedTo": "Halit",
     "Status": 0,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:09:05Z"
+    "CreatedAt": "2026-05-02T18:09:05Z",
+    "ParentTaskId": null
   },
   {
     "Id": 47,
@@ -325,7 +365,8 @@
     "AssignedTo": "Menno",
     "Status": 1,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:09:10Z"
+    "CreatedAt": "2026-05-02T18:09:10Z",
+    "ParentTaskId": null
   },
   {
     "Id": 48,
@@ -333,7 +374,8 @@
     "AssignedTo": "Milan",
     "Status": 2,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:09:15Z"
+    "CreatedAt": "2026-05-02T18:09:15Z",
+    "ParentTaskId": null
   },
   {
     "Id": 49,
@@ -341,7 +383,8 @@
     "AssignedTo": "Halit",
     "Status": 3,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:09:20Z"
+    "CreatedAt": "2026-05-02T18:09:20Z",
+    "ParentTaskId": null
   },
   {
     "Id": 4,
@@ -349,7 +392,8 @@
     "AssignedTo": "Menno",
     "Status": 0,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:05:16.173533Z"
+    "CreatedAt": "2026-05-02T18:05:16.173533Z",
+    "ParentTaskId": null
   },
   {
     "Id": 50,
@@ -357,7 +401,8 @@
     "AssignedTo": "Milan",
     "Status": 1,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:09:25Z"
+    "CreatedAt": "2026-05-02T18:09:25Z",
+    "ParentTaskId": null
   },
   {
     "Id": 51,
@@ -365,7 +410,8 @@
     "AssignedTo": "Halit",
     "Status": 3,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:09:30Z"
+    "CreatedAt": "2026-05-02T18:09:30Z",
+    "ParentTaskId": null
   },
   {
     "Id": 52,
@@ -373,7 +419,8 @@
     "AssignedTo": "Menno",
     "Status": 0,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:09:35Z"
+    "CreatedAt": "2026-05-02T18:09:35Z",
+    "ParentTaskId": null
   },
   {
     "Id": 53,
@@ -381,7 +428,8 @@
     "AssignedTo": "Milan",
     "Status": 3,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:09:40Z"
+    "CreatedAt": "2026-05-02T18:09:40Z",
+    "ParentTaskId": null
   },
   {
     "Id": 54,
@@ -389,7 +437,8 @@
     "AssignedTo": "Halit",
     "Status": 2,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:09:45Z"
+    "CreatedAt": "2026-05-02T18:09:45Z",
+    "ParentTaskId": null
   },
   {
     "Id": 55,
@@ -397,7 +446,8 @@
     "AssignedTo": "Menno",
     "Status": 0,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:09:50Z"
+    "CreatedAt": "2026-05-02T18:09:50Z",
+    "ParentTaskId": null
   },
   {
     "Id": 56,
@@ -405,7 +455,8 @@
     "AssignedTo": "Milan",
     "Status": 1,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:09:55Z"
+    "CreatedAt": "2026-05-02T18:09:55Z",
+    "ParentTaskId": null
   },
   {
     "Id": 57,
@@ -413,7 +464,8 @@
     "AssignedTo": "Halit",
     "Status": 3,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:10:00Z"
+    "CreatedAt": "2026-05-02T18:10:00Z",
+    "ParentTaskId": null
   },
   {
     "Id": 58,
@@ -421,7 +473,8 @@
     "AssignedTo": "Menno",
     "Status": 3,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:10:05Z"
+    "CreatedAt": "2026-05-02T18:10:05Z",
+    "ParentTaskId": null
   },
   {
     "Id": 59,
@@ -429,7 +482,8 @@
     "AssignedTo": "Milan",
     "Status": 1,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:10:10Z"
+    "CreatedAt": "2026-05-02T18:10:10Z",
+    "ParentTaskId": null
   },
   {
     "Id": 5,
@@ -437,7 +491,8 @@
     "AssignedTo": "Halit",
     "Status": 1,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:05:23.4220165Z"
+    "CreatedAt": "2026-05-02T18:05:23.4220165Z",
+    "ParentTaskId": null
   },
   {
     "Id": 60,
@@ -445,7 +500,8 @@
     "AssignedTo": "Menno",
     "Status": 2,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:10:15Z"
+    "CreatedAt": "2026-05-02T18:10:15Z",
+    "ParentTaskId": null
   },
   {
     "Id": 61,
@@ -453,7 +509,8 @@
     "AssignedTo": "Milan",
     "Status": 3,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:10:20Z"
+    "CreatedAt": "2026-05-02T18:10:20Z",
+    "ParentTaskId": null
   },
   {
     "Id": 62,
@@ -461,7 +518,8 @@
     "AssignedTo": "Halit",
     "Status": 1,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:10:25Z"
+    "CreatedAt": "2026-05-02T18:10:25Z",
+    "ParentTaskId": null
   },
   {
     "Id": 63,
@@ -469,7 +527,8 @@
     "AssignedTo": "Menno",
     "Status": 2,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:10:30Z"
+    "CreatedAt": "2026-05-02T18:10:30Z",
+    "ParentTaskId": null
   },
   {
     "Id": 64,
@@ -477,7 +536,8 @@
     "AssignedTo": "Milan",
     "Status": 0,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:10:35Z"
+    "CreatedAt": "2026-05-02T18:10:35Z",
+    "ParentTaskId": null
   },
   {
     "Id": 65,
@@ -485,7 +545,8 @@
     "AssignedTo": "Halit",
     "Status": 3,
     "Completed": null,
-    "CreatedAt": "2026-05-02T18:10:40Z"
+    "CreatedAt": "2026-05-02T18:10:40Z",
+    "ParentTaskId": null
   },
   {
     "Id": 66,
@@ -493,6 +554,16 @@
     "AssignedTo": "Esm\u00E9e",
     "Status": 0,
     "Completed": null,
-    "CreatedAt": "2026-05-03T17:39:59.0327687Z"
+    "CreatedAt": "2026-05-03T17:39:59.0327687Z",
+    "ParentTaskId": null
+  },
+  {
+    "Id": 69,
+    "Description": "Testing kill switch",
+    "AssignedTo": "Menno",
+    "Status": 0,
+    "Completed": null,
+    "CreatedAt": "2026-05-10T17:21:29.3261738Z",
+    "ParentTaskId": null
   }
 ]
