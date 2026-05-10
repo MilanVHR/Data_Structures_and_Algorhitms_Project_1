@@ -25,6 +25,12 @@ namespace Project.Services
 
     public interface ITaskService
     {
+        // Indicates whether there are unsaved changes that need to be persisted.
+        bool HasUnsavedChanges { get; }
+
+        // Saves all changes to the repository. The view calls this when the user chooses to save.
+        void SaveChanges();
+
         // Returns all tasks currently stored in the system.
         IMyCollection<TaskItem> GetAllTasks();
 

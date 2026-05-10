@@ -49,55 +49,64 @@ namespace Project.View
             return selectedLanguage == dutch ? DutchCulture : EnglishCulture;
         }
 
-        public void Run()
+        public void Run(Func<bool>? shutdownRequested = null)
         {
             Console.Clear();
             ApplyLanguage(PromptLanguageCulture());
 
-            while (true)
+            while (shutdownRequested?.Invoke() != true)
             {
                 DisplayTasks();
 
                 var option = PromptMainMenu();
 
-                switch (option)
-                {
-                    case var c when c == Texts.Get("Add_Task"):
-                        RepeatActionUntilMenu(AddTask, Texts.Get("Add_Another_Task"));
-                        break;
-
-                    case var c when c == Texts.Get("Delete_Task"):
-                        RepeatActionUntilMenu(RemoveTask, Texts.Get("Delete_Another_Task"));
-                        break;
-
-                    case var c when c == Texts.Get("Move_Task"):
-                        RepeatActionUntilMenu(MoveTask, Texts.Get("Move_Another_Task"));
-                        break;
-
-                    case var c when c == Texts.Get("Update_Task"):
-                        RepeatActionUntilMenu(EditTask, Texts.Get("Update_Another_Task"));
-                        break;
-
-                    case var c when c == Texts.Get("Sort_Task"):
-                        RepeatActionUntilMenu(SortTasks, Texts.Get("Another_Sort"));
-                        break;
-
-                    case var c when c == Texts.Get("Filter_Task"):
-                        RepeatActionUntilMenu(FilterTasks, Texts.Get("Another_Filter"));
-                        break;
-
-                    case var c when c == Texts.Get("Page_Task"):
-                        NavigatePages();
-                        break;
-
-                    case var c when c == Texts.Get("Change_Language"):
-                        ApplyLanguage(PromptLanguageCulture());
-                        break;
-
-                    case var c when c == Texts.Get("Quit"):
-                        return;
-                }
+                if (HandleMainMenuOption(option))
+                    return;
             }
+        }
+
+        private bool HandleMainMenuOption(string option)
+        {
+            switch (option)
+            {
+                case var c when c == Texts.Get("Add_Task"):
+                    RepeatActionUntilMenu(AddTask, Texts.Get("Add_Another_Task"));
+                    break;
+        
+                case var c when c == Texts.Get("Delete_Task"):
+                    RepeatActionUntilMenu(RemoveTask, Texts.Get("Delete_Another_Task"));
+                    break;
+        
+                case var c when c == Texts.Get("Move_Task"):
+                    RepeatActionUntilMenu(MoveTask, Texts.Get("Move_Another_Task"));
+                    break;
+        
+                case var c when c == Texts.Get("Update_Task"):
+                    RepeatActionUntilMenu(EditTask, Texts.Get("Update_Another_Task"));
+                    break;
+        
+                case var c when c == Texts.Get("Sort_Task"):
+                    RepeatActionUntilMenu(SortTasks, Texts.Get("Another_Sort"));
+                    break;
+        
+                case var c when c == Texts.Get("Filter_Task"):
+                    RepeatActionUntilMenu(FilterTasks, Texts.Get("Another_Filter"));
+                    break;
+        
+                case var c when c == Texts.Get("Page_Task"):
+                    NavigatePages();
+                    break;
+        
+                case var c when c == Texts.Get("Change_Language"):
+                    ApplyLanguage(PromptLanguageCulture());
+                    break;
+        
+                case var c when c == Texts.Get("Quit"):
+                    ExitApplication();
+                    return true;
+            }
+        
+            return false;
         }
 
         private void DisplayTasks(string? sectionTitle = null, int? selectedTaskId = null)
@@ -439,8 +448,8 @@ namespace Project.View
             };
         }
 
-// This method creates a panel for a lane in the Kanban board.
-// It takes the lane title, border color, tasks in that lane, the currently selected task ID (if any), and accent colors for styling.
+        // This method creates a panel for a lane in the Kanban board.
+        // It takes the lane title, border color, tasks in that lane, the currently selected task ID (if any), and accent colors for styling.
         private Panel CreateLanePanel(
             string title,
             Color borderColor,
@@ -460,8 +469,8 @@ namespace Project.View
             };
         }
 
-// This method creates a panel for a lane in the Kanban board. 
-//It uses the BuildLaneContent method to generate the content string based on the tasks in that lane.
+        // This method creates a panel for a lane in the Kanban board. 
+        //It uses the BuildLaneContent method to generate the content string based on the tasks in that lane.
         private Panel CreateBoardCell(
             IMyCollection<TaskItem> laneTasks,
             int? selectedTaskId,
@@ -479,10 +488,10 @@ namespace Project.View
             };
         }
 
-// This method builds the content string for a lane in the Kanban board. 
-//It iterates through the tasks in the lane and formats each task's description and creation date. 
-//The currently selected task (if any) is highlighted with a different background color. 
-//If there are no tasks, it shows a placeholder message.
+        // This method builds the content string for a lane in the Kanban board. 
+        //It iterates through the tasks in the lane and formats each task's description and creation date. 
+        //The currently selected task (if any) is highlighted with a different background color. 
+        //If there are no tasks, it shows a placeholder message.
         private sealed class HierarchicalTaskRow
         {
             public TaskItem Task { get; }
@@ -738,9 +747,9 @@ namespace Project.View
             }
         }
 
-// This method prompts the user to select a new status for a task when moving it. 
-// It displays the available statuses with localized names and returns the corresponding 
-//TaskStage value based on the user's selection.
+        // This method prompts the user to select a new status for a task when moving it. 
+        // It displays the available statuses with localized names and returns the corresponding 
+        //TaskStage value based on the user's selection.
         private TaskStage PromptTaskStatus(string title)
         {
             var toDoChoice = Texts.Get("To_Do");
@@ -866,9 +875,9 @@ namespace Project.View
                     : $"[bold red]{string.Format(Texts.Get("Task_With_Id_Not_Found"), id)}[/]");
         }
 
-// This method prompts the user to select a new status for a task when moving it.
-// It displays the available statuses with localized names and returns the corresponding
-//TaskStage value based on the user's selection.
+        // This method prompts the user to select a new status for a task when moving it.
+        // It displays the available statuses with localized names and returns the corresponding
+        //TaskStage value based on the user's selection.
         private void MoveTask()
         {
             DisplayTasks(Texts.Get("Move_Task"));
@@ -918,9 +927,9 @@ namespace Project.View
                     : $"[bold red]{string.Format(Texts.Get("Task_With_Id_Not_Found"), id)}[/]");
         }
 
-// This method prompts the user to select a new status for a task when moving it.
-// It displays the available statuses with localized names and returns the corresponding
-//TaskStage value based on the user's selection.
+        // This method prompts the user to select a new status for a task when moving it.
+        // It displays the available statuses with localized names and returns the corresponding
+        //TaskStage value based on the user's selection.
 
         private void EditTask()
         {
@@ -1003,6 +1012,15 @@ namespace Project.View
                 updated
                     ? $"[bold green]{Texts.Get("Task_Updated")}[/]"
                     : $"[bold red]{string.Format(Texts.Get("Task_With_Id_Not_Found"), id)}[/]");
+        }
+
+        private void ExitApplication()
+        {
+            if (_service.HasUnsavedChanges)
+            {
+                _service.SaveChanges();
+                AnsiConsole.MarkupLine("[bold green]Changes saved.[/]");
+            }
         }
     }
 }

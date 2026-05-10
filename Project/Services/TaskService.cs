@@ -16,7 +16,12 @@ namespace Project.Services
         private readonly IMyCollectionFactory<TaskItem> _collectionFactory;
         private readonly IMyCollection<TaskItem> _tasks;  // In-memory storage of tasks
         private int _nextId;
-        private List<string> _assignees;
+        private List<string> _assignees = new();
+        private bool _tasksDirty;
+        private bool _assigneesDirty;
+        private bool _nextIdDirty;
+
+        public bool HasUnsavedChanges => _tasksDirty || _assigneesDirty || _nextIdDirty;
 
         public TaskService(ITaskRepository repository, IMyCollectionFactory<TaskItem> collectionFactory)
         {
@@ -31,6 +36,27 @@ namespace Project.Services
             InitializeNextId();
             EnsureCreatedAtValues();
             _assignees = _repository.LoadAssignees();
+        }
+
+        public void SaveChanges()
+        {
+            if (_tasksDirty)
+            {
+                _repository.SaveTasks(_tasks);
+                _tasksDirty = false;
+            }
+
+            if (_assigneesDirty)
+            {
+                _repository.SaveAssignees(_assignees);
+                _assigneesDirty = false;
+            }
+
+            if (_nextIdDirty)
+            {
+                _repository.SaveNextId(_nextId);
+                _nextIdDirty = false;
+            }
         }
 
         public IMyCollection<TaskItem> GetAllTasks()
@@ -128,17 +154,14 @@ namespace Project.Services
             };
 
             _tasks.Add(task);
+            _tasksDirty = true;
+            _nextIdDirty = true;
 
-            // If assignedTo is new, add to assignees list
             if (!string.IsNullOrEmpty(assignedTo) && !_assignees.Contains(assignedTo))
             {
                 _assignees.Add(assignedTo);
-                _repository.SaveAssignees(_assignees);
+                _assigneesDirty = true;
             }
-
-            // Save updated list and persist the new ID counter value.
-            _repository.SaveTasks(_tasks);
-            _repository.SaveNextId(_nextId);
 
             return newTaskId;
         }
@@ -160,7 +183,8 @@ namespace Project.Services
                 }
 
                 _tasks.Remove(task);
-                _repository.SaveTasks(_tasks);
+                _tasksDirty = true;
+
                 return true;
             }
 
@@ -186,8 +210,8 @@ namespace Project.Services
 
             task.Status = status;
             task.Completed = null;
+            _tasksDirty = true;
 
-            _repository.SaveTasks(_tasks);
             return true;
         }
 
@@ -220,7 +244,7 @@ namespace Project.Services
             if (task != null)
             {
                 task.Description = newDescription;
-                _repository.SaveTasks(_tasks);
+                _tasksDirty = true;
                 return true;
             }
 
@@ -234,14 +258,14 @@ namespace Project.Services
             if (task != null)
             {
                 task.AssignedTo = assignedTo;
+                _tasksDirty = true;
 
                 if (!string.IsNullOrEmpty(assignedTo) && !_assignees.Contains(assignedTo))
                 {
                     _assignees.Add(assignedTo);
-                    _repository.SaveAssignees(_assignees);
+                    _assigneesDirty = true;
                 }
 
-                _repository.SaveTasks(_tasks);
                 return true;
             }
 
@@ -263,7 +287,8 @@ namespace Project.Services
                 return false;
 
             task.ParentTaskId = parentTaskId;
-            _repository.SaveTasks(_tasks);
+            _tasksDirty = true;
+
             return true;
         }
 
@@ -347,10 +372,10 @@ namespace Project.Services
         }
         // This method ensures that all tasks have their Status field correctly set based on the legacy Completed flag.
         // If Completed is true, Status is set to Done. Then Completed is cleared (set to null) for all tasks. 
-        // If any changes were made, the updated tasks are saved back to the repository.
+        // If any changes were made, the tasks collection is marked as dirty.
+        // The updated tasks are saved later when SaveChanges is called.
         private void EnsureStatusValues()
         {
-            bool hasChanges = false;
             var it = _tasks.GetIterator();
 
             while (it.HasNext())
@@ -360,26 +385,22 @@ namespace Project.Services
                 if (task.Completed == true && task.Status != TaskStage.Done)
                 {
                     task.Status = TaskStage.Done;
-                    hasChanges = true;
+                    _tasksDirty = true;
                 }
 
                 if (task.Completed.HasValue)
                 {
                     task.Completed = null;
-                    hasChanges = true;
+                    _tasksDirty = true;
                 }
             }
-
-            if (hasChanges)
-                _repository.SaveTasks(_tasks);
         }
 
-// This method ensures that all tasks have a valid CreatedAt timestamp.
-// If any task has CreatedAt set to the default value (DateTime.MinValue), 
-// it is updated to the current UTC time.
+        // This method ensures that all tasks have a valid CreatedAt timestamp.
+        // If any task has CreatedAt set to the default value (DateTime.MinValue), 
+        // it is updated to the current UTC time.
         private void EnsureCreatedAtValues()
         {
-            bool hasChanges = false;
             var it = _tasks.GetIterator();
 
             while (it.HasNext())
@@ -389,17 +410,14 @@ namespace Project.Services
                 if (task.CreatedAt == default)
                 {
                     task.CreatedAt = DateTime.UtcNow;
-                    hasChanges = true;
+                    _tasksDirty = true;
                 }
             }
-
-            if (hasChanges)
-                _repository.SaveTasks(_tasks);
         }
 
         public List<string> GetAssignees()
         {
-            return _assignees;
+            return new List<string>(_assignees);
         }
     }
 }
