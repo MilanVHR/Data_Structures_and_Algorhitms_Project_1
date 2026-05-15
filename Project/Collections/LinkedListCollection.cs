@@ -22,6 +22,7 @@ namespace Project.Collections
         public LinkedListIterator(LinkedListNode<T>? head)
         {
             _head = head;
+            
             _current = head;
         }
 
@@ -56,6 +57,9 @@ namespace Project.Collections
         // Adds a new item to the end of the list
         public void Add(T item)
         {
+            if (item == null)
+                throw new ArgumentNullException(nameof(item));
+
             LinkedListNode<T> newNode = new LinkedListNode<T>(item);
 
             if (_head == null)
@@ -75,6 +79,9 @@ namespace Project.Collections
         // Removes the first occurrence of the item
         public bool Remove(T item)
         {
+            if (item == null)
+                throw new ArgumentNullException(nameof(item));
+
             LinkedListNode<T>? current = _head;
             LinkedListNode<T>? previous = null;
 
@@ -110,6 +117,9 @@ namespace Project.Collections
         // Finds the first element that is true for the predicate
         public T? Find(Func<T, bool> predicate)
         {
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
+
             LinkedListNode<T>? current = _head;
 
             while (current != null)
@@ -126,6 +136,9 @@ namespace Project.Collections
         // Returns a new LinkedListCollection containing filtered elements
         public IMyCollection<T> Filter(Func<T, bool> predicate)
         {
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
+
             IMyCollection<T> filtered = new LinkedListCollection<T>();
             LinkedListNode<T>? current = _head;
 
@@ -176,6 +189,9 @@ namespace Project.Collections
         // Aggregates all elements into 1 value
         public R Reduce<R>(R initial, Func<R, T, R> accumulator)
         {
+            if (accumulator == null)
+                throw new ArgumentNullException(nameof(accumulator));
+            
             R result = initial;
             LinkedListNode<T>? current = _head;
 
