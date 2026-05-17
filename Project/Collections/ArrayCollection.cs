@@ -139,6 +139,9 @@ namespace Project.Collections
         // Returns a new ArrayCollection containing predicated elements.
         public IMyCollection<T> Filter(Func<T, bool> predicate)
         {
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
+
             var result = new ArrayCollection<T>();
             for (int i = 0; i < _count; i++)
                 if (predicate(_items[i]))
@@ -149,6 +152,9 @@ namespace Project.Collections
         // Sorts the collection in-place.
         public void Sort(Comparison<T> comparison)
         {
+            if (comparison == null)
+                throw new ArgumentNullException(nameof(comparison));
+
             for (int i = 0; i < _count; i++)
             {
                 T key = _items[i]; // Element to insert in sorted part
@@ -167,6 +173,9 @@ namespace Project.Collections
 
         public R Reduce<R>(R initial, Func<R, T, R> accumulator)
         {
+            if (accumulator == null)
+                throw new ArgumentNullException(nameof(accumulator));
+                
             R acc = initial;
             for (int i = 0; i < _count; i++)
                 acc = accumulator(acc, _items[i]);
